@@ -17,20 +17,20 @@ inventoryController.insertInventory = async (req, res) => {
 };
 
 // DELETE
-inventoryController.deleteBrands = async (req, res) => {
+inventoryController.deleteInventory = async (req, res) => {
   await brandsModel.findByIdAndDelete(req.params.id);
-  res.json({ message: "Brands deleted" });
+  res.json({ message: "Inventory deleted" });
 };
 
 // UPDATE
-inventoryController.updateBrands = async (req, res) => {
-  const { brandName } = req.body;
-  const updateBrands = await brandsModel.findByIdAndUpdate(
+inventoryController.updateInventory = async (req, res) => {
+  const { watchId , branchId , rating } = req.body;
+  const updateInventory = await InventoryModel.findByIdAndUpdate(
     req.params.id,
-    { brandName},
+    { watchId , branchId , rating},
     { new: true }
   );
-  res.json({ message: "Brands updated successfully" });
+  res.json({ message: "Inventory updated successfully" });
 };
 
 
