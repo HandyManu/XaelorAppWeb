@@ -23,7 +23,7 @@ const salesSchema = new Schema({
     },
     employeeId: {
         type: Schema.Types.ObjectId,
-        ref: 'Employee',
+        ref: 'employees',
         required: true
     },
     address: {
