@@ -10,11 +10,11 @@ inventoryController.getInventory = async (req, res) => {
 
 // INSERT
 inventoryController.insertInventory = async (req, res) => {
-  const { watchId , branchId , rating } = req.body;
-  const newInventory = new branchModel({ watchId , branchId , rating});
+  const { watchId , brandId , rating } = req.body;
+  const newInventory = new branchModel({ watchId , brandId , rating});
   await newInventory.save();
   res.json({ message: "Inventory saved" });
-};
+};s
 
 // DELETE
 inventoryController.deleteInventory = async (req, res) => {
@@ -24,10 +24,10 @@ inventoryController.deleteInventory = async (req, res) => {
 
 // UPDATE
 inventoryController.updateInventory = async (req, res) => {
-  const { watchId , branchId , rating } = req.body;
+  const { watchId , brandId , rating } = req.body;
   const updateInventory = await InventoryModel.findByIdAndUpdate(
     req.params.id,
-    { watchId , branchId , rating},
+    { watchId , brandId , rating},
     { new: true }
   );
   res.json({ message: "Inventory updated successfully" });
