@@ -4,33 +4,33 @@ import InventoryModel from "../models/inventoryMdl.js";
 
 // SELECT
 inventoryController.getInventory = async (req, res) => {
-  const inventory = await InventoryModel.find();
+  const inventory = await InventoryModel.find().populate("watchId").populate("brandId");
   res.json(inventory);
 };
 
 // INSERT
 inventoryController.insertInventory = async (req, res) => {
-  const { watchId , branchId , rating } = req.body;
-  const newInventory = new branchModel({ watchId , branchId , rating});
+  const { watchId , brandId , rating } = req.body;
+  const newInventory = new branchModel({ watchId , brandId , rating});
   await newInventory.save();
   res.json({ message: "Inventory saved" });
-};
+};s
 
 // DELETE
-inventoryController.deleteBrands = async (req, res) => {
+inventoryController.deleteInventory = async (req, res) => {
   await brandsModel.findByIdAndDelete(req.params.id);
-  res.json({ message: "Brands deleted" });
+  res.json({ message: "Inventory deleted" });
 };
 
 // UPDATE
-inventoryController.updateBrands = async (req, res) => {
-  const { brandName } = req.body;
-  const updateBrands = await brandsModel.findByIdAndUpdate(
+inventoryController.updateInventory = async (req, res) => {
+  const { watchId , brandId , rating } = req.body;
+  const updateInventory = await InventoryModel.findByIdAndUpdate(
     req.params.id,
-    { brandName},
+    { watchId , brandId , rating},
     { new: true }
   );
-  res.json({ message: "Brands updated successfully" });
+  res.json({ message: "Inventory updated successfully" });
 };
 
 
