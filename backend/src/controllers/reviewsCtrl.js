@@ -4,7 +4,7 @@ import ReviewModel from "../models/reviewsMdl.js";
 
 // SELECT
 ReviewsController.getReview = async (req, res) => {
-  const review = await ReviewModel.find();
+  const review = await ReviewModel.find().populate("watchId").populate("customerId");
   res.json(review);
 };
 

@@ -4,7 +4,7 @@ import WatchesModel from "../models/reviewsMdl.js";
 
 // SELECT
 WatchesController.getWatches = async (req, res) => {
-  const Watches = await WatchesModel.find();
+  const Watches = await WatchesModel.find(). populate("brandId");
   res.json(review);
 };
 

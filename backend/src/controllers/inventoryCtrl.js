@@ -4,7 +4,7 @@ import InventoryModel from "../models/inventoryMdl.js";
 
 // SELECT
 inventoryController.getInventory = async (req, res) => {
-  const inventory = await InventoryModel.find();
+  const inventory = await InventoryModel.find().populate("watchId").populate("brandId");
   res.json(inventory);
 };
 
