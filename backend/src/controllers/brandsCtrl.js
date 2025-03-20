@@ -1,7 +1,7 @@
 
 const brandsController = {};
 
-import brandsModel from "../models/brandsMdl";
+import brandsModel from "../models/brandsMdl.js";
 
 // SELECT
 brandsController.getBrands = async (req, res) => {
@@ -12,7 +12,7 @@ brandsController.getBrands = async (req, res) => {
 // INSERT
 brandsController.insertBrands = async (req, res) => {
   const { brandName } = req.body;
-  const newBrands = new branchModel({ brandName});
+  const newBrands = new brandsModel({ brandName});
   await newBrands.save();
   res.json({ message: "Brands saved" });
 };

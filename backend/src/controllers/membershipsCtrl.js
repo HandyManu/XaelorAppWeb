@@ -37,3 +37,15 @@ membershipCtrl.putMembership = async (req, res) => {
 }
 
 //* DELETE
+
+membershipCtrl.deleteMembership = async (req, res) => {
+   try {
+      const membership = await membershipMdl.findByIdAndDelete(req.params.id);
+      if (!membership) return res.status(404).json({ message: "Membership not found" });
+      res.json({ message: "Membership deleted successfully" });
+   } catch (error) {
+      res.status(500).json({ message: error.message });
+   }
+};
+
+export default membershipCtrl;
