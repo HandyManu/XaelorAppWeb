@@ -1,21 +1,14 @@
 /**
  * Fields:
- * clientId
  * membershipTier
  * price
  * benefits
- * startDate
  * discount
  */
 
 import { Schema, model } from "mongoose";
 
 const MembershipSchema = new Schema({
-   clientId: {
-      type: Schema.Types.ObjectId,
-      ref: "Customer",
-      required: [true, "ClientId is required"]
-   },
    membershipTier: {
       type: String,
       required: [true, "membershipTier is required"],
@@ -52,7 +45,7 @@ const MembershipSchema = new Schema({
       type: Number,
       default: 0,
       min: [0, "Discount cannot be less than 0%"],
-      max: [1, "El descuento no puede ser mayor al 100%"]
+      max: [0.5, "El descuento no puede ser mayor al 50%"]
    }
 },
    {
@@ -60,4 +53,4 @@ const MembershipSchema = new Schema({
       strict: false
    });
 
-export default model('membershipsMdl', MembershipSchema);
+export default model('memberships', MembershipSchema);
