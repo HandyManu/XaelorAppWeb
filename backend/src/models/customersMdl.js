@@ -4,6 +4,9 @@
  * email
  * password
  * phone
+ * memberships:
+ *    membershipId
+ *    startDate
  */
 import { Schema, model } from "mongoose";
 
@@ -39,7 +42,21 @@ const customersSchema = new Schema(
             },
             message: props => `${props.value} is not a valid phone number`
          }
-      }
+      },
+      memberships: [
+         {
+            membershipId: {
+               type: Schema.Types.ObjectId,
+               ref: "memberships",
+               required: [true, "The membership is required"]
+            },
+            startDate: {
+               type: Date,
+               required: [true, "The start date is required"],
+               default: Date.now
+            }
+         }
+      ]
    },
    {
       timestamps: true,
@@ -47,4 +64,4 @@ const customersSchema = new Schema(
    }
 )
 
-export default model('customersMdl', customersSchema);
+export default model('customers', customersSchema);

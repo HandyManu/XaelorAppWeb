@@ -6,7 +6,7 @@ import customersMdl from "../models/customersMdl.js"
 //* GET
 customersCtrl.getCustomers = async (req, res) => {
    try {
-      const customers = await customersMdl.find();
+      const customers = await customersMdl.find().populate("memberships.membershipId");
       res.json(customers);
    } catch (error) {
       res.status(500).json({ message: error.message });
