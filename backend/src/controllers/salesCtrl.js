@@ -10,7 +10,7 @@ import salesModel from "../models/salesMdl.js";
 //SELECT
 
 salesController.getSales = async (req, res) => {
-    const sales = await salesModel.find().populate("selectedProducts.idWatch").populate("idClient");
+    const sales = await salesModel.find().populate("employeeId");
     res.json(sales);
 };
 
