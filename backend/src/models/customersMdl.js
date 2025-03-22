@@ -38,25 +38,26 @@ const customersSchema = new Schema(
          unique: [true, "The phone number is already registered"],
          validate: {
             validator: function (v) {
-               return /\d{10}/.test(v);
+               // This regex allows for various phone number formats
+               return /^[\d\s\-()]+$/.test(v);
             },
             message: props => `${props.value} is not a valid phone number`
          }
       },
-      memberships: [
-         {
-            membershipId: {
-               type: Schema.Types.ObjectId,
-               ref: "memberships",
-               required: [true, "The membership is required"]
-            },
-            startDate: {
-               type: Date,
-               required: [true, "The start date is required"],
-               default: Date.now
-            }
+      membership:
+      {
+         membershipId: {
+            type: Schema.Types.ObjectId,
+            ref: "memberships",
+            required: [true, "The membership is required"]
+         },
+         startDate: {
+            type: Date,
+            required: [true, "The start date is required"],
+            default: Date.now
          }
-      ]
+      }
+
    },
    {
       timestamps: true,
