@@ -1,17 +1,17 @@
 const inventoryController = {}
 
-import InventoryModel from "../models/inventoryMdl.js"
+import InventoryModel from "../models/InventoryModel.js"
 
 // SELECT
 inventoryController.getInventory = async (req, res) => {
-  const inventory = await InventoryModel.find().populate("watchId").populate("branchId")
+  const inventory = await InventoryModel.find().populate("watchId").populate("brandId")
   res.json(inventory)
 }
 
 // INSERT
 inventoryController.insertInventory = async (req, res) => {
-  const { watchId, brandId, rating } = req.body
-  const newInventory = new InventoryModel({ watchId, brandId, rating })
+  const { watchId, brandId, stock } = req.body
+  const newInventory = new InventoryModel({ watchId, brandId, stock })
   await newInventory.save()
   res.json({ message: "Inventory saved" })
 }
@@ -24,10 +24,10 @@ inventoryController.deleteInventory = async (req, res) => {
 
 // UPDATE
 inventoryController.updateInventory = async (req, res) => {
-  const { watchId, brandId, rating } = req.body
+  const { watchId, brandId, stock } = req.body
   const updateInventory = await InventoryModel.findByIdAndUpdate(
     req.params.id,
-    { watchId, brandId, rating },
+    { watchId, brandId, stock },
     { new: true }
   )
   res.json({ message: "Inventory updated successfully" })

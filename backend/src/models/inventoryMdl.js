@@ -5,12 +5,12 @@ import { Schema,model } from "mongoose";
 const inventorySchema = new Schema({
     watchId:{
         type:Schema.Types.ObjectId,
-        ref:"Watches",
+        ref:"watches",
         required: true
     },
-    branchId:{
+    brandId:{
         type:Schema.Types.ObjectId,
-        ref:"Branch",
+        ref:"brands",
         required: true
     },
     stock:{
