@@ -6,7 +6,7 @@ const brandsSchema = new Schema({
         required: true
     }
 },{ timestamps:true,
-    statics:false
+    strict: false
 })
 
-export default model("Brands",brandsSchema)
+export default model("brands",brandsSchema)

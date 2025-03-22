@@ -59,7 +59,6 @@ const employeesSchema = new Schema({
 }, {
     timestamps: true,
     strict: false
-
 });
 
 export default model("employees", employeesSchema);

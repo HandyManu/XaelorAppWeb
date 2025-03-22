@@ -16,14 +16,14 @@ selectedProducts
 import { Schema, model } from "mongoose";
 
 const salesSchema = new Schema({
-    idClient: {
+    idCliente: {
         type: Schema.Types.ObjectId,
-        ref: 'Client',
+        ref: 'customers',
         required: true
     },
     employeeId: {
         type: Schema.Types.ObjectId,
-        ref: 'employees',
+        ref: "employees", 
         required: true
     },
     address: {
@@ -37,12 +37,10 @@ const salesSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['Pending', 'Processing', 'Completed', 'Cancelled'],
-        default: 'Pending'
+        required: true
     },
     selectedPaymentMethod: {
         type: String,
-        enum: ['Credit Card', 'PayPal', 'Bank Transfer'],
         required: true
     },
     total: {
@@ -68,7 +66,6 @@ const salesSchema = new Schema({
 }, {
     timestamps: true,
     strict: false
-
 });
 
 export default model("sales", salesSchema);

@@ -3,12 +3,12 @@ import { Schema,model } from "mongoose";
 const reviewSchema = new Schema({
     watchId:{
         type:Schema.Types.ObjectId,
-        ref:"costumers",
+        ref:"watches",
         required: true
     },
     customerId:{
         type:Schema.Types.ObjectId,
-        ref:"costumers",
+        ref:"customers",
         required: true
     },
     message: {
@@ -27,7 +27,7 @@ const reviewSchema = new Schema({
         required: true,
      },
 },{ timestamps:true,
-    statics:false
+    strict: false
 })
 
-export default model("Review",reviewSchema)
+export default model("reviews",reviewSchema)

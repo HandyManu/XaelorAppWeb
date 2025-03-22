@@ -1,6 +1,6 @@
 const WatchesController = {};
 
-import WatchesModel from "../models/reviewsMdl.js";
+import WatchesModel from "../models/watchesMdl.js";
 
 // SELECT
 WatchesController.getWatches = async (req, res) => {
