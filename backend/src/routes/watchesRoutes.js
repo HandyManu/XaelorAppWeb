@@ -1,5 +1,5 @@
 import express from 'express';
-import watchController from '../controllers/watchCtrl.js';
+import watchController from '../controllers/watchesCtrl.js';
 
 const router = express.Router();
 

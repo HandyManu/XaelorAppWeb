@@ -14,7 +14,7 @@ inventoryController.insertInventory = async (req, res) => {
   const newInventory = new branchModel({ watchId , brandId , rating});
   await newInventory.save();
   res.json({ message: "Inventory saved" });
-};s
+};
 
 // DELETE
 inventoryController.deleteInventory = async (req, res) => {

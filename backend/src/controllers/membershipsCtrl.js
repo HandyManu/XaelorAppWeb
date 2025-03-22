@@ -24,7 +24,7 @@ membershipCtrl.postMembership = async (req, res) => {
    }
 };
 
-//! PUT ESTO AÚN ESTÁ EN PROCESO ES DE REVISARLO
+//* PUT
 membershipCtrl.putMembership = async (req, res) => {
    try {
       const membership = await membershipMdl.findByIdAndUpdate

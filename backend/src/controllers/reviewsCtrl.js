@@ -14,7 +14,7 @@ ReviewsController.insertReview = async (req, res) => {
   const newReview = new branchModel({ watchId , customerId , message , rating , date});
   await newReview.save();
   res.json({ message: "Review saved" });
-};s
+};
 
 // DELETE
 ReviewsController.deleteReview = async (req, res) => {
