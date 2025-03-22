@@ -16,7 +16,7 @@ const inventorySchema = new Schema({
         required: true
     }
 },{ timestamps:true,
-    statics:false
+    strict: false
 })
 
-export default model("Inventory",inventorySchema)
+export default model("inventory",inventorySchema)

@@ -52,4 +52,4 @@ const branchesSchema = new Schema({
     strict: false
 });
 
-export default model("Branch", branchesSchema);
+export default model("branches", branchesSchema);

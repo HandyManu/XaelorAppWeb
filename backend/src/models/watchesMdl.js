@@ -1,38 +1,39 @@
-import { Schema,model } from "mongoose";
+import { Schema, model } from "mongoose";
 
 const watchSchema = new Schema({
-    model:{
-        type:String,
+    model: {
+        type: String,
         required: true
     },
-    brandId:{
-        type:Schema.Types.ObjectId,
-        ref:"brands",
+    brandId: {
+        type: Schema.Types.ObjectId,
+        ref: "brands",
         required: true
     },
-    price:{
-        type:Number,
+    price: {
+        type: Number,
         required: true
     },
-    category:{
-        type:String,
+    category: {
+        type: String,
         required: true
     },
-    description:{
-        type:String,
+    description: {
+        type: String,
         required: true
     },
     photos: {
-        type: [String], 
+        type: [String],
         required: true,
-      },
-    aviability:{
-        type:Boolean,
+    },
+    aviability: {
+        type: Boolean,
         required: true
     }
-},{ timestamps:true,
-    statics:false
+}, {
+    timestamps: true,
+    strict: false
 })
 
-export default model("Watches",watchSchema)
+export default model("watches", watchSchema)
 
