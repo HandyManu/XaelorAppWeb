@@ -18,8 +18,8 @@ import { Schema, model } from "mongoose";
 const salesSchema = new Schema({
     idCliente: {
         type: Schema.Types.ObjectId,
-        ref: 'customers',
-        required: true
+        ref: "customers",
+        required: [true, "Client ID is required"]
     },
     employeeId: {
         type: Schema.Types.ObjectId,

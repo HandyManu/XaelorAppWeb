@@ -7,7 +7,7 @@ const watchSchema = new Schema({
     },
     brandId: {
         type: Schema.Types.ObjectId,
-        ref: "brands",
+        ref: "Brands",
         required: true
     },
     price: {
@@ -26,14 +26,14 @@ const watchSchema = new Schema({
         type: [String],
         required: true,
     },
-    aviability: {
+    availability: {
         type: Boolean,
         required: true
     }
 }, {
     timestamps: true,
-    strict: false
+    statics: false
 })
 
-export default model("watches", watchSchema)
+export default model("Watches", watchSchema)
 
