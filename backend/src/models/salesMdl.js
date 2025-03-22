@@ -22,7 +22,7 @@ const salesSchema = new Schema({
         required: true
     },
     employeeId: {
-        type: Schema.Types.ObjectId,
+       type: Schema.Types.ObjectId,
         ref: 'employees',
         required: true
     },
@@ -52,7 +52,7 @@ const salesSchema = new Schema({
     selectedProducts: [{
         idWatch: {
             type: Schema.Types.ObjectId,
-            ref: 'watches',
+            ref: 'Watches',
             required: true
         },
         quantity: {

@@ -10,10 +10,16 @@ import salesModel from "../models/salesMdl.js";
 //SELECT
 
 salesController.getSales = async (req, res) => {
-    const sales = await salesModel.find().populate("employeeId");
-    res.json(sales);
+    try {
+        const sales = await salesModel.find()
+            .populate("employeeId")
+            .populate("idClient")
+            .populate("selectedProducts.idWatch");
+        res.json(sales);
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching sales", error: error.message });
+    }
 };
-
 //INSERT
 
 salesController.insertSale = async (req, res) => {

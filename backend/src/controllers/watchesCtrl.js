@@ -14,8 +14,7 @@ WatchesController.insertWatches = async (req, res) => {
   const newWatch = new branchModel({ model , brandId , price , category , description , photos , availability});
   await newWatch.save();
   res.json({ message: " Watches saved " });
-};s
-
+};
 // DELETE
 WatchesController.deleteWatches = async (req, res) => {
   await WatchesModel.findByIdAndDelete(req.params.id);

@@ -1,12 +1,12 @@
 import express from 'express';
-import watchController from '../controllers/watchCtrl.js';
+import watchController from '../controllers/watchesCtrl.js';
 
 const router = express.Router();
 
 router.route('/').get(watchController.getWatches)
-.post(watchController.insertWatches);
+    .post(watchController.insertWatches);
 
 router.route('/:id').put(watchController.updateWatches)
-.delete(watchController.deleteWatches);
+    .delete(watchController.deleteWatches);
 
 export default router;
