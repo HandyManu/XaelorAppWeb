@@ -37,7 +37,13 @@ const employeesSchema = new Schema({
         required: [true, 'El número de teléfono es obligatorio'],
         unique: true,
         trim: true,
-        match: [/^[267]\d{3}-\d{4}$/, 'Por favor, ingrese un número de teléfono salvadoreño válido (formato: XXXX-XXXX)']
+        validate: {
+            validator: function (v) {
+               // This regex allows for various phone number formats
+               return /^[\d\s\-()]+$/.test(v);
+            },
+            message: props => `${props.value} is not a valid phone number`
+         }
     },
     branchId: {
         type: Schema.Types.ObjectId,
