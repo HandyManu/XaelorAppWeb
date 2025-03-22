@@ -1,15 +1,14 @@
 import express from 'express';
-import inventoryController from '../controllers/inventoryCtrl.js';
+import inventoryCtrl from "../controllers/inventoryCtrl.js"
 
 const router = express.Router();
 
-router.route("/")
-    .get(inventoryController.getInventory)
-    .post(inventoryController.insertInventory)
+router.route('/')
+    .get(inventoryCtrl.getInventory)
+    .post(inventoryCtrl.createInventory)
 
-router.route("/:id")
-    .put(inventoryController.updateInventory)
-    .delete(inventoryController.deleteInventory)
+router.route('/:id')
+    .put(inventoryCtrl.updateInventory)
+    .delete(inventoryCtrl.deleteInventory)
 
 export default router;
-

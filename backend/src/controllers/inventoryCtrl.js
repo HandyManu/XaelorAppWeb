@@ -1,36 +1,30 @@
-const inventoryController = {}
 
-import InventoryModel from "../models/InventoryModel.js"
+import inventoryModel from '../models/inventoryMdl.js';
 
-// SELECT
-inventoryController.getInventory = async (req, res) => {
-  const inventory = await InventoryModel.find().populate("watchId").populate("brandId")
-  res.json(inventory)
+const inventoryCtrl = {}
+
+//GET
+inventoryCtrl.getInventory = async (req, res) => {
+    const inventory = await inventoryModel.find().populate("Watches").populate("branches");
+    res.json(inventory);
+}
+//POST
+inventoryCtrl.createInventory = async (req, res) => {
+    const newInventory = new inventoryModel(req.body);
+    await newInventory.save();
+    res.json({message: 'New Inventory Added'});
+}
+//PUT
+inventoryCtrl.updateInventory = async (req, res) => {
+    await inventoryModel.findByIdAndUpdate(req.params.id, req.body);
+    res.json({message: 'Inventory Updated'});
 }
 
-// INSERT
-inventoryController.insertInventory = async (req, res) => {
-  const { watchId, brandId, stock } = req.body
-  const newInventory = new InventoryModel({ watchId, brandId, stock })
-  await newInventory.save()
-  res.json({ message: "Inventory saved" })
+//DELETE
+
+inventoryCtrl.deleteInventory = async (req, res) => {
+    await inventoryModel.findByIdAndDelete(req.params.id);
+    res.json({message: 'Inventory Deleted'});
 }
 
-// DELETE
-inventoryController.deleteInventory = async (req, res) => {
-  await InventoryModel.findByIdAndDelete(req.params.id)
-  res.json({ message: "Inventory deleted" })
-}
-
-// UPDATE
-inventoryController.updateInventory = async (req, res) => {
-  const { watchId, brandId, stock } = req.body
-  const updateInventory = await InventoryModel.findByIdAndUpdate(
-    req.params.id,
-    { watchId, brandId, stock },
-    { new: true }
-  )
-  res.json({ message: "Inventory updated successfully" })
-}
-
-export default inventoryController
+export default inventoryCtrl;

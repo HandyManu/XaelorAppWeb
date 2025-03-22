@@ -17,13 +17,13 @@ import branchesRoutes from './src/routes/branchesRoutes.js';
 import brandsRoutes from './src/routes/brandsRoutes.js';
 import customersRoutes from './src/routes/customersRoutes.js';
 import employeesRoutes from './src/routes/employeesRoutes.js';
-import inventoryRoutes from './src/routes/inventoryRoutes.js';
 import membershipsRoutes from './src/routes/membershipsRoutes.js';
 import reviewsRoutes from './src/routes/reviewsRoutes.js';
 import salesRoutes from './src/routes/salesRoutes.js';
 import watchesRoutes from './src/routes/watchesRoutes.js';
+import inventoryRoutes from './src/routes/inventoryRoutes.js';
 
-//Create a new express app instance
+//Create a new express app instance hola
 const app = express();
 
 
