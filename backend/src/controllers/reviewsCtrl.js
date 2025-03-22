@@ -11,7 +11,7 @@ ReviewsController.getReview = async (req, res) => {
 // INSERT
 ReviewsController.insertReview = async (req, res) => {
   const { watchId , customerId , message , rating , date } = req.body;
-  const newReview = new branchModel({ watchId , customerId , message , rating , date});
+  const newReview = new ReviewModel({ watchId , customerId , message , rating , date});
   await newReview.save();
   res.json({ message: "Review saved" });
 };

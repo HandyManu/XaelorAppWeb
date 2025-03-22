@@ -1,17 +1,17 @@
 const WatchesController = {};
 
-import WatchesModel from "../models/reviewsMdl.js";
+import WatchesModel from "../models/watchesMdl.js";
 
 // SELECT
 WatchesController.getWatches = async (req, res) => {
   const Watches = await WatchesModel.find(). populate("brandId");
-  res.json(review);
+  res.json(Watches);
 };
 
 // INSERT
 WatchesController.insertWatches = async (req, res) => {
   const { model , brandId , price , category , description , photos , availability } = req.body;
-  const newWatch = new branchModel({ model , brandId , price , category , description , photos , availability});
+  const newWatch = new WatchesModel({ model , brandId , price , category , description , photos , availability});
   await newWatch.save();
   res.json({ message: " Watches saved " });
 };
@@ -25,7 +25,7 @@ WatchesController.deleteWatches = async (req, res) => {
 // UPDATE
 WatchesController.updateWatches = async (req, res) => {
   const { model , brandId , price , category , description , photos , availability } = req.body;
-  const updateWatches = await WatchesModelModel.findByIdAndUpdate(
+  const updateWatches = await WatchesModel.findByIdAndUpdate(
     req.params.id,
     { model , brandId , price , category , description , photos , availability },
     { new: true }

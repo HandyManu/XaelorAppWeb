@@ -30,23 +30,20 @@ const branchesSchema = new Schema({
         required: true,
         unique: true
     },
-    business_hours: {
-        type: [{
-            day: {
-                type: String,
-                required: true
-            },
-            open: {
-                type: String,
-                required: true
-            },
-            close: {
-                type: String,
-                required: true
-            }
-        }],
-        required: true
-    }
+    business_hours: [{
+        day: {
+            type: String,
+            required: true
+        },
+        open: {
+            type: String,
+            required: true
+        },
+        close: {
+            type: String,
+            required: true
+        }
+    }]
 }, {
     timestamps: true,
     strict: false
