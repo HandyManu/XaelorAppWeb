@@ -6,19 +6,17 @@
 
 const salesController = {};
 import salesModel from "../models/salesMdl.js";
-
+//TODO: 
 //SELECT
 
 salesController.getSales = async (req, res) => {
-    try {
+    
         const sales = await salesModel.find()
             .populate("employeeId")
             .populate("idCliente")
             .populate("selectedProducts.idWatch");
         res.json(sales);
-    } catch (error) {
-        res.status(500).json({ message: "Error fetching sales", error: error.message });
-    }
+    
 };
 //INSERT
 

@@ -1,3 +1,14 @@
+/*
+Fields:
+model
+brandId
+price
+category
+description
+photos
+availability
+*/
+
 import { Schema, model } from "mongoose";
 
 const watchSchema = new Schema({
@@ -7,7 +18,7 @@ const watchSchema = new Schema({
     },
     brandId: {
         type: Schema.Types.ObjectId,
-        ref: "Brands",
+        ref: "brands",
         required: true
     },
     price: {
@@ -32,8 +43,8 @@ const watchSchema = new Schema({
     }
 }, {
     timestamps: true,
-    statics: false
+    strict: false
 })
 
-export default model("Watches", watchSchema)
+export default model("watches", watchSchema)
 

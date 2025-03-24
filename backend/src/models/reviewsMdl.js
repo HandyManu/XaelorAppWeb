@@ -1,9 +1,17 @@
+/*
+Fields:
+watchId
+customerId
+message
+rating
+date
+*/
+
 import { Schema, model } from "mongoose";
-import Watches from "./watchesMdl.js"; //! No lo eliminen, sin esto no furula, no sé por qué
 const reviewSchema = new Schema({
     watchId: {
         type: Schema.Types.ObjectId,
-        ref: "Watches",
+        ref: "watches",
         required: true
     },
     customerId: {
@@ -31,4 +39,4 @@ const reviewSchema = new Schema({
     strict: false
 })
 
-export default model("Review", reviewSchema)
+export default model("review", reviewSchema)

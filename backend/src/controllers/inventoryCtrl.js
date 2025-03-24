@@ -5,8 +5,10 @@ const inventoryCtrl = {}
 
 //GET
 inventoryCtrl.getInventory = async (req, res) => {
-    const inventory = await inventoryModel.find().populate("Watches").populate("branches");
-    res.json(inventory);
+   
+        const inventory = await inventoryModel.find().populate('watchId').populate("branchId");
+        res.json(inventory);
+    
 }
 //POST
 inventoryCtrl.createInventory = async (req, res) => {

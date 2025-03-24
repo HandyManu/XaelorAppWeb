@@ -1,3 +1,7 @@
+/*
+Fields:
+brandName
+*/
 import { Schema,model } from "mongoose";
 
 const brandsSchema = new Schema({
