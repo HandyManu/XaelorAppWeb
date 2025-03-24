@@ -16,7 +16,7 @@ const inventorySchema = new Schema(
         }
     }, {
     timestamps: true,
-    strict: false, collection: 'inventory'
+    strict: false
 }
 );
 
