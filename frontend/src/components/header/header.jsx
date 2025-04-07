@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Cambia Navigate por useNavigate
 import './header.css';
+import SearchBox from './searchBox/searchBox.jsx'
 
 function showHeader() {
     const navigate = useNavigate(); // Hook para navegar programáticamente
@@ -25,14 +26,7 @@ function showHeader() {
                     <li><Link to="/about-us">Sobre Nosotros</Link></li>
                 </ul>
             </nav>
-            <div className="searchBox">
-                <input className="searchInput" type="text" name="" placeholder="Search" />
-                <button className="searchButton" href="/login">
-                    <i className="material-icons">
-                        search
-                    </i>
-                </button>
-            </div>
+            <SearchBox />
             <button className="Login" onClick={handleLoginClick}>Login</button>
         </header>
     );
