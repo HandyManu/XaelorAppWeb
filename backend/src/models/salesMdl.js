@@ -1,6 +1,6 @@
 /*
 Fields:
-idClient
+customerId
 employeeId
 address
 reference
@@ -8,7 +8,7 @@ status
 selectedPaymentMethod
 total
 selectedProducts
-        idWatch
+        watchId
         quantity
         subtotal
 */
@@ -16,7 +16,7 @@ selectedProducts
 import { Schema, model } from "mongoose";
 
 const salesSchema = new Schema({
-    idCliente: {
+    customerId: {
         type: Schema.Types.ObjectId,
         ref: "customers",
         required: [true, "Client ID is required"]
@@ -48,7 +48,7 @@ const salesSchema = new Schema({
         required: true
     },
     selectedProducts: [{
-        idWatch: {
+        watchId: {
             type: Schema.Types.ObjectId,
             ref: 'watches',
             required: true

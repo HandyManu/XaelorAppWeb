@@ -13,25 +13,25 @@ salesController.getSales = async (req, res) => {
     
         const sales = await salesModel.find()
             .populate("employeeId")
-            .populate("idCliente")
-            .populate("selectedProducts.idWatch");
+            .populate("customerId")
+            .populate("selectedProducts.watchId");
         res.json(sales);
     
 };
 //INSERT
 
 salesController.insertSale = async (req, res) => {
-    const { idCliente, employeeId, address, reference, status, selectedPaymentMethod, total, selectedProducts } = req.body;
-    const newSale = new salesModel({ idCliente, employeeId, address, reference, status, selectedPaymentMethod, total, selectedProducts });
+    const { customerId, employeeId, address, reference, status, selectedPaymentMethod, total, selectedProducts } = req.body;
+    const newSale = new salesModel({ customerId, employeeId, address, reference, status, selectedPaymentMethod, total, selectedProducts });
     await newSale.save();
     res.json({ message: "Sale saved" });
 };
 
 //UPDATE
 salesController.updateSale = async (req, res) => {
-    const { idCliente, employeeId, address, reference, status, selectedPaymentMethod, total, selectedProducts } = req.body;
+    const { customerId, employeeId, address, reference, status, selectedPaymentMethod, total, selectedProducts } = req.body;
     const updateSale = await salesModel.findByIdAndUpdate(req.params.id,
-        { idCliente, employeeId, address, reference, status, selectedPaymentMethod, total, selectedProducts }, { new: true });
+        { customerId, employeeId, address, reference, status, selectedPaymentMethod, total, selectedProducts }, { new: true });
     res.json({ message: "Sale updated" });
 }
 
