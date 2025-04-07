@@ -22,6 +22,8 @@ import reviewsRoutes from './src/routes/reviewsRoutes.js';
 import salesRoutes from './src/routes/salesRoutes.js';
 import watchesRoutes from './src/routes/watchesRoutes.js';
 import inventoryRoutes from './src/routes/inventoryRoutes.js';
+import cookieParser from 'cookie-parser';
+import loginRoutes from './src/routes/logIn.js';
 
 //Create a new express app instance hola
 const app = express();
@@ -29,6 +31,7 @@ const app = express();
 
 //middlewares
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/api/branches", branchesRoutes);
 app.use("/api/brands", brandsRoutes);
@@ -39,6 +42,7 @@ app.use("/api/memberships", membershipsRoutes);
 app.use("/api/reviews", reviewsRoutes);
 app.use("/api/sales", salesRoutes);
 app.use("/api/watches", watchesRoutes);
+app.use("/api/login", loginRoutes);
 
 //Define the port for the server
 export default app;
