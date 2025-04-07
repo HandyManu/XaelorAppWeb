@@ -1,1 +1,9 @@
 //CAMBIAR EL IdCliente del documento "Sales" a ClientId
+
+hola nosotros somos xaelor una empresa que se necarga de la producccion manufacturacion venta y distribucion de relojes de lujo,
+nuestros integrantes son :
+Hector Alejandro Murcia Rivera 20230205
+Manuel Alejandro Ortega Rodriguez 20220416
+Gabriel AlejandroContreras Cruz 2023
+por el momento las dependencias que hemosinsatlado en el proyecto son bycrip , jsonwebtoken y cookieparser para la funcion de el 
+login , register y log out , por otro lado usamos el react-router para la navegabilidad entre las pantallas 
