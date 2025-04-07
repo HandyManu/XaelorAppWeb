@@ -1,7 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Cambia Navigate por useNavigate
 import './header.css';
+
 function showHeader() {
+    const navigate = useNavigate(); // Hook para navegar programáticamente
+
+    const handleLoginClick = () => {
+        navigate('/login'); // Navega a la ruta de login
+    };
+
     return (
         <header className="header">
             <div className="logo">
@@ -19,15 +26,14 @@ function showHeader() {
                 </ul>
             </nav>
             <div className="searchBox">
-
                 <input className="searchInput" type="text" name="" placeholder="Search" />
-                <button className="searchButton" href="#">
+                <button className="searchButton" href="/login">
                     <i className="material-icons">
                         search
                     </i>
                 </button>
             </div>
-            <button className='Register'>Registrarse</button>
+            <button className="Login" onClick={handleLoginClick}>Login</button>
         </header>
     );
 }
