@@ -24,6 +24,8 @@ import watchesRoutes from './src/routes/watchesRoutes.js';
 import inventoryRoutes from './src/routes/inventoryRoutes.js';
 import cookieParser from 'cookie-parser';
 import loginRoutes from './src/routes/logIn.js';
+import logoutRoutes from "./src/routes/logout.js";
+
 
 //Create a new express app instance hola
 const app = express();
@@ -43,6 +45,7 @@ app.use("/api/reviews", reviewsRoutes);
 app.use("/api/sales", salesRoutes);
 app.use("/api/watches", watchesRoutes);
 app.use("/api/login", loginRoutes);
+app.use("/api/logout",logoutRoutes)
 
 //Define the port for the server
 export default app;
