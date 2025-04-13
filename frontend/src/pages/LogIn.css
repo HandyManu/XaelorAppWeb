@@ -1,51 +1,83 @@
-/* Estilos generales */
 body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-  }
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: left;
+  align-items: left;
+  position: relative;
+}
+
+.login-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://img.freepik.com/foto-gratis/vida-muerta-dispositivo-tecnologico_23-2150722614.jpg?t=st=1743538780~exp=1743542380~hmac=e23f84acefc506d9b5fa6b069ab532a4b74809ff5b82308a451dac6d562ede9f&w=900');
+  background-size: cover;
+  background-position: center;
+  transform: scaleX(-1);
+  z-index: -1;
+}
+
+
+.login-box {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 200px 200px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  text-align: center;
+  margin: 5%;
+  position: relative;
+}
+
+.login-box img {
+  width: 60px; 
+  height: auto; 
+  position: absolute;
+  top: 70px; 
+  left: 70px; 
+}
+
+.login-box h3 {
+  width: 750px; 
+  height: auto; 
+  position: absolute;
+  top: 80px; 
+  left: 70px; 
+  color: #633d3d;
+  font-size: 80%;
   
-  /* Contenedor principal */
-  .login-container {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: url('https://img.freepik.com/foto-gratis/vida-muerta-dispositivo-tecnologico_23-2150722614.jpg?t=st=1743538780~exp=1743542380~hmac=e23f84acefc506d9b5fa6b069ab532a4b74809ff5b82308a451dac6d562ede9f&w=900');
-    background-size: cover;
-    background-position: center;
-  }
-  
-  /* Caja transparente */
-  .login-box {
-    background: rgba(255, 255, 255, 0.7); /* Transparencia */
-    padding: 20px 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-  }
-  
-  /* Estilos de inputs y botón */
-  input {
-    display: block;
-    margin: 10px auto;
-    width: 80%;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-  }
-  
-  button {
-    width: 85%;
-    padding: 10px;
-    background: #0078d4;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background: #0056a4;
-  }
-  
+}
+
+
+input {
+  display: block;
+  margin: 10px auto;
+  width: 80%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+}
+
+button {
+  width: 85%;
+  padding: 10px;
+  background: #0078d4;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #0056a4;
+}

@@ -1,9 +1,27 @@
 //CAMBIAR EL IdCliente del documento "Sales" a ClientId
 
-hola nosotros somos xaelor una empresa que se necarga de la producccion manufacturacion venta y distribucion de relojes de lujo,
-nuestros integrantes son :
-Hector Alejandro Murcia Rivera 20230205
-Manuel Alejandro Ortega Rodriguez 20220416
-Gabriel AlejandroContreras Cruz 2023
-por el momento las dependencias que hemosinsatlado en el proyecto son bycrip , jsonwebtoken y cookieparser para la funcion de el 
-login , register y log out , por otro lado usamos el react-router para la navegabilidad entre las pantallas 
+Somos Xaelor, una empresa dedicada a la producción, manufactura, venta y distribución de relojes de lujo. Nuestro compromiso es combinar diseño sofisticado con excelencia técnica para crear piezas que trascienden el tiempo.
+
+Equipo:
+Contamos con un equipo altamente comprometido y profesional:
+
+Héctor Alejandro Murcia Rivera | ID: 20230205
+
+Manuel Alejandro Ortega Rodríguez | ID: 20220416
+
+Gabriel Alejandro Contreras Cruz | ID: 20230454
+
+Tecnologías implementadas:
+En nuestro proyecto, hemos integrado diversas tecnologías y herramientas para garantizar un desarrollo funcional y eficiente:
+
+Dependencias:
+
+bcrypt
+
+jsonwebtoken
+
+cookie-parser
+
+Estas herramientas han sido utilizadas para implementar las funciones de autenticación, como inicio de sesión, registro y cierre de sesión.
+
+React Router: Hemos adoptado esta librería para gestionar de manera eficiente la navegabilidad entre las distintas pantallas de nuestra aplicación, asegurando una experiencia de usuario fluida e intuitiva.
