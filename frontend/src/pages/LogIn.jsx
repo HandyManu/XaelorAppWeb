@@ -1,6 +1,6 @@
 import React from 'react';
 import '../pages/LogIn.css';
-import Imagen from '../../public/Circular Logo.svg'
+import Imagen from '/Circular Logo.svg?url'
 
 const Login = () => {
   return (

@@ -7,11 +7,10 @@
 .header {
     display: flex;
     flex-direction: column;
-    /* Cambiado a column para que nav y section estén en columnas */
     position: relative;
-    /* Asegura que los hijos puedan usar z-index */
     padding: 0px;
-    background-image: linear-gradient(to bottom, rgba(255, 196, 100, 0.3), rgba(255, 196, 100, 0));
+    height: 100vh; /* Asegura que ocupe toda la pantalla */
+    overflow: hidden;
 }
 
 .logo {
@@ -27,20 +26,22 @@
     width: 50px;
     height: 50px;
     margin-right: 10px;
+    object-fit: contain; /* Para que el logo no se recorte */
 }
 
-/* Asegúrate de que el nav esté por encima */
 nav {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    position: relative;
-    /* Necesario para z-index */
+    position: absolute;
+    top: 0;
     z-index: 10;
-    /* Asegura que esté por encima del slider */
-    background-color: rgba(0, 0, 0, 0.8);
-    /* Fondo semitransparente */
+        background-image: linear-gradient(
+        180deg,
+        rgba(255, 196, 100, 0.15) 0%,
+        #00000000 100%
+    );
     padding: 10px 20px;
     width: 100%;
 }
@@ -72,11 +73,27 @@ nav a:hover {
     background-color: rgba(255, 196, 100, 0.76);
     border-radius: 10px;
     border: #F0E4CC 1px solid;
+    cursor: pointer;
 }
 
 .Login:hover {
     background-color: rgba(255, 196, 100, 0.9);
-    cursor: pointer;
+}
+
+.hero-carousel {
+    position: relative;
+    z-index: 1;
+}
+
+.footer-gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 32px;
+    z-index: 20;
+    backdrop-filter: blur(5px);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
 }
 
 body {
@@ -99,11 +116,11 @@ div {
     padding: 0;
 }
 
-
 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Mantiene la proporción y cubre el contenedor */
     -ms-interpolation-mode: bicubic;
     border: 0;
     vertical-align: middle;
-    max-width: 100%;
-    height: auto;
 }
