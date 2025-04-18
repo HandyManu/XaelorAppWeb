@@ -1,13 +1,17 @@
-
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 .header {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
+    flex-direction: column;
+    /* Cambiado a column para que nav y section estén en columnas */
+    position: relative;
+    /* Asegura que los hijos puedan usar z-index */
+    padding: 0px;
     background-image: linear-gradient(to bottom, rgba(255, 196, 100, 0.3), rgba(255, 196, 100, 0));
-
 }
 
 .logo {
@@ -25,11 +29,20 @@
     margin-right: 10px;
 }
 
+/* Asegúrate de que el nav esté por encima */
 nav {
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 60%;
+    justify-content: space-between;
+    position: relative;
+    /* Necesario para z-index */
+    z-index: 10;
+    /* Asegura que esté por encima del slider */
+    background-color: rgba(0, 0, 0, 0.8);
+    /* Fondo semitransparente */
+    padding: 10px 20px;
+    width: 100%;
 }
 
 nav ul {
@@ -64,4 +77,33 @@ nav a:hover {
 .Login:hover {
     background-color: rgba(255, 196, 100, 0.9);
     cursor: pointer;
+}
+
+body {
+    font-size: 17px;
+    line-height: 30px;
+    font-weight: 400;
+    -moz-osx-font-smoothing: grayscale;
+    word-break: break-word;
+    -webkit-font-smoothing: antialiased;
+    font-family: "DM Sans", sans-serif;
+    margin: 0;
+    overflow-x: hidden;
+    color: #fff;
+    background-color: #1a1a1a;
+}
+
+body,
+div {
+    margin: 0;
+    padding: 0;
+}
+
+
+img {
+    -ms-interpolation-mode: bicubic;
+    border: 0;
+    vertical-align: middle;
+    max-width: 100%;
+    height: auto;
 }
