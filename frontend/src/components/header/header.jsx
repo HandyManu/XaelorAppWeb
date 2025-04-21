@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'; // Cambia Navigate por useNavigate
 import './header.css';
+import './responsive.css'
 import SearchBox from './searchBox/searchBox.jsx'
 import HeroCarousel from './carousel/carousel.jsx'; // Asegúrate de que la ruta sea correcta
 

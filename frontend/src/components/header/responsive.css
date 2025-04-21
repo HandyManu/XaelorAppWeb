@@ -1,0 +1,22 @@
+@media screen and (max-width: 768px) {
+    /* En móviles, el logo siempre mantiene su tamaño original */
+    .searchBox:hover ~ .logo h2 {
+        font-size: 24px; /* Mantiene el tamaño original */
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    /* En tablets y pantallas medianas, reduce el tamaño si es necesario */
+    .searchBox:hover ~ .logo h2 {
+        font-size: 18px;
+        transition: font-size 0.4s ease;
+    }
+}
+
+@media screen and (min-width: 1025px) {
+    /* En pantallas grandes, solo reduce si el espacio es insuficiente */
+    .searchBox:hover ~ .logo h2 {
+        font-size: clamp(16px, 2vw, 24px);
+        transition: font-size 0.4s ease;
+    }
+}

@@ -1,55 +1,68 @@
-
 .searchBox {
-    position: absolute;
-
-    transform: translate(-50%, 50%);
-    background: #2f3640;
+    display: flex;
+    align-items: center;
+    background: rgba(255, 196, 100, 0.4); /* Color más transparente para integrarse mejor */
     height: 40px;
     border-radius: 40px;
     padding: 10px;
-
+    transition: 0.4s;
+    min-width: 40px; /* Ancho mínimo para el botón */
+    margin: 5px;
+    position: relative; /* Añadimos posición relativa */
+    overflow: hidden; /* Evita que el contenido se salga */
 }
 
-.searchBox:hover>.searchInput {
-    width: 240px;
+.searchBox:hover {
+    background: rgba(255, 196, 100, 0.6); /* Más opaco al hover */
+}
+
+.searchBox:hover > .searchInput {
+    width: 180px; /* Reducimos de 240px a 180px */
     padding: 0 6px;
 }
 
-.searchBox:hover>.searchButton {
+.searchBox:hover > .searchButton {
     background: white;
-    color: #2f3640;
+    color: rgba(255, 196, 100, 1);
 }
 
 .searchButton {
     color: white;
-    float: right;
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: #2f3640;
+    background: transparent; /* Fondo transparente */
     display: flex;
     justify-content: center;
     align-items: center;
     transition: 0.4s;
+    cursor: pointer; /* Indica que es clickeable */
+    position: absolute; /* Posicionamiento absoluto */
+    right: 0; /* Lo pegamos a la derecha */
+    top: 50%; /* Lo centramos verticalmente */
+    transform: translateY(-50%); /* Ajuste fino del centrado vertical */
+}
+
+/* Opcional: si quieres cambiar el color del placeholder */
+.searchInput::placeholder {
+    color: rgba(255, 255, 255, 0.8  ); /* Blanco semi-transparente para el placeholder */
 }
 
 .searchInput {
     border: none;
     background: none;
     outline: none;
-    float: left;
     padding: 0;
     color: white;
     font-size: 16px;
     transition: 0.4s;
-    line-height: 40px;
-    width: 0px;
-
+    width: 0;
 }
 
+/* Ajustamos el responsive */
 @media screen and (max-width: 620px) {
-    .searchBox:hover>.searchInput {
-        width: 150px;
+    .searchBox:hover > .searchInput {
+        width: 120px; /* Reducimos de 150px a 120px */
         padding: 0 6px;
     }
 }

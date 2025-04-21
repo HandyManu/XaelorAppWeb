@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -16,7 +18,7 @@
 .logo {
     display: flex;
     align-items: center;
-    width: 20%;
+    width: auto;
     font-size: 24px;
     font-weight: bold;
     color: #fff;
@@ -27,6 +29,12 @@
     height: 50px;
     margin-right: 10px;
     object-fit: contain; /* Para que el logo no se recorte */
+}
+
+.logo h2 {
+    font-size: 24px;
+    transition: font-size 0.4s ease;
+    white-space: nowrap; /* Evita que el texto se rompa en múltiples líneas */
 }
 
 nav {
@@ -47,6 +55,9 @@ nav {
 }
 
 nav ul {
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
     display: flex;
     list-style: none;
     padding: 0;
@@ -57,7 +68,6 @@ nav a {
     margin: 0 15px;
     text-decoration: none;
     color: #fff;
-    font-size: 18px;
     transition: color 0.3s ease;
 }
 
