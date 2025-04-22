@@ -51,7 +51,7 @@ nav {
 
 nav ul {
     font-family: 'Poppins', sans-serif;
-    font-weight: 700; /* Esto hace que el texto esté en bold */
+    font-weight: 700;
     display: flex;
     list-style: none;
     padding: 0;
