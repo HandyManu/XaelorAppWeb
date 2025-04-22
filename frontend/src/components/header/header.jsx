@@ -1,7 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom'; // Cambia Navigate por useNavigate
 import './header.css';
-import './responsive.css'
-import SearchBox from './searchBox/searchBox.jsx'
+import './responsive.css';
+import 'swiper/css';
+import 'swiper/css/effect-fade';
+import SearchBox from './searchBox/searchBox.jsx';
 import HeroCarousel from './carousel/carousel.jsx'; // Asegúrate de que la ruta sea correcta
 
 
@@ -29,7 +31,7 @@ function Header() {
                     <li><Link to="/about-us">Sobre Nosotros</Link></li>
                 </ul>
                 <SearchBox /> {/* Componente de búsqueda */}
-                <button className="bg-yellow-500 px-4 py-2 rounded Login    " onClick={handleLoginClick}>Login</button>
+                <button className="Login" onClick={handleLoginClick}>Login</button>
             </nav>
 
             <HeroCarousel />

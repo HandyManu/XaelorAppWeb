@@ -31,12 +31,6 @@
     object-fit: contain; /* Para que el logo no se recorte */
 }
 
-.logo h2 {
-    font-size: 24px;
-    transition: font-size 0.4s ease;
-    white-space: nowrap; /* Evita que el texto se rompa en múltiples líneas */
-}
-
 nav {
     display: flex;
     flex-direction: row;
@@ -47,17 +41,17 @@ nav {
     z-index: 10;
         background-image: linear-gradient(
         180deg,
-        rgba(255, 196, 100, 0.15) 0%,
+        rgba(255, 196, 100, 0.20) 0%,
         #00000000 100%
     );
     padding: 10px 20px;
     width: 100%;
+
 }
 
 nav ul {
     font-family: 'Poppins', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
+    font-weight: 700; /* Esto hace que el texto esté en bold */
     display: flex;
     list-style: none;
     padding: 0;
@@ -68,6 +62,7 @@ nav a {
     margin: 0 15px;
     text-decoration: none;
     color: #fff;
+    font-size: 15px;
     transition: color 0.3s ease;
 }
 
