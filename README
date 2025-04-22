@@ -1,27 +1,84 @@
-//CAMBIAR EL IdCliente del documento "Sales" a ClientId
+# ⌚ Xælör – Relojes de Lujo que Trascienden el Tiempo
 
-Somos Xaelor, una empresa dedicada a la producción, manufactura, venta y distribución de relojes de lujo. Nuestro compromiso es combinar diseño sofisticado con excelencia técnica para crear piezas que trascienden el tiempo.
+![GitHub repo size](https://img.shields.io/github/repo-size/FerHuezo/Appren-D?color=gold&style=flat-square)
+![GitHub contributors](https://img.shields.io/github/contributors/FerHuezo/Appren-D?color=orange&style=flat-square)
+![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)
 
-Equipo:
-Contamos con un equipo altamente comprometido y profesional:
+---
 
-Héctor Alejandro Murcia Rivera | ID: 20230205
+## 🧭 Sobre Nosotros
 
-Manuel Alejandro Ortega Rodríguez | ID: 20220416
+**Xælör** es una marca dedicada a la **producción, manufactura, venta y distribución** de **relojes de lujo**. Nos especializamos en combinar un **diseño sofisticado** con una **ingeniería precisa**, creando piezas que no solo marcan el tiempo, sino que **trascienden generaciones**.
 
-Gabriel Alejandro Contreras Cruz | ID: 20230454
+> “Varje sekund, en historia” – *Xælör*
 
-Tecnologías implementadas:
-En nuestro proyecto, hemos integrado diversas tecnologías y herramientas para garantizar un desarrollo funcional y eficiente:
+---
 
-Dependencias:
+## 🛡️ Nuestro Equipo
 
-bcrypt
+Un equipo de visionarios comprometidos con la excelencia:
 
-jsonwebtoken
+- 🧠 **Héctor Alejandro Murcia Rivera** | ID: `20230205`  
+- 💡 **Manuel Alejandro Ortega Rodríguez** | ID: `20220416`  
+- 🔧 **Gabriel Alejandro Contreras Cruz** | ID: `20230454`  
 
-cookie-parser
+---
 
-Estas herramientas han sido utilizadas para implementar las funciones de autenticación, como inicio de sesión, registro y cierre de sesión.
+## 🛠️ Tecnologías Implementadas
 
-React Router: Hemos adoptado esta librería para gestionar de manera eficiente la navegabilidad entre las distintas pantallas de nuestra aplicación, asegurando una experiencia de usuario fluida e intuitiva.
+### 🔐 Seguridad y Autenticación
+- [`bcrypt`](https://www.npmjs.com/package/bcrypt) – Encriptación de contraseñas
+- [`jsonwebtoken`](https://www.npmjs.com/package/jsonwebtoken) – Tokens JWT para autenticación
+- [`cookie-parser`](https://www.npmjs.com/package/cookie-parser) – Manejo de cookies
+
+### 🌐 Navegación
+- [`React Router`](https://reactrouter.com/) – Navegación entre vistas de forma fluida y controlada
+
+---
+
+## 💻 Capturas de Pantalla *(próximamente)*
+
+![Vista principal](./screenshots/vista-principal.png)
+![Página de inicio de sesión](./screenshots/login.png)
+![Panel de usuario](./screenshots/panel-usuario.png)
+
+---
+
+## ⚙️ Estructura del Proyecto
+
+```
+/Backend
+/Frontend
+```
+
+---
+
+## 🚀 Instalación y Ejecución
+
+### 1. Clonar el repositorio
+```bash
+git clone https://github.com/HandyManu/XaelorAppWeb.git
+```
+
+### 2. Instalar dependencias (Frontend y Backend)
+```bash
+cd backend
+npm install
+
+cd ../frontend
+npm install
+```
+
+### 3. Ejecutar el proyecto
+```bash
+# Desde /frontend
+npm run dev
+```
+
+---
+
+## 📄 Licencia
+
+Este proyecto está bajo la licencia **MIT** – ¡libre para usar, modificar y mejorar!
+
+---
