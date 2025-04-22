@@ -6,11 +6,12 @@ import { Autoplay, EffectFade } from 'swiper/modules';
 // Importamos los estilos base de Swiper y los estilos específicos para el efecto fade
 import 'swiper/css';
 import 'swiper/css/effect-fade';
+import './carousel.css'; // Crear este archivo para los estilos
 
 export default function HeroCarousel() {
     return (
-        // Contenedor principal del carrusel, posicionado absolutamente con z-index 10
-        <div className="absolute inset-0 z-10">
+        // Contenedor principal del carrusel
+        <div className="carousel-container">
             {/* Configuración del componente Swiper */}
             <Swiper
                 // Habilitamos los módulos de autoplay y efecto fade
@@ -27,38 +28,35 @@ export default function HeroCarousel() {
                     disableOnInteraction: false,
                 }}
                 // Clase para que el carrusel ocupe todo el ancho y alto disponible
-                className="w-full h-full"
+                className="carousel-swiper"
             >
                 {/* Slides individuales del carrusel */}
                 <SwiperSlide>
                     <img
                         src="/Images/carousel1.svg"
-                        // object-cover asegura que la imagen cubra todo el espacio sin deformarse
-                        className="w-full h-full object-cover"
                         alt="Slide 1"
+                        className="carousel-image"
                     />
-
                 </SwiperSlide>
-                {/* Repetimos la estructura para cada slide */}
                 <SwiperSlide>
                     <img
                         src="/Images/carousel2.svg"
-                        className="w-full h-full object-cover"
                         alt="Slide 2"
+                        className="carousel-image"
                     />
                 </SwiperSlide>
                 <SwiperSlide>
                     <img
                         src="/Images/carousel3.svg"
-                        className="w-full h-full object-cover"
                         alt="Slide 3"
+                        className="carousel-image"
                     />
                 </SwiperSlide>
                 <SwiperSlide>
                     <img
                         src="/Images/carousel4.svg"
-                        className="w-full h-full object-cover"
                         alt="Slide 4"
+                        className="carousel-image"
                     />
                 </SwiperSlide>
             </Swiper>

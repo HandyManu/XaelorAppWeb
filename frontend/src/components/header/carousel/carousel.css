@@ -1,0 +1,15 @@
+.carousel-container {
+    width: 100%;
+    height: 100vh; /* Altura fija */
+    overflow: hidden;
+}
+
+.carousel-swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-image {
+    width: 100%;
+    object-fit: cover;
+}   
