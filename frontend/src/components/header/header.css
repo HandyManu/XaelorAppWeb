@@ -49,14 +49,23 @@ nav {
     justify-content: space-between;
     position: absolute;
     top: 0;
+    left: 50%; /* Centrar horizontalmente */
+    transform: translateX(-50%); /* Ajustar el centro */
     z-index: 10;
     background-image: linear-gradient(180deg,
             rgba(255, 196, 100, 0.20) 0%,
             rgba(255, 196, 100, 0.10) 50%,
             #00000000 100%);
+    backdrop-filter: blur(10px); /* Efecto glassy */
+    border-radius: 15px; /* Bordes redondeados */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para efecto flotante */
+    border-top: 1px solid rgba(255, 255, 255, 0.6); /* Borde claro arriba */
+    border-left: 1px solid rgba(255, 255, 255, 0.4); /* Borde claro en los lados */
+    border-right: 1px solid rgba(255, 255, 255, 0.1); /* Borde claro en los lados */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.01); /* Sin borde abajo */
     padding: 10px 20px;
-    width: 100%;
-
+    width: 90%; /* Ocupar todo el ancho posible respetando el margin */
+    margin: 20px;
 }
 
 nav ul {
@@ -86,9 +95,9 @@ nav a:hover {
     justify-content: center;
     width: auto;
     padding: 10px 20px;
-    height: 35px;
+    height: 40px;
     background-color: rgba(255, 196, 100, 0.7);
-    border-radius: 15px;
+    border-radius: 20px;
     border: #F0E4CC 1px solid;
     cursor: pointer;
     font-family: 'Poppins', sans-serif;
@@ -98,6 +107,7 @@ nav a:hover {
     position: relative;
     overflow: hidden;
     z-index: 1;
+    margin: 0px 20px;
 }
 
 .Login::before {
@@ -171,4 +181,10 @@ img {
     -ms-interpolation-mode: bicubic;
     border: 0;
     vertical-align: middle;
+}
+
+.divisor {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }

@@ -30,8 +30,10 @@ function Header() {
                     <li><Link to="/last-publishes">Últimos Lanzamientos</Link></li>
                     <li><Link to="/about-us">Sobre Nosotros</Link></li>
                 </ul>
+                <div className='divisor'>
                 <SearchBox /> {/* Componente de búsqueda */}
                 <button className="Login" onClick={handleLoginClick}>Iniciar Sesión</button>
+                </div>
             </nav>
 
             <HeroCarousel />

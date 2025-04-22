@@ -14,12 +14,14 @@ function AppContent() {
   return (
     <>
       {showHeader && <Header />}
+      
       <div className='app-container'>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<LogIn />} />
         </Routes>
       </div>
+
       {showFooter && <Footer />}
     </>
   );
