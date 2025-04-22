@@ -31,7 +31,7 @@ function Header() {
                     <li><Link to="/about-us">Sobre Nosotros</Link></li>
                 </ul>
                 <SearchBox /> {/* Componente de búsqueda */}
-                <button className="Login" onClick={handleLoginClick}>Login</button>
+                <button className="Login" onClick={handleLoginClick}>Iniciar Sesión</button>
             </nav>
 
             <HeroCarousel />

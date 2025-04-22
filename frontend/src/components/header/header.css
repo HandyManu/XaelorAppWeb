@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Poltawski+Nowy:ital,wght@1,700&display=swap');
 
 * {
     margin: 0;
@@ -11,7 +12,8 @@
     flex-direction: column;
     position: relative;
     padding: 0px;
-    height: 100vh; /* Asegura que ocupe toda la pantalla */
+    height: 100vh;
+    /* Asegura que ocupe toda la pantalla */
     overflow: hidden;
 }
 
@@ -19,16 +21,25 @@
     display: flex;
     align-items: center;
     width: auto;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: #fff;
+}
+
+.logo h2 {
+    font-family: 'Poltawski Nowy', serif;
+    font-size: 24px;
+    font-weight: 700;
+    font-style: italic;
+    color: #FFC464;
 }
 
 .logo img {
     width: 50px;
     height: 50px;
     margin-right: 10px;
-    object-fit: contain; /* Para que el logo no se recorte */
+    object-fit: contain;
+    /* Para que el logo no se recorte */
 }
 
 nav {
@@ -39,11 +50,10 @@ nav {
     position: absolute;
     top: 0;
     z-index: 10;
-        background-image: linear-gradient(
-        180deg,
-        rgba(255, 196, 100, 0.20) 0%,
-        #00000000 100%
-    );
+    background-image: linear-gradient(180deg,
+            rgba(255, 196, 100, 0.20) 0%,
+            rgba(255, 196, 100, 0.10) 50%,
+            #00000000 100%);
     padding: 10px 20px;
     width: 100%;
 
@@ -74,15 +84,47 @@ nav a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 10%;
-    background-color: rgba(255, 196, 100, 0.76);
-    border-radius: 10px;
+    width: auto;
+    padding: 10px 20px;
+    height: 35px;
+    background-color: rgba(255, 196, 100, 0.7);
+    border-radius: 15px;
     border: #F0E4CC 1px solid;
     cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 900;
+    font-size: 15px;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.Login::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background-color: #F0E4CC;
+    transition: width 0.3s ease-in-out;
+    z-index: -1;
 }
 
 .Login:hover {
-    background-color: rgba(255, 196, 100, 0.9);
+    color: rgba(255, 196, 100, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 196, 100, 0.3);
+}
+
+.Login:hover::before {
+    width: 100%;
+}
+
+.Login:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(255, 196, 100, 0.3);
 }
 
 .hero-carousel {
@@ -124,7 +166,8 @@ div {
 img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Mantiene la proporción y cubre el contenedor */
+    object-fit: cover;
+    /* Mantiene la proporción y cubre el contenedor */
     -ms-interpolation-mode: bicubic;
     border: 0;
     vertical-align: middle;
