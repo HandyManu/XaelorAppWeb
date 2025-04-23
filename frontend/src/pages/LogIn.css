@@ -49,19 +49,12 @@ body {
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
 }
 
-/* Imagen en la esquina superior izquierda */
-.login-box img {
-  width: 80px; /* Aumenta el tamaño de la imagen */
-  height: auto;
-  position: absolute;
-  top: 10px; /* Ajusta según sea necesario */
-  left: 10px; /* Ajusta según sea necesario */
-}
+
 
 /* Palabra "Registrarse" en la esquina superior derecha */
 .login-box h3 {
   position: absolute;
-  top: 500px; /* Ajusta según sea necesario */
+  top: 280px; /* Ajusta según sea necesario */
   right: 110px; /* Ajusta según sea necesario */
   font-size: 1.2rem; /* Aumenta el tamaño de la fuente */
   color: #030303;
@@ -93,7 +86,7 @@ body {
 .input-group h3 {
   position: absolute;
   top: -30px; /* Aumenta la separación vertical del input */
-  left: -10px; /* Mueve el texto más a la izquierda */
+  left: -400px; /* Mueve el texto más a la izquierda */
   font-size: 1rem;
   color: #333;
   font-weight: bold;
