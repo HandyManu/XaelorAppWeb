@@ -1,22 +1,173 @@
-@media screen and (max-width: 768px) {
-    /* En móviles, el logo siempre mantiene su tamaño original */
-    .searchBox:hover ~ .logo h2 {
-        font-size: 24px; /* Mantiene el tamaño original */
-    }
-}
+/* Estilos responsive manteniendo la estética original */
 
-@media screen and (min-width: 769px) and (max-width: 1024px) {
-    /* En tablets y pantallas medianas, reduce el tamaño si es necesario */
-    .searchBox:hover ~ .logo h2 {
-        font-size: 18px;
-        transition: font-size 0.4s ease;
-    }
-}
-
+/* Pantallas grandes (más de 1024px) */
 @media screen and (min-width: 1025px) {
-    /* En pantallas grandes, solo reduce si el espacio es insuficiente */
-    .searchBox:hover ~ .logo h2 {
-        font-size: clamp(16px, 2vw, 24px);
-        transition: font-size 0.4s ease;
+    nav ul {
+        flex-wrap: nowrap;
+    }
+    
+    /* Ocultar el menú solo en pantallas grandes */
+    .menu-toggle {
+        display: none;
+    }
+}
+
+/* Tablets (768px - 1024px) */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    nav {
+        width: 95%;
+        padding: 10px 15px;
+    }
+    
+    /* Ocultar menú en tablets y usar hamburguesa */
+    nav ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        padding: 10px 0;
+        margin-top: 15px;
+        order: 3;
+    }
+    
+    nav.menu-open ul {
+        display: flex;
+    }
+    
+    nav ul li {
+        margin: 8px 0;
+    }
+    
+    nav a {
+        display: block;
+        margin: 0;
+        padding: 5px 0;
+        font-size: 15px;
+    }
+    
+    .logo {
+        flex-grow: 1;
+    }
+    
+    .menu-toggle {
+        display: flex;
+    }
+    
+    nav.menu-open .menu-toggle span:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+    }
+    
+    nav.menu-open .menu-toggle span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    nav.menu-open .menu-toggle span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+    }
+    
+    .Login {
+        padding: 8px 15px;
+        font-size: 14px;
+        margin: 0px 10px;
+    }
+    
+    .logo h2 {
+        font-size: 22px;
+    }
+    
+    .divisor {
+        order: 2;
+        margin-left: auto;
+    }
+}
+
+/* Dispositivos móviles (menos de 768px) */
+@media screen and (max-width: 767px) {
+    nav {
+        width: 95%;
+        padding: 10px 15px;
+        flex-wrap: wrap;
+    }
+    
+    .logo {
+        flex-grow: 1;
+    }
+    
+    /* Asegurar que el menú sea visible en móviles */
+    .menu-toggle {
+        display: flex;
+    }
+    
+    nav.menu-open .menu-toggle span:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+    }
+    
+    nav.menu-open .menu-toggle span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    nav.menu-open .menu-toggle span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+    }
+    
+    nav ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        padding: 10px 0;
+        margin-top: 15px;
+        order: 3;
+    }
+    
+    nav.menu-open ul {
+        display: flex;
+    }
+    
+    nav ul li {
+        margin: 8px 0;
+    }
+    
+    nav a {
+        display: block;
+        margin: 0;
+        padding: 5px 0;
+        font-size: 16px;
+    }
+    
+    .divisor {
+        order: 2;
+        margin-left: auto;
+    }
+    
+    .Login {
+        padding: 6px 12px;
+        font-size: 13px;
+        height: 36px;
+    }
+}
+
+/* Dispositivos muy pequeños (menos de 480px) */
+@media screen and (max-width: 480px) {
+    nav {
+        width: 100%;
+        border-radius: 0;
+        margin: 0;
+    }
+    
+    .logo img {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .logo h2 {
+        font-size: 20px;
+    }
+    
+    .Login {
+        margin: 0px 10px;
+    }
+    
+    .divisor {
+        flex-wrap: nowrap;
+        justify-content: flex-end;
     }
 }

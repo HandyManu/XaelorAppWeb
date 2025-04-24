@@ -1,17 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './searchBox.css';
 
-function showSearchBox() {
+function SearchBox({ className = '' }) {
+    const [searchValue, setSearchValue] = useState('');
+    
+    const handleSearch = (e) => {
+        e.preventDefault();
+        // Implementar lógica de búsqueda aquí
+        console.log('Buscando:', searchValue);
+        // Puedes usar navigate para redirigir a una página de resultados
+    };
+    
     return (
-        <div className="searchBox">
-            <input className="searchInput" type="text" name="" placeholder="Search" />
-            <button className="searchButton" href="/login">
+        <form className={`searchBox ${className}`} onSubmit={handleSearch}>
+            <input 
+                className="searchInput" 
+                type="text" 
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+                placeholder="Buscar" 
+                aria-label="Buscar en el sitio"
+            />
+            <button 
+                className="searchButton" 
+                type="submit"
+                aria-label="Iniciar búsqueda"
+            >
                 <i className="material-icons">
                     search
                 </i>
             </button>
-        </div>
+        </form>
     );
 }
 
-export default showSearchBox;
+export default SearchBox;

@@ -1,8 +1,12 @@
+import React from 'react';
+import Historia from '../components/historia/historia.jsx';
+import UltimosLanzamientos from '../components/ultimosLanzamientos/ultimosLanzamientos.jsx';
+
 function showHomePage() {
     return (
-        <div>
-            <h1>Welcome to the Home Page</h1>
-            <p>This is the home page of our application.</p>
+        <div className="home-container">
+            <Historia />
+            <UltimosLanzamientos />
         </div>
     );
 }

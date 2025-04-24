@@ -41,6 +41,7 @@
     right: 0; /* Lo pegamos a la derecha */
     top: 50%; /* Lo centramos verticalmente */
     transform: translateY(-50%); /* Ajuste fino del centrado vertical */
+    border: none;
 }
 
 /* Opcional: si quieres cambiar el color del placeholder */
@@ -59,10 +60,25 @@
     width: 0;
 }
 
-/* Ajustamos el responsive */
-@media screen and (max-width: 620px) {
+/* Ajustes responsive para la caja de búsqueda */
+@media screen and (max-width: 767px) {
     .searchBox:hover > .searchInput {
-        width: 120px; /* Reducimos de 150px a 120px */
-        padding: 0 6px;
+        width: 120px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .searchBox {
+        height: 36px;
+        min-width: 36px;
+    }
+    
+    .searchButton {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .searchBox:hover > .searchInput {
+        width: 100px;
     }
 }

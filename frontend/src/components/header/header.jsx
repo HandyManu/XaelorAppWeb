@@ -1,44 +1,55 @@
-import { Link, useNavigate } from 'react-router-dom'; // Cambia Navigate por useNavigate
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './header.css';
 import './responsive.css';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import SearchBox from './searchBox/searchBox.jsx';
-import HeroCarousel from './carousel/carousel.jsx'; // Asegúrate de que la ruta sea correcta
-
+import HeroCarousel from './carousel/carousel.jsx';
 
 function Header() {
-    const navigate = useNavigate(); // Hook para navegar programáticamente
+    const navigate = useNavigate();
+    const [menuOpen, setMenuOpen] = useState(false);
 
     const handleLoginClick = () => {
-        navigate('/login'); // Navega a la ruta de login
+        navigate('/login');
+    };
+
+    const toggleMenu = () => {
+        setMenuOpen(!menuOpen);
     };
 
     return (
-
-        <header className="relative w-full h-screen overflow-hidden ">
-            <nav className="absolute top-0 w-full z-50 bg-gradient-to-b from-black/70 to-transparent px-6 py-4 flex justify-between items-center text-white backdrop-blur-md">
+        <header className="header">
+            <nav className={`nav ${menuOpen ? 'menu-open' : ''}`}>
                 <div className="logo">
                     <img src="/Logo.svg" alt="Logo" />
                     <h2>Xælör</h2>
                 </div>
-                <ul>
-                    <li><Link to="/">Inicio</Link></li>
-                    <li><Link to="/watches">Relojes</Link></li>
-                    <li><Link to="/ett-med-naturen">Ett Med Naturen</Link></li>
-                    <li><Link to="/nautilus">Nautilus</Link></li>
-                    <li><Link to="/last-publishes">Últimos Lanzamientos</Link></li>
-                    <li><Link to="/about-us">Sobre Nosotros</Link></li>
+                
+                <ul className="nav-menu">
+                    <li><Link to="/" onClick={() => setMenuOpen(false)}>Inicio</Link></li>
+                    <li><Link to="/watches" onClick={() => setMenuOpen(false)}>Relojes</Link></li>
+                    <li><Link to="/ett-med-naturen" onClick={() => setMenuOpen(false)}>Ett Med Naturen</Link></li>
+                    <li><Link to="/nautilus" onClick={() => setMenuOpen(false)}>Nautilus</Link></li>
+                    <li><Link to="/last-publishes" onClick={() => setMenuOpen(false)}>Últimos Lanzamientos</Link></li>
+                    <li><Link to="/about-us" onClick={() => setMenuOpen(false)}>Sobre Nosotros</Link></li>
                 </ul>
+                
                 <div className='divisor'>
-                <SearchBox /> {/* Componente de búsqueda */}
-                <button className="Login" onClick={handleLoginClick}>Iniciar Sesión</button>
+                    <SearchBox />
+                    <button className="Login" onClick={handleLoginClick}>Iniciar Sesión</button>
+                    <button className="menu-toggle" onClick={toggleMenu} aria-label="Menú">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
                 </div>
             </nav>
 
             <HeroCarousel />
 
-            <div className="absolute bottom-0 left-0 w-full h-32 z-20 backdrop-blur-sm bg-gradient-to-t from-black/80 to-transparent"></div>
+            <div className="footer-gradient"></div>
         </header>
     );
 }
