@@ -12,13 +12,12 @@ export default function SignUp() {
           <input type="email" placeholder="ejemplo@gmail.com" className="signup-input" />
           <input type="password" placeholder="Ingresa tu contraseña" className="signup-input" />
 
-          {/* Texto alineado con checkbox al lado derecho */}
           <label className="signup-checkbox-container">
+            <input type="checkbox" className="signup-checkbox" />
             <span>
               Acepto los <a href="#" className="highlight-link">Términos de Servicio</a> y 
               <a href="#" className="highlight-link"> Políticas de Privacidad</a> de la plataforma
             </span>
-            <input type="checkbox" className="signup-checkbox" />
           </label>
 
           <button className="signup-button">Crear cuenta</button>

@@ -6,6 +6,8 @@
   background-image: url('https://img.freepik.com/foto-gratis/primer-plano-hombre-negocios-joven-pensativo-mano-barbilla_1262-16922.jpg?t=st=1745508571~exp=1745512171~hmac=ba0b50278656af748bc782bc7746632a0aa346004300578672479029d9057023&w=1060');
   background-size: cover;
   background-position: center;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .signup-box {
@@ -42,22 +44,25 @@
   font-weight: bold;
   border: none;
   outline: none;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .signup-checkbox-container {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
   color: #222;
   font-size: 1rem;
   font-weight: bold;
-  gap: 0.3rem;
+  gap: 10px;
 }
 
 .signup-checkbox {
   transform: scale(1.2);
   cursor: pointer;
   margin: 0;
+  flex-shrink: 0;
+  margin-top: 3px;
 }
 
 .highlight-link {
@@ -78,6 +83,7 @@
   cursor: pointer;
   transition: background 0.3s;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+  width: 100%;
 }
 
 .signup-button:hover {
@@ -90,19 +96,147 @@
   font-size: 1.2rem;
   font-weight: bold;
   margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.signup-socials {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
 }
 
 .signup-social-btn {
-  background: #444;
+  background: #333;
   color: white;
-  font-size: 1.5rem;
-  padding: 0.8rem 1.5rem;
-  border-radius: 9999px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  font-weight: bold;
+  font-size: 1.8rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border: none;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .signup-social-btn:hover {
-  background: #222;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Media queries para responsividad */
+@media screen and (max-width: 768px) {
+  .signup-box {
+    padding: 2.5rem;
+    width: 85%;
+    max-width: 450px;
+  }
+
+  .signup-title {
+    font-size: 2.2rem;
+  }
+
+  .signup-input {
+    padding: 0.9rem;
+    font-size: 1.1rem;
+  }
+
+  .signup-button {
+    font-size: 1.2rem;
+    padding: 0.9rem;
+  }
+
+  .signup-checkbox-container {
+    font-size: 0.9rem;
+  }
+
+  .signup-or {
+    font-size: 1.1rem;
+  }
+
+  .signup-social-btn {
+    font-size: 1.6rem;
+    width: 55px;
+    height: 55px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .signup-box {
+    padding: 2rem 1.5rem;
+    width: 90%;
+    border-radius: 1.5rem;
+  }
+
+  .signup-title {
+    font-size: 1.8rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .signup-form {
+    gap: 1.2rem;
+  }
+
+  .signup-input {
+    padding: 0.8rem;
+    font-size: 1rem;
+  }
+
+  .signup-checkbox-container {
+    font-size: 0.85rem;
+    gap: 8px;
+  }
+
+  .signup-checkbox {
+    transform: scale(1.1);
+  }
+
+  .signup-button {
+    font-size: 1.1rem;
+    padding: 0.8rem;
+  }
+
+  .signup-or {
+    font-size: 1rem;
+    margin-top: 1.2rem;
+  }
+
+  .signup-social-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 1.4rem;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .signup-box {
+    padding: 1.5rem 1rem;
+    width: 95%;
+  }
+
+  .signup-title {
+    font-size: 1.6rem;
+  }
+
+  .signup-input {
+    padding: 0.7rem;
+    font-size: 0.9rem;
+  }
+
+  .signup-checkbox-container {
+    font-size: 0.8rem;
+  }
+
+  .signup-button {
+    font-size: 1rem;
+    padding: 0.7rem;
+  }
+
+  .signup-social-btn {
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
+  }
 }

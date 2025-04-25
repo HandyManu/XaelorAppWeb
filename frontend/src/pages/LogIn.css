@@ -30,113 +30,146 @@ body {
 }
 
 .login-box {
-
-  background: rgba(255, 255, 255, 0.3);
-  padding: 70px 60px; /* Aumenta el tamaño del padding */
-  border-radius: 15px;
+  background: rgba(200, 200, 200, 0.7);
+  border-radius: 10px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(15px);
+  backdrop-filter: blur(5px);
   text-align: center;
   z-index: 1;
   position: relative;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  width: 50%;
-  height: 60%;
-}
-
-.login-box:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
-}
-
-
-
-/* Palabra "Registrarse" en la esquina superior derecha */
-.login-box h3 {
-  position: absolute;
-  top: 280px; /* Ajusta según sea necesario */
-  right: 110px; /* Ajusta según sea necesario */
-  font-size: 1.2rem; /* Aumenta el tamaño de la fuente */
-  color: #030303;
-  font-weight: bold;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.login-box h3:hover {
-  color: #0056b3;
+  width: 400px;
+  padding: 40px;
 }
 
 .login-box h2 {
-  font-size: 2rem; /* Aumenta el tamaño del título */
+  font-size: 1.8rem;
   color: #333;
-  margin-bottom: 30px; /* Aumenta el espacio inferior */
+  margin: 0 0 30px 0;
 }
 
-/* Contenedor para cada input y su etiqueta */
-.input-group {
-  position: relative;
-  margin-bottom: 40px; /* Espaciado entre los grupos */
-  width: 90%; /* Asegura que los inputs sean consistentes */
-  margin-left: auto;
-  margin-right: auto;
+.login-field {
+  margin-bottom: 20px;
+  text-align: left;
 }
 
-/* Estilo para los h3 de "Usuario" y "Contraseña" */
-.input-group h3 {
-  position: absolute;
-  top: -30px; /* Aumenta la separación vertical del input */
-  left: -400px; /* Mueve el texto más a la izquierda */
+.login-field label {
+  display: block;
+  margin-bottom: 5px;
   font-size: 1rem;
   color: #333;
-  font-weight: bold;
 }
 
-/* Estilo para "Olvidaste tu contraseña?" */
+.login-field input {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  background: white;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  background: white;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
 .input-group .forgot-password {
   position: absolute;
-  top: -30px; /* Aumenta la separación vertical del input */
-  right: 0; /* Alinea a la derecha */
-  font-size: 0.9rem;
-  color: #ffffff;
+  right: 0;
+  top: 0;
+  font-size: 0.8rem;
+  color: #333;
   cursor: pointer;
-  transition: color 0.3s ease;
 }
 
 .input-group .forgot-password:hover {
-  color: #0056b3;
+  text-decoration: underline;
 }
 
-/* Ajustes para los inputs */
-input {
-  display: block;
-  width: 100%; /* Asegura que el input ocupe todo el ancho del contenedor */
-  padding: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1.2rem;
-  margin-top: 10px; /* Espaciado entre el input y el h3 */
-}
-
-input:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-button {
-  width: 90%; /* Aumenta el ancho */
-  padding: 15px; /* Aumenta el padding */
-  background: #000; /* Cambia el color de fondo a negro */
-  color: #fff; /* Cambia el color del texto a blanco */
+.login-button {
+  width: 100%;
+  padding: 12px;
+  background: #000;
+  color: #fff;
   border: none;
   border-radius: 5px;
-  font-size: 1.2rem; /* Aumenta el tamaño de la fuente */
+  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
-button:hover {
-  background: #333; /* Cambia el color de fondo al pasar el cursor */
+.login-button:hover {
+  background: #333;
 }
 
+.register-link {
+  font-size: 1rem;
+  color: #333;
+  text-align: right;
+  display: block;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+}
+
+/* Media queries para responsividad */
+@media screen and (max-width: 768px) {
+  .login-box {
+    width: 85%;
+    max-width: 400px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .login-box {
+    width: 90%;
+    padding: 30px 20px;
+  }
+  
+  .login-box h2 {
+    font-size: 1.6rem;
+  }
+  
+  .input-group label, 
+  .input-group .forgot-password {
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .login-box {
+    padding: 25px 15px;
+  }
+  
+  .login-button {
+    padding: 10px;
+  }
+  
+  .input-group label, 
+  .input-group .forgot-password {
+    font-size: 0.8rem;
+  }
+}
