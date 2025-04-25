@@ -2,14 +2,16 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
+  background-color: #f3f4f6;
 }
 
 .login-container {
   height: 100vh;
   display: flex;
-  justify-content: left;
-  align-items: left;
+  justify-content: center;
+  align-items: center;
   position: relative;
+  overflow: hidden;
 }
 
 .login-container::before {
@@ -24,60 +26,117 @@ body {
   background-position: center;
   transform: scaleX(-1);
   z-index: -1;
+  filter: brightness(0.7);
 }
-
 
 .login-box {
-  background: rgba(255, 255, 255, 0.2);
-  padding: 200px 200px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px);
-  border: 2px solid rgba(255, 255, 255, 0.5);
+
+  background: rgba(255, 255, 255, 0.3);
+  padding: 70px 60px; /* Aumenta el tamaño del padding */
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(15px);
   text-align: center;
-  margin: 5%;
+  z-index: 1;
   position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 50%;
+  height: 60%;
 }
 
-.login-box img {
-  width: 60px; 
-  height: auto; 
-  position: absolute;
-  top: 70px; 
-  left: 70px; 
+.login-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
 }
 
+
+
+/* Palabra "Registrarse" en la esquina superior derecha */
 .login-box h3 {
-  width: 750px; 
-  height: auto; 
   position: absolute;
-  top: 80px; 
-  left: 70px; 
-  color: #633d3d;
-  font-size: 80%;
-  
+  top: 280px; /* Ajusta según sea necesario */
+  right: 110px; /* Ajusta según sea necesario */
+  font-size: 1.2rem; /* Aumenta el tamaño de la fuente */
+  color: #030303;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s ease;
 }
 
+.login-box h3:hover {
+  color: #0056b3;
+}
 
+.login-box h2 {
+  font-size: 2rem; /* Aumenta el tamaño del título */
+  color: #333;
+  margin-bottom: 30px; /* Aumenta el espacio inferior */
+}
+
+/* Contenedor para cada input y su etiqueta */
+.input-group {
+  position: relative;
+  margin-bottom: 40px; /* Espaciado entre los grupos */
+  width: 90%; /* Asegura que los inputs sean consistentes */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Estilo para los h3 de "Usuario" y "Contraseña" */
+.input-group h3 {
+  position: absolute;
+  top: -30px; /* Aumenta la separación vertical del input */
+  left: -400px; /* Mueve el texto más a la izquierda */
+  font-size: 1rem;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Estilo para "Olvidaste tu contraseña?" */
+.input-group .forgot-password {
+  position: absolute;
+  top: -30px; /* Aumenta la separación vertical del input */
+  right: 0; /* Alinea a la derecha */
+  font-size: 0.9rem;
+  color: #ffffff;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.input-group .forgot-password:hover {
+  color: #0056b3;
+}
+
+/* Ajustes para los inputs */
 input {
   display: block;
-  margin: 10px auto;
-  width: 80%;
-  padding: 10px;
-  border: none;
+  width: 100%; /* Asegura que el input ocupe todo el ancho del contenedor */
+  padding: 15px;
+  border: 1px solid #ccc;
   border-radius: 5px;
+  font-size: 1.2rem;
+  margin-top: 10px; /* Espaciado entre el input y el h3 */
+}
+
+input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
 button {
-  width: 85%;
-  padding: 10px;
-  background: #0078d4;
-  color: white;
+  width: 90%; /* Aumenta el ancho */
+  padding: 15px; /* Aumenta el padding */
+  background: #000; /* Cambia el color de fondo a negro */
+  color: #fff; /* Cambia el color del texto a blanco */
   border: none;
   border-radius: 5px;
+  font-size: 1.2rem; /* Aumenta el tamaño de la fuente */
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background: #0056a4;
+  background: #333; /* Cambia el color de fondo al pasar el cursor */
 }
+
