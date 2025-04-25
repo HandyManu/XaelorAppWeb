@@ -1,92 +1,108 @@
-/* SignUp.css */
 .signup-container {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: url('https://img.freepik.com/foto-gratis/primer-plano-hombre-negocios-joven-pensativo-mano-barbilla_1262-16922.jpg?t=st=1745508571~exp=1745512171~hmac=ba0b50278656af748bc782bc7746632a0aa346004300578672479029d9057023&w=1060');
-    background-size: cover;
-    background-position: center;
-  }
-  
-  .signup-box {
-    backdrop-filter: blur(12px);
-    background: rgba(255, 255, 255, 0.3);
-    padding: 2.5rem;
-    border-radius: 1.5rem;
-    max-width: 400px;
-    width: 100%;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  }
-  
-  .signup-title {
-    font-size: 2rem;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 1rem;
-    color: white;
-  }
-  
-  .signup-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .signup-input {
-    padding: 0.5rem 1rem;
-    border-radius: 9999px;
-    background: rgba(255, 255, 255, 0.7);
-    color: #333;
-    border: none;
-    outline: none;
-  }
-  
-  .signup-checkbox-label {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: white;
-    font-size: 0.9rem;
-  }
-  
-  .highlight-link {
-    color: #ec4899;
-    text-decoration: none;
-  }
-  
-  .signup-button {
-    background: #1e3a8a;
-    color: white;
-    padding: 0.5rem;
-    border-radius: 9999px;
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  
-  .signup-button:hover {
-    background: #1e40af;
-  }
-  
-  .signup-or {
-    text-align: center;
-    color: white;
-    margin-top: 1rem;
-  }
-  
-  .signup-socials {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-  }
-  
-  .signup-social-btn {
-    background: white;
-    padding: 0.5rem 1rem;
-    border-radius: 9999px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('https://img.freepik.com/foto-gratis/primer-plano-hombre-negocios-joven-pensativo-mano-barbilla_1262-16922.jpg?t=st=1745508571~exp=1745512171~hmac=ba0b50278656af748bc782bc7746632a0aa346004300578672479029d9057023&w=1060');
+  background-size: cover;
+  background-position: center;
+}
+
+.signup-box {
+  backdrop-filter: blur(15px);
+  background: rgba(255, 255, 255, 0.2);
+  padding: 3.5rem;
+  border-radius: 2rem;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+.signup-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #111;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.signup-input {
+  padding: 1rem 1rem;
+  border-radius: 999px;
+  font-size: 1.2rem;
+  background: rgba(255, 255, 255, 0.9);
+  color: #000;
+  font-weight: bold;
+  border: none;
+  outline: none;
+}
+
+.signup-checkbox-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #222;
+  font-size: 1rem;
+  font-weight: bold;
+  gap: 0.3rem;
+}
+
+.signup-checkbox {
+  transform: scale(1.2);
+  cursor: pointer;
+  margin: 0;
+}
+
+.highlight-link {
+  color: #ff0077;
+  text-decoration: none;
+  font-weight: bold;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.signup-button {
+  background: #1e3a8a;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: white;
+  padding: 1rem;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.signup-button:hover {
+  background: #1e40af;
+}
+
+.signup-or {
+  text-align: center;
+  color: #333;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 1.5rem;
+}
+
+.signup-social-btn {
+  background: #444;
+  color: white;
+  font-size: 1.5rem;
+  padding: 0.8rem 1.5rem;
+  border-radius: 9999px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.signup-social-btn:hover {
+  background: #222;
+}
