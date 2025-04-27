@@ -1,27 +1,38 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../pages/LogIn.css';
-import Imagen from '/Circular Logo.svg?url'
 
 const Login = () => {
+  const navigate = useNavigate();
+
+  const handleRegisterClick = () => {
+    navigate('/signUp');
+  };
+
   return (
     <div className="login-container">
       <div className="login-box">
         <h2>Iniciar Sesión</h2>
+        
         <div className="input-group">
-          <h3>Usuario</h3>
-          <input type="text"/>
+          <label>Usuario</label>
+          <input type="text" />
         </div>
+        
         <div className="input-group">
-          <h3>Contraseña</h3>
-          <input type="password"/>
+          <label>Contraseña</label>
           <span className="forgot-password">Olvidaste tu contraseña?</span>
+          <input type="password" />
         </div>
-        <button>Ingresar</button>
-        <h3>Registarse</h3>
+        
+        <button className="login-button">Ingresar</button>
+        
+        <div className="register-link" onClick={handleRegisterClick}>
+          Registrarse
+        </div>
       </div>
     </div>
   );
 };
 
 export default Login;
-
