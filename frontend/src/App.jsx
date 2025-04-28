@@ -10,12 +10,13 @@ import UltimosLanzamientos from './pages/ultimosLanzamientos/latestLaunches.jsx'
 import SobreNosotros from './pages/sobreNosotros/sobreNosotros.jsx'
 import LogIn from './pages/Login/LogIn.jsx'
 import SignUp from './pages/SignUp/signUp.jsx'
+import ForgotPass from './pages/forgotPassword/gmailVerify.jsx'
 
 // Creamos un componente wrapper para usar useLocation
 function AppContent() {
   const location = useLocation();
-  const showHeader = location.pathname !== '/login' && location.pathname !== '/signUp';
-  const showFooter = location.pathname !== '/login' && location.pathname !== '/signUp';
+  const showHeader = location.pathname !== '/login' && location.pathname !== '/signUp' && location.pathname !== '/forgotPassword';
+  const showFooter = location.pathname !== '/login' && location.pathname !== '/signUp' && location.pathname !== '/forgotPassword';
   
   return (
     <>
@@ -31,6 +32,7 @@ function AppContent() {
           <Route path='/about-us' element={<SobreNosotros />}/> 
           <Route path='/login' element={<LogIn />} />
           <Route path='/signUp' element={<SignUp />} />
+          <Route path='/forgotPassword' element={<ForgotPass />} />
 
           </Routes>
       </div>
