@@ -1,5 +1,5 @@
 import React from "react";
-import "./insertCode.css";
+import "../forgotPassword/insertCode.css";
 
 const CheckPhone = () => {
   return (
