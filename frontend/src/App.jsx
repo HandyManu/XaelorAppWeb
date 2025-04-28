@@ -39,7 +39,7 @@ function AppContent() {
           <Route path='/terminos-condiciones' element={<Terminos />}/> 
           <Route path='/login' element={<LogIn />} />
           <Route path='/signUp' element={<SignUp />} />
-          <Route path='/GmailVerify' element={<GmailVerify />} />
+          <Route path='/gmailVerify' element={<GmailVerify />} />
           <Route path='/insertCode' element={<InsertCode />} />
           <Route path='/changePassword' element={<ChangePassword />} />
 

@@ -10,7 +10,7 @@ const Login = () => {
   };
 
   const handleForgotPasswordClick = () => {
-    navigate('/forgotPassword');
+    navigate('/gmailVerify');
   };
 
   return (
