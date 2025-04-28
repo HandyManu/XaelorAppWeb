@@ -1,0 +1,168 @@
+.mas-vendidos-section {
+  width: 100%;
+  padding: 60px 0;
+  background-color: #13100f;
+  background-image: linear-gradient(to right, #271e12, #3d3121, #271e12);
+}
+
+.mas-vendidos-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.mas-vendidos-container h2 {
+  font-family: 'Poltawski Nowy', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.mas-vendidos-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.producto-card-vendido {
+  background-color: #161616;
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.producto-card-vendido:hover {
+  transform: translateY(-5px);
+}
+
+.producto-imagen-vendido {
+  width: 100%;
+  aspect-ratio: 1/1;
+  background-color: #000;
+  overflow: hidden;
+}
+
+.producto-imagen-vendido img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.producto-info-vendido {
+  padding: 15px;
+}
+
+.producto-nombre-vendido {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  color: #fff;
+  margin: 0 0 10px 0;
+  font-weight: 500;
+}
+
+.producto-detalles-vendido {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.producto-precio-vendido {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  color: #fff;
+  font-weight: 500;
+}
+
+.producto-valoracion-vendido {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.valoracion-valor-vendido {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  color: #bbb;
+}
+
+.valoracion-icono-vendido {
+  color: #ffc464;
+  font-size: 0.9rem;
+}
+
+.ver-mas-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.ver-mas-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.ver-mas-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Media queries para responsive */
+@media (max-width: 992px) {
+  .mas-vendidos-grid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+  }
+  
+  .mas-vendidos-container h2 {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .mas-vendidos-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+  }
+  
+  .mas-vendidos-container h2 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+  
+  .producto-nombre-vendido {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .mas-vendidos-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(8, 1fr);
+  }
+  
+  .mas-vendidos-container h2 {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+  }
+  
+  .producto-card-vendido {
+    max-width: 280px;
+    margin: 0 auto;
+  }
+}

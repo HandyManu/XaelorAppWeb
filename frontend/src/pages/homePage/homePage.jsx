@@ -1,6 +1,6 @@
 import React from 'react';
-import Historia from '../components/historia/historia.jsx';
-import UltimosLanzamientos from '../components/ultimosLanzamientos/ultimosLanzamientos.jsx';
+import Historia from './historiaHome/historia.jsx';
+import UltimosLanzamientos from './ultimosLanzamientosHome/ultimosLanzamientos.jsx';
 
 function showHomePage() {
     return (
