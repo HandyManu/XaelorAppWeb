@@ -1,0 +1,131 @@
+body {
+    background-color: #1A1A1A;
+    color: #E0E0E0;
+  }
+  
+  .sobre-nosotros-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    background-color: #1A1A1A;
+  }
+  
+  .quienes-somos {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 60px;
+  }
+  
+  .texto-quienes-somos {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .texto-quienes-somos h1 {
+    color: #F9D56E;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .texto-quienes-somos p {
+    color: #B0B8C1;
+    line-height: 1.6;
+    margin-bottom: 15px;
+  }
+  
+  .imagen-quienes-somos {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .imagen-quienes-somos img {
+    max-width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  
+  .mision-vision {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 60px;
+  }
+  
+  .mision, .vision {
+    flex: 1;
+    background-color: #2C2C2C;
+    padding: 30px;
+    border-radius: 10px;
+  }
+  
+  .mision h2, .vision h2 {
+    color: #F9D56E;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .mision p, .vision p {
+    color: #B0B8C1;
+    line-height: 1.6;
+    text-align: center;
+  }
+  
+  .valores {
+    background-color: #2C2C2C;
+    padding: 40px;
+    border-radius: 10px;
+  }
+  
+  .valores h2 {
+    color: #F9D56E;
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .valores-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  
+  .valor {
+    background-color: #3C3C3C;
+    color: #B0B8C1;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+  }
+  
+  .valor:hover {
+    transform: translateY(-5px);
+    background-color: #4C4C4C;
+  }
+  
+  @media (max-width: 992px) {
+    .quienes-somos,
+    .mision-vision {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .imagen-quienes-somos img {
+      max-height: 300px;
+    }
+  
+    .valores-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .valores-grid {
+      grid-template-columns: 1fr;
+    }
+  }
