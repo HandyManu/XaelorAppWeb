@@ -1,0 +1,162 @@
+.categorias-relojes-section {
+  width: 100%;
+  padding: 60px 0;
+  background-color: #13100f;
+  color: #fff;
+}
+
+.categorias-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.categorias-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.categorias-header h2 {
+  font-family: 'Poltawski Nowy', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 15px;
+}
+
+.categorias-header p {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.1rem;
+  color: #e0e0e0;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.categorias-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.categoria-principal {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  height: 100%;
+}
+
+.categorias-secundarias {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 20px;
+}
+
+.categoria-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  height: 100%;
+  display: block;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.categoria-card:hover {
+  transform: translateY(-5px);
+}
+
+.categoria-imagen {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.categoria-imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 12px;
+}
+
+.categoria-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
+  padding: 20px;
+  display: flex;
+  align-items: flex-end;
+  height: 40%;
+  border-radius: 0 0 12px 12px;
+}
+
+.categoria-overlay h3 {
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Media queries para responsive */
+@media (max-width: 992px) {
+  .categorias-header h2 {
+    font-size: 2.2rem;
+  }
+  
+  .categorias-header p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .categorias-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .categoria-principal {
+    grid-column: 1;
+    grid-row: 1;
+    height: 300px;
+  }
+  
+  .categorias-secundarias {
+    grid-column: 1;
+    grid-row: 2;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+  }
+  
+  .categorias-header {
+    margin-bottom: 30px;
+  }
+  
+  .categorias-header h2 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .categorias-secundarias {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+  
+  .categoria-overlay h3 {
+    font-size: 1.3rem;
+  }
+  
+  .categorias-header h2 {
+    font-size: 1.8rem;
+  }
+  
+  .categorias-header p {
+    font-size: 0.9rem;
+  }
+}
