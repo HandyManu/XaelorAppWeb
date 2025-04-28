@@ -12,12 +12,13 @@ import LogIn from './pages/Login/LogIn.jsx'
 import SignUp from './pages/SignUp/signUp.jsx'
 import ForgotPass from './pages/forgotPassword/gmailVerify.jsx'
 import InsertCode from './pages/forgotPassword/insertCode.jsx'
+import ChangePassword from './pages/forgotPassword/changePassword.jsx'  
 
 // Creamos un componente wrapper para usar useLocation
 function AppContent() {
   const location = useLocation();
-  const showHeader = location.pathname !== '/login' && location.pathname !== '/signUp' && location.pathname !== '/forgotPassword'  && location.pathname !== '/insertCode';
-  const showFooter = location.pathname !== '/login' && location.pathname !== '/signUp' && location.pathname !== '/forgotPassword' && location.pathname !== '/insertCode';
+  const showHeader = location.pathname !== '/login' && location.pathname !== '/signUp' && location.pathname !== '/forgotPassword'  && location.pathname !== '/insertCode' && location.pathname !== '/changePassword';
+  const showFooter = location.pathname !== '/login' && location.pathname !== '/signUp' && location.pathname !== '/forgotPassword' && location.pathname !== '/insertCode' && location.pathname !== '/changePassword';
   
   return (
     <>
@@ -35,6 +36,7 @@ function AppContent() {
           <Route path='/signUp' element={<SignUp />} />
           <Route path='/forgotPassword' element={<ForgotPass />} />
           <Route path='/insertCode' element={<InsertCode />} />
+          <Route path='/changePassword' element={<ChangePassword />} />
 
           
 
