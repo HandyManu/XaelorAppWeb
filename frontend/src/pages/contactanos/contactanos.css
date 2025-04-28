@@ -1,0 +1,98 @@
+body {
+    background-color: #1E170F;
+    color: #E6DED4;
+  }
+  
+  .contacto-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background: url('/Images/contactanos.svg') no-repeat center center fixed;
+    background-size: cover;
+  }
+  
+  .contacto-form-wrapper {
+    background-color: rgba(128, 128, 128, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 40px;
+    width: 100%;
+    max-width: 800px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+  
+  .contacto-form-wrapper h2 {
+    color: #FFFFFF;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+  }
+  
+  .contacto-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  
+  .form-row input, 
+  .form-row select,
+  .form-row textarea {
+    width: 100%;
+    padding: 12px;
+    background-color: rgba(240, 240, 240, 0.9);
+    border: 1px solid rgba(200, 200, 200, 0.3);
+    border-radius: 8px;
+    color: #846440;
+    font-size: 1rem;
+  }
+  
+  .form-row textarea {
+    grid-column: 1 / -1;
+    min-height: 150px;
+    resize: vertical;
+  }
+  
+  .form-row input::placeholder,
+  .form-row select::placeholder,
+  .form-row textarea::placeholder {
+    color: #846440;
+  }
+  
+  .submit-btn {
+    grid-column: 1 / -1;
+    padding: 15px;
+    background-color: #a67c4e;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submit-btn:hover {
+    background-color: #c09666;
+  }
+  
+  @media (max-width: 768px) {
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+  
+    .contacto-form-wrapper {
+      padding: 20px;
+    }
+  
+    .contacto-form-wrapper h2 {
+      font-size: 2rem;
+    }
+  }

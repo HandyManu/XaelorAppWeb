@@ -8,14 +8,16 @@ import Naturen from './pages/ettMedNaturen/ettMedNaturen.jsx'
 import Nautilus from './pages/Nautilus/Nautilus.jsx'
 import UltimosLanzamientos from './pages/ultimosLanzamientos/latestLaunches.jsx'
 import SobreNosotros from './pages/sobreNosotros/sobreNosotros.jsx'
+import Terminos from './pages/terminosYcondiciones/terminos.jsx'
+import Contacto from './pages/contactanos/contactanos.jsx'
 import LogIn from './pages/Login/LogIn.jsx'
 import SignUp from './pages/SignUp/signUp.jsx'
 
 // Creamos un componente wrapper para usar useLocation
 function AppContent() {
   const location = useLocation();
-  const showHeader = location.pathname !== '/login' && location.pathname !== '/signUp';
-  const showFooter = location.pathname !== '/login' && location.pathname !== '/signUp';
+  const showHeader = location.pathname !== '/login' && location.pathname !== '/signUp' && location.pathname !== '/contacto';
+  const showFooter = location.pathname !== '/login' && location.pathname !== '/signUp' && location.pathname !== '/contacto' ;
   
   return (
     <>
@@ -29,6 +31,8 @@ function AppContent() {
           <Route path='/nautilus' element={<Nautilus />}/> 
           <Route path='/last-publishes' element={<UltimosLanzamientos />}/> 
           <Route path='/about-us' element={<SobreNosotros />}/> 
+          <Route path='/contacto' element={<Contacto />}/> 
+          <Route path='/terminos-condiciones' element={<Terminos />}/> 
           <Route path='/login' element={<LogIn />} />
           <Route path='/signUp' element={<SignUp />} />
 
