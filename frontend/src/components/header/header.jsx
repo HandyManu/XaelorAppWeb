@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import './header.css';
 import './responsive.css';
 import 'swiper/css';
@@ -8,9 +8,14 @@ import SearchBox from './searchBox/searchBox.jsx';
 import HeroCarousel from './carousel/carousel.jsx';
 
 function Header() {
-    const navigate = useNavigate();
+    const location = useLocation();
     const [menuOpen, setMenuOpen] = useState(false);
 
+    useEffect(() => {
+        setMenuOpen(false); // Cierra el menú al cambiar de ruta
+    }, [location]);
+
+    const navigate = useNavigate();
     const handleLoginClick = () => {
         navigate('/login');
     };
@@ -39,7 +44,7 @@ function Header() {
                 <div className='divisor'>
                     <SearchBox />
                     <button className="Login" onClick={handleLoginClick}>Iniciar Sesión</button>
-                    <button className="menu-toggle" onClick={toggleMenu} aria-label="Menú">
+                    <button className="menu-toggle" onClick={toggleMenu} aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}>
                         <span></span>
                         <span></span>
                         <span></span>
