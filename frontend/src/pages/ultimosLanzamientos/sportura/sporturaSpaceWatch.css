@@ -1,0 +1,11 @@
+.reloj-espacial-container {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  .reloj-espacial-imagen {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }

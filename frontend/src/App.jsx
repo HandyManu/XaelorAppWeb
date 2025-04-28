@@ -6,6 +6,7 @@ import Home from './pages/homePage/homePage.jsx'
 import Relojes from './pages/Relojes/Relojes.jsx'
 import Naturen from './pages/ettMedNaturen/ettMedNaturen.jsx'
 import Nautilus from './pages/Nautilus/Nautilus.jsx'
+import UltimosLanzamientos from './pages/ultimosLanzamientos/latestLaunches.jsx'
 import LogIn from './pages/Login/LogIn.jsx'
 import SignUp from './pages/SignUp/signUp.jsx'
 
@@ -25,6 +26,7 @@ function AppContent() {
           <Route path='/watches' element={<Relojes />}/> 
           <Route path='/ett-med-naturen' element={<Naturen />}/> 
           <Route path='/nautilus' element={<Nautilus />}/> 
+          <Route path='/last-publishes' element={<UltimosLanzamientos />}/> 
           <Route path='/login' element={<LogIn />} />
           <Route path='/signUp' element={<SignUp />} />
 

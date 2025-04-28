@@ -1,0 +1,7 @@
+.ultimo-lanzamiento-container {
+    width: 100%;
+    background-color: #0A0E17;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
