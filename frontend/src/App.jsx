@@ -5,6 +5,7 @@ import Footer from './components/footer/footer.jsx'
 import Home from './pages/homePage/homePage.jsx'
 import Relojes from './pages/Relojes/Relojes.jsx'
 import Naturen from './pages/ettMedNaturen/ettMedNaturen.jsx'
+import Nautilus from './pages/Nautilus/Nautilus.jsx'
 import LogIn from './pages/Login/LogIn.jsx'
 import SignUp from './pages/SignUp/signUp.jsx'
 
@@ -23,9 +24,10 @@ function AppContent() {
           <Route path='/' element={<Home />} />
           <Route path='/watches' element={<Relojes />}/> 
           <Route path='/ett-med-naturen' element={<Naturen />}/> 
+          <Route path='/nautilus' element={<Nautilus />}/> 
           <Route path='/login' element={<LogIn />} />
           <Route path='/signUp' element={<SignUp />} />
-      
+
           </Routes>
       </div>
 

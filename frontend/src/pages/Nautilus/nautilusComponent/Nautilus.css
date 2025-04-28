@@ -1,0 +1,113 @@
+.nautilus-page {
+  width: 100%;
+  min-height: 100vh;
+  background-image: url('/Images/NautilusRelojFondo.svg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-blend-mode: overlay;
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.nautilus-container {
+  max-width: 1200px;
+  width: 100%;
+}
+
+.nautilus-content {
+  display: flex;
+  background-color: rgba(44, 53, 66, 0.5);
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nautilus-text {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: transparent;
+}
+
+.nautilus-text h2 {
+  color: #F9D56E;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.nautilus-text > p {
+  color: white;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+.nautilus-description p {
+  color: #8892B0;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.nautilus-image-container {
+  flex: 1;
+  background: linear-gradient(to bottom, rgba(52, 73, 94, 0.5), rgba(44, 62, 80, 0.5));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+}
+
+.nautilus-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  z-index: 10;
+}
+
+@media (max-width: 992px) {
+  .nautilus-content {
+    flex-direction: column;
+  }
+
+  .nautilus-text {
+    text-align: center;
+    padding: 30px;
+  }
+
+  .nautilus-image-container {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .nautilus-page {
+    padding: 10px;
+  }
+
+  .nautilus-text {
+    padding: 20px;
+  }
+
+  .nautilus-text h2 {
+    font-size: 2rem;
+  }
+
+  .nautilus-text > p {
+    font-size: 1.2rem;
+  }
+
+  .nautilus-description p {
+    font-size: 0.9rem;
+  }
+}

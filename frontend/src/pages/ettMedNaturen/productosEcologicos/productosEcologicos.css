@@ -3,7 +3,6 @@
     padding: 60px 0;
     background-image: url('/Images/hojas2.svg');
     background-size: cover;
-    backdrop-filter: blur(80px);
     background-position: center;
     background-repeat: no-repeat;
     background-blend-mode: overlay;

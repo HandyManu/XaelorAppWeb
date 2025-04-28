@@ -1,0 +1,8 @@
+.nautilus-page-container {
+    width: 100%;
+    background-color: #0D1B2A;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
