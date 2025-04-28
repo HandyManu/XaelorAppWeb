@@ -5,8 +5,12 @@ import '../Login/LogIn.css';
 const Login = () => {
   const navigate = useNavigate();
 
-  const handleRegisterClick = () => {
+  const handleSignUpClick = () => {
     navigate('/signUp');
+  };
+
+  const handleForgotPasswordClick = () => {
+    navigate('/forgotPassword');
   };
 
   return (
@@ -21,13 +25,15 @@ const Login = () => {
         
         <div className="input-group">
           <label>Contraseña</label>
-          <span className="forgot-password">Olvidaste tu contraseña?</span>
+          <span className="forgot-password" onClick={handleForgotPasswordClick}>
+            Olvidaste tu contraseña?
+          </span>
           <input type="password" />
         </div>
         
         <button className="login-button">Ingresar</button>
         
-        <div className="register-link" onClick={handleRegisterClick}>
+        <div className="register-link" onClick={handleSignUpClick}>
           Registrarse
         </div>
       </div>

@@ -4,7 +4,7 @@ body {
   }
   
   .sobre-nosotros-container {
-    max-width: 1200px;
+    max-width: 100%;
     margin: 0 auto;
     padding: 40px 20px;
     background-color: #1A1A1A;
