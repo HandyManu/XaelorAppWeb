@@ -12,12 +12,16 @@ import Terminos from './pages/terminosYcondiciones/terminos.jsx'
 import Contacto from './pages/contactanos/contactanos.jsx'
 import LogIn from './pages/Login/LogIn.jsx'
 import SignUp from './pages/SignUp/signUp.jsx'
+import ForgotPass from './pages/forgotPassword/gmailVerify.jsx'
+import InsertCode from './pages/forgotPassword/insertCode.jsx'
+import ChangePassword from './pages/forgotPassword/changePassword.jsx'  
 
 // Creamos un componente wrapper para usar useLocation
 function AppContent() {
   const location = useLocation();
-  const showHeader = location.pathname !== '/login' && location.pathname !== '/signUp' && location.pathname !== '/contacto';
-  const showFooter = location.pathname !== '/login' && location.pathname !== '/signUp' && location.pathname !== '/contacto' ;
+ 
+  const showHeader = location.pathname !== '/login' && location.pathname !== '/signUp' && location.pathname !== '/forgotPassword'  && location.pathname !== '/insertCode' && location.pathname !== '/changePassword' && location.pathname !== '/contacto' ;
+  const showFooter = location.pathname !== '/login' && location.pathname !== '/signUp' && location.pathname !== '/forgotPassword' && location.pathname !== '/insertCode' && location.pathname !== '/changePassword' && location.pathname !== '/contacto' ;
   
   return (
     <>
@@ -35,6 +39,11 @@ function AppContent() {
           <Route path='/terminos-condiciones' element={<Terminos />}/> 
           <Route path='/login' element={<LogIn />} />
           <Route path='/signUp' element={<SignUp />} />
+          <Route path='/forgotPassword' element={<ForgotPass />} />
+          <Route path='/insertCode' element={<InsertCode />} />
+          <Route path='/changePassword' element={<ChangePassword />} />
+
+          
 
           </Routes>
       </div>
