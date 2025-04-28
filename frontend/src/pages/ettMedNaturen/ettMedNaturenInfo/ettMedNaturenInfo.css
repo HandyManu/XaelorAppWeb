@@ -1,0 +1,135 @@
+.ettmednature-info-section {
+    width: 100%;
+    padding: 60px 0;
+    background-color: rgba(29, 60, 37, 0.9);
+    background-image: url('/Images/hojas1.svg');
+    background-size: cover;
+    background-blend-mode: overlay;
+    position: relative;
+  }
+  
+  .ettmednature-info-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .ettmednature-info-content {
+    background-color: rgba(29, 60, 37, 0.85);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .ettmednature-info-title {
+    font-family: 'Poltawski Nowy', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 30px;
+    font-style: italic;
+  }
+  
+  .ettmednature-info-row {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+  }
+  
+  .ettmednature-info-text {
+    flex: 1;
+  }
+  
+  .ettmednature-info-text h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 20px;
+    line-height: 1.3;
+  }
+  
+  .ettmednature-info-text p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #e0e0e0;
+  }
+  
+  .ettmednature-info-imagen {
+    flex: 1;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  .ettmednature-info-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+  }
+  
+  .ettmednature-info-imagen img:hover {
+    transform: scale(1.03);
+  }
+  
+  /* Media queries para responsive */
+  @media (max-width: 992px) {
+    .ettmednature-info-title {
+      font-size: 2.2rem;
+    }
+    
+    .ettmednature-info-text h3 {
+      font-size: 1.3rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .ettmednature-info-content {
+      padding: 30px;
+    }
+    
+    .ettmednature-info-row {
+      flex-direction: column;
+      gap: 30px;
+    }
+    
+    .ettmednature-info-imagen {
+      width: 100%;
+      max-height: 300px;
+    }
+    
+    .ettmednature-info-title {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    
+    .ettmednature-info-text h3 {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .ettmednature-info-content {
+      padding: 20px;
+    }
+    
+    .ettmednature-info-title {
+      font-size: 1.8rem;
+    }
+    
+    .ettmednature-info-text h3 {
+      font-size: 1.1rem;
+    }
+    
+    .ettmednature-info-text p {
+      font-size: 0.9rem;
+    }
+  }

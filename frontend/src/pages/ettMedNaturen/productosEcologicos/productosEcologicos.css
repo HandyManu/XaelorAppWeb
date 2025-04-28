@@ -1,0 +1,221 @@
+.productos-ecologicos-section {
+    width: 100%;
+    padding: 60px 0;
+    background-image: url('/Images/hojas2.svg');
+    background-size: cover;
+    backdrop-filter: blur(80px);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-blend-mode: overlay;
+    position: relative;
+  }
+  
+  .productos-ecologicos-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(12, 35, 23, 0.85);
+    z-index: 1;
+  }
+  
+  .productos-ecologicos-container {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .productos-ecologicos-container h2 {
+    font-family: 'Poltawski Nowy', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 40px;
+    text-align: center;
+    font-style: italic;
+  }
+  
+  .productos-ecologicos-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+    max-width: 100%;
+    padding: 0 10px;
+  }
+  
+  /* Línea divisoria */
+  .productos-ecologicos-grid::after {
+    content: '';
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.15), transparent);
+    bottom: 60px;
+  }
+  
+  .producto-ecologico-card {
+    background-color: #101010;
+    border-radius: 10px;
+    overflow: hidden;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  
+  .producto-ecologico-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(59, 183, 100, 0.15);
+  }
+  
+  .producto-ecologico-imagen {
+    width: 100%;
+    aspect-ratio: 1/1;
+    background-color: #000;
+    overflow: hidden;
+    padding: 0;
+  }
+  
+  .producto-ecologico-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  
+  .producto-ecologico-info {
+    padding: 12px;
+    background-color: #101010;
+  }
+  
+  .producto-ecologico-nombre {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    color: #fff;
+    margin: 0 0 8px 0;
+    font-weight: 500;
+    text-align: center;
+  }
+  
+  .producto-ecologico-detalles {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .producto-ecologico-precio {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: #fff;
+    font-weight: 500;
+  }
+  
+  .producto-ecologico-valoracion {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 2px 5px;
+    border-radius: 3px;
+  }
+  
+  .valoracion-ecologico-valor {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: #bbb;
+  }
+  
+  .valoracion-ecologico-icono {
+    color: #3BB764;
+    font-size: 0.85rem;
+  }
+  
+  .ver-productos-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .ver-productos-texto {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: #fff;
+    margin-bottom: 5px;
+  }
+  
+  .ver-productos-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .ver-productos-btn:hover {
+    background-color: rgba(59, 183, 100, 0.2);
+    transform: translateY(2px);
+  }
+  
+  /* Media queries para responsive */
+  @media (max-width: 992px) {
+    .productos-ecologicos-grid {
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+    }
+    
+    .productos-ecologicos-container h2 {
+      font-size: 2.2rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .productos-ecologicos-grid {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+    }
+    
+    .productos-ecologicos-container h2 {
+      font-size: 2rem;
+      margin-bottom: 30px;
+    }
+    
+    .producto-ecologico-nombre {
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .productos-ecologicos-grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(8, 1fr);
+    }
+    
+    .productos-ecologicos-container h2 {
+      font-size: 1.8rem;
+      margin-bottom: 25px;
+    }
+    
+    .producto-ecologico-card {
+      max-width: 280px;
+      margin: 0 auto;
+    }
+  }

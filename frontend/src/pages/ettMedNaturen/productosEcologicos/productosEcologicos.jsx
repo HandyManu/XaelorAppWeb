@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './masVendidos.css';
+import './productosEcologicos.css';
 
-function MasVendidos() {
-  // Datos de productos más vendidos - todos con el mismo reloj como en la imagen de referencia
-  const productosDestacados = [
+function ProductosEcologicos() {
+  // Datos de productos ecológicos
+  const productos = [
     {
       id: 1,
       nombre: 'Xaelör Noir Deluxe',
@@ -72,24 +72,24 @@ function MasVendidos() {
   ];
 
   return (
-    <section className="mas-vendidos-section">
-      <div className="mas-vendidos-container">
-        <h2>Lo más vendido</h2>
+    <section className="productos-ecologicos-section">
+      <div className="productos-ecologicos-container">
+        <h2>Productos</h2>
         
-        <div className="mas-vendidos-grid">
-          {productosDestacados.map((producto) => (
-            <Link key={producto.id} to={producto.enlace} className="producto-card-vendido">
-              <div className="producto-imagen-vendido">
+        <div className="productos-ecologicos-grid">
+          {productos.map((producto) => (
+            <Link key={producto.id} to={producto.enlace} className="producto-ecologico-card">
+              <div className="producto-ecologico-imagen">
                 <img src={producto.imagen} alt={producto.nombre} />
               </div>
               
-              <div className="producto-info-vendido">
-                <h3 className="producto-nombre-vendido">{producto.nombre}</h3>
-                <div className="producto-detalles-vendido">
-                  <span className="producto-precio-vendido">{producto.precio}</span>
-                  <div className="producto-valoracion-vendido">
-                    <span className="valoracion-valor-vendido">{producto.valoracion}%</span>
-                    <span className="valoracion-icono-vendido">❤</span>
+              <div className="producto-ecologico-info">
+                <h3 className="producto-ecologico-nombre">{producto.nombre}</h3>
+                <div className="producto-ecologico-detalles">
+                  <span className="producto-ecologico-precio">{producto.precio}</span>
+                  <div className="producto-ecologico-valoracion">
+                    <span className="valoracion-ecologico-valor">{producto.valoracion}%</span>
+                    <span className="valoracion-ecologico-icono">❤</span>
                   </div>
                 </div>
               </div>
@@ -97,9 +97,9 @@ function MasVendidos() {
           ))}
         </div>
         
-        <div className="ver-mas-container">
-          <span className="ver-mas-texto">Ver más</span>
-          <button className="ver-mas-btn">
+        <div className="ver-productos-container">
+          <span className="ver-productos-texto">Ver más</span>
+          <button className="ver-productos-btn">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M7 10L12 15L17 10" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
@@ -110,4 +110,4 @@ function MasVendidos() {
   );
 }
 
-export default MasVendidos;
+export default ProductosEcologicos;

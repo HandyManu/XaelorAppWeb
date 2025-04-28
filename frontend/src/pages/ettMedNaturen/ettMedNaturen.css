@@ -1,0 +1,8 @@
+.ettmednature-page-container {
+    width: 100%;
+    background-color: #13100f;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
