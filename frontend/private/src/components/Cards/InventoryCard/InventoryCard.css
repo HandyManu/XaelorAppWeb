@@ -1,0 +1,210 @@
+/* InventoryCard.css */
+.inventory-card {
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+  height: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.inventory-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Imagen del reloj */
+.inventory-watch-image {
+  width: 100%;
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+  background-color: #262626;
+}
+
+.inventory-watch-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.inventory-card:hover .inventory-watch-image img {
+  transform: scale(1.05);
+}
+
+.no-image {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Información del inventario */
+.inventory-info {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex-grow: 1;
+}
+
+.watch-model {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #e6c068;
+  margin-bottom: 0.25rem;
+}
+
+.branch-name {
+  font-size: 0.9rem;
+  color: #aaa;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.branch-icon {
+  font-size: 1rem;
+  color: #e6c068;
+}
+
+/* Información de stock */
+.stock-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.stock-label {
+  font-weight: 500;
+  color: #888;
+}
+
+.stock-value {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.stock-value.low {
+  color: #ff4757;
+}
+
+.stock-value.medium {
+  color: #ffa502;
+}
+
+.stock-value.high {
+  color: #2ed573;
+}
+
+/* Indicador visual de stock */
+.stock-indicator {
+  margin-top: 0.5rem;
+}
+
+.stock-bar {
+  width: 100%;
+  height: 8px;
+  background-color: #333;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.stock-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+  border-radius: 4px;
+}
+
+.stock-indicator.low .stock-fill {
+  background-color: #ff4757;
+}
+
+.stock-indicator.medium .stock-fill {
+  background-color: #ffa502;
+}
+
+.stock-indicator.high .stock-fill {
+  background-color: #2ed573;
+}
+
+/* Detalles del reloj */
+.watch-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #333;
+}
+
+.watch-price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #e6c068;
+}
+
+.watch-category {
+  font-size: 0.85rem;
+  color: #777;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+}
+
+/* Ícono de eliminación */
+.delete-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.25rem;
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  transition: opacity 0.2s, background-color 0.2s;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.delete-icon:hover {
+  opacity: 1;
+  background-color: rgba(231, 76, 60, 0.9);
+}
+
+@media (max-width: 768px) {
+  .inventory-watch-image {
+    height: 180px;
+  }
+  
+  .inventory-info {
+    padding: 1rem;
+  }
+  
+  .watch-model {
+    font-size: 1.1rem;
+  }
+  
+  .watch-price {
+    font-size: 1.1rem;
+  }
+  
+  .delete-icon {
+    opacity: 0.9; /* Más visible en móviles */
+  }
+}

@@ -1,0 +1,203 @@
+/* MembershipCard.css */
+.membership-card {
+  background-color: #1a1a1a;
+  border-radius: 12px;
+  color: white;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+  height: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 3px solid;
+  display: flex;
+  flex-direction: column;
+}
+
+.membership-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Header de la membresía */
+.membership-header {
+  padding: 1.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.membership-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+  pointer-events: none;
+}
+
+.tier-icon {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.tier-name {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Body de la membresía */
+.membership-body {
+  padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.membership-price {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.price-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #e6c068;
+}
+
+.price-period {
+  font-size: 1rem;
+  color: #888;
+  margin-left: 0.5rem;
+}
+
+.discount-badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: 2px solid;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-align: center;
+  margin: 0 auto 1.5rem;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Sección de beneficios */
+.benefits-section {
+  flex-grow: 1;
+}
+
+.benefits-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ddd;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.benefits-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.benefit-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+  color: #ccc;
+  line-height: 1.4;
+}
+
+.benefit-icon {
+  font-size: 1.1rem;
+  font-weight: bold;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Footer de la membresía */
+.membership-footer {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #333;
+}
+
+.member-count {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.count-label {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.count-value {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #e6c068;
+}
+
+/* Ícono de eliminación */
+.delete-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.25rem;
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  transition: opacity 0.2s, background-color 0.2s;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.delete-icon:hover {
+  opacity: 1;
+  background-color: rgba(231, 76, 60, 0.9);
+}
+
+@media (max-width: 768px) {
+  .membership-header {
+    padding: 1.2rem;
+  }
+  
+  .tier-icon {
+    font-size: 2.5rem;
+  }
+  
+  .tier-name {
+    font-size: 1.5rem;
+  }
+  
+  .price-value {
+    font-size: 2rem;
+  }
+  
+  .membership-body {
+    padding: 1.2rem;
+  }
+  
+  .delete-icon {
+    opacity: 0.9;
+  }
+}

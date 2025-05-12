@@ -13,8 +13,7 @@ const CustomersPage = () => {
   const [itemsPerPage] = useState(8);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterMembership, setFilterMembership] = useState('');
+  const [sortBy, setSortBy] = useState(''); // Para manejar el ordenamiento/filtrado
   
   // Simulated data fetch
   useEffect(() => {
@@ -231,33 +230,49 @@ const CustomersPage = () => {
     setIsModalOpen(false);
   };
   
-  // Filtrar clientes por búsqueda y membresía
-  const filteredCustomers = customers.filter(customer => {
-    // Filtro por término de búsqueda (nombre o email)
-    const searchMatch = searchTerm 
-      ? customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        customer.email.toLowerCase().includes(searchTerm.toLowerCase())
-      : true;
+  // Función para obtener clientes ordenados/filtrados
+  const getProcessedCustomers = () => {
+    let processedCustomers = [...customers];
     
-    // Filtro por tipo de membresía
-    const membershipMatch = filterMembership 
-      ? customer.membership?.membershipId?.$oid === filterMembership 
-      : true;
+    // Filtrar por tipo de membresía o aplicar ordenamiento
+    switch (sortBy) {
+      case 'bronze':
+        processedCustomers = processedCustomers.filter(c => 
+          c.membership?.membershipId?.$oid === '67acd69ae1fa12d45243dc76'
+        );
+        break;
+      case 'silver':
+        processedCustomers = processedCustomers.filter(c => 
+          c.membership?.membershipId?.$oid === '67acd69ae1fa12d45243dc77'
+        );
+        break;
+      case 'gold':
+        processedCustomers = processedCustomers.filter(c => 
+          c.membership?.membershipId?.$oid === '67acd69ae1fa12d45243dc78'
+        );
+        break;
+      case 'nombre':
+        processedCustomers.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case 'fecha':
+        processedCustomers.sort((a, b) => 
+          new Date(b.membership?.startDate?.$date) - new Date(a.membership?.startDate?.$date)
+        );
+        break;
+      default:
+        // Por defecto, ordenar por nombre
+        processedCustomers.sort((a, b) => a.name.localeCompare(b.name));
+    }
     
-    return searchMatch && membershipMatch;
-  });
+    return processedCustomers;
+  };
+  
+  const processedCustomers = getProcessedCustomers();
   
   // Obtener clientes para la página actual
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentCustomers = filteredCustomers.slice(indexOfFirstItem, indexOfLastItem);
-  
-  // Opciones de membresía para el filtro
-  const membershipOptions = [
-    { id: '67acd69ae1fa12d45243dc76', name: 'Bronze' },
-    { id: '67acd69ae1fa12d45243dc77', name: 'Silver' },
-    { id: '67acd69ae1fa12d45243dc78', name: 'Gold' }
-  ];
+  const currentCustomers = processedCustomers.slice(indexOfFirstItem, indexOfLastItem);
   
   return (
     <div className="customers-page">
@@ -265,35 +280,22 @@ const CustomersPage = () => {
         title="Clientes" 
         onAddNew={handleAddNew} 
         onRefresh={handleRefresh}
+        // Pasamos opciones personalizadas para el dropdown
+        sortOptions={[
+          { label: 'Nombre', value: 'nombre' },
+          { label: 'Fecha de registro', value: 'fecha' },
+          { label: 'Membresía Bronze', value: 'bronze' },
+          { label: 'Membresía Silver', value: 'silver' },
+          { label: 'Membresía Gold', value: 'gold' }
+        ]}
+        onSort={setSortBy}
+        showSearch={true} 
       />
       
-      <div className="customers-filters">
-        <div className="search-bar">
-          <input
-            type="text"
-            placeholder="Buscar por nombre o email..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-        
-        <div className="filter-controls">
-          <select 
-            value={filterMembership} 
-            onChange={(e) => setFilterMembership(e.target.value)}
-          >
-            <option value="">Todas las membresías</option>
-            {membershipOptions.map(option => (
-              <option key={option.id} value={option.id}>
-                {option.name}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-      
-      <div className="customers-count">
-        {filteredCustomers.length} {filteredCustomers.length === 1 ? 'cliente' : 'clientes'}
+      <div className="customer-stats">
+        <span className="customers-count">
+          {processedCustomers.length} {processedCustomers.length === 1 ? 'cliente' : 'clientes'}
+        </span>
       </div>
       
       <div className="customer-grid">
@@ -308,13 +310,13 @@ const CustomersPage = () => {
           ))
         ) : (
           <div className="no-customers">
-            <p>No se encontraron clientes con los filtros seleccionados</p>
+            <p>No se encontraron clientes</p>
           </div>
         )}
       </div>
       
       <Pagination 
-        totalItems={filteredCustomers.length}
+        totalItems={processedCustomers.length}
         itemsPerPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={setCurrentPage}

@@ -1,0 +1,227 @@
+/* ReviewCard.css */
+.review-card {
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  color: white;
+  position: relative;
+  cursor: default;
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+  height: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+}
+
+.review-card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Header del review */
+.review-card .review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid #333;
+}
+
+.review-card .product-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.review-card .product-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  object-fit: cover;
+  background-color: #2a2424;
+}
+
+.review-card .product-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.review-card .product-model {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #e6c068;
+}
+
+.review-card .review-date {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.review-card .rating-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(230, 192, 104, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+}
+
+.review-card .rating-value {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #e6c068;
+}
+
+.review-card .rating-stars {
+  display: flex;
+  gap: 0.1rem;
+  color: #e6c068;
+  font-size: 0.9rem;
+}
+
+/* Body del review */
+.review-card .review-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex-grow: 1;
+}
+
+.review-card .customer-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.review-card .section-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.25rem;
+}
+
+.review-card .customer-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.review-card .customer-name {
+  font-weight: 600;
+  color: #ddd;
+}
+
+.review-card .customer-email {
+  font-size: 0.9rem;
+  color: #999;
+}
+
+/* Sección del mensaje */
+.review-card .message-section {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.review-card .review-message {
+  color: #ddd;
+  font-size: 1rem;
+  line-height: 1.6;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 4px;
+  border-left: 3px solid #e6c068;
+  font-style: italic;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+/* Ícono de eliminación */
+.review-card .delete-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.25rem;
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  transition: opacity 0.2s, background-color 0.2s;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.review-card .delete-icon:hover {
+  opacity: 1;
+  background-color: rgba(231, 76, 60, 0.9);
+}
+
+/* Indicador de rating visual en el card */
+.review-card .rating-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: #e6c068;
+}
+
+@media (max-width: 768px) {
+  .review-card .review-header,
+  .review-card .review-body {
+    padding: 1rem;
+  }
+  
+  .review-card .product-info {
+    gap: 0.75rem;
+  }
+  
+  .review-card .product-image {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .review-card .rating-badge {
+    padding: 0.35rem 0.75rem;
+  }
+  
+  .review-card .rating-value {
+    font-size: 1rem;
+  }
+  
+  .review-card .review-message {
+    font-size: 0.95rem;
+    padding: 0.75rem;
+  }
+  
+  .review-card .delete-icon {
+    opacity: 0.9;
+  }
+}
+
+@media (max-width: 576px) {
+  .review-card .product-model {
+    font-size: 1rem;
+  }
+  
+  .review-card .rating-stars {
+    font-size: 0.8rem;
+  }
+  
+  .review-card .product-image {
+    width: 50px;
+    height: 50px;
+  }
+}

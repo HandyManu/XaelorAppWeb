@@ -7,70 +7,27 @@
   color: white;
 }
 
-/* Filtros y búsqueda */
-.customers-filters {
+/* Estadísticas */
+.customer-stats {
+  padding: 1rem 1.5rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  padding: 1.5rem;
-  background-color: #1a1a1a;
-  border-bottom: 1px solid #333;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.search-bar {
-  flex-grow: 1;
-  max-width: 500px;
-}
-
-.search-bar input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  background-color: #2a2424;
-  border: 1px solid #3a3434;
-  border-radius: 4px;
-  color: white;
-  font-size: 1rem;
-}
-
-.search-bar input:focus {
-  outline: none;
-  border-color: #e6c068;
-  box-shadow: 0 0 0 2px rgba(230, 192, 104, 0.2);
-}
-
-.filter-controls select {
-  padding: 0.75rem 2.5rem 0.75rem 1rem;
-  background-color: #2a2424;
-  border: 1px solid #3a3434;
-  border-radius: 4px;
-  color: white;
-  font-size: 1rem;
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e6c068' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 0.75rem center;
-  background-size: 1em;
-}
-
-.filter-controls select:focus {
-  outline: none;
-  border-color: #e6c068;
 }
 
 /* Contador de clientes */
 .customers-count {
-  padding: 0 1.5rem;
-  margin: 1rem 0;
   font-size: 0.9rem;
   color: #aaa;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
 }
 
 /* Grid de clientes */
 .customer-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 1.5rem;
   padding: 0 1.5rem 1.5rem;
   flex-grow: 1;
@@ -94,14 +51,8 @@
 
 /* Adaptación a móviles */
 @media (max-width: 768px) {
-  .customers-filters {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 1rem;
-  }
-  
-  .search-bar {
-    max-width: none;
+  .customer-stats {
+    padding: 0.75rem 1rem;
   }
   
   .customer-grid {
@@ -115,17 +66,4 @@
   .customer-grid {
     grid-template-columns: 1fr;
   }
-}
-
-/* Estilos para diferentes tipos de membresía */
-.customer-card[data-membership="bronze"] {
-  background: linear-gradient(135deg, #cd7f32 0%, #1a1a1a 80%);
-}
-
-.customer-card[data-membership="silver"] {
-  background: linear-gradient(135deg, #c0c0c0 0%, #1a1a1a 80%);
-}
-
-.customer-card[data-membership="gold"] {
-  background: linear-gradient(135deg, #ffd700 0%, #1a1a1a 80%);
 }

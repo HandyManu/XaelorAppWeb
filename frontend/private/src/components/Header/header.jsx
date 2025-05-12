@@ -2,13 +2,46 @@
 import React, { useState } from 'react';
 import './Header.css';
 
-const Header = ({ title = 'Relojes', onAddNew, onRefresh }) => {
+const Header = ({ 
+  title = 'Relojes', 
+  onAddNew, 
+  onRefresh,
+  sortOptions,
+  onSort,
+  showSearch = true,
+  showAddButton = true // Nueva prop para controlar visibilidad del botón añadir
+}) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [sortBy, setSortBy] = useState('Nombre');
   
+  const defaultSortOptions = [
+    { label: 'Nombre', value: 'nombre' },
+    { label: 'Precio', value: 'precio' },
+    { label: 'Categoría', value: 'categoria' },
+    { label: 'Fecha de agregación', value: 'fecha' }
+  ];
+  
+  const finalSortOptions = sortOptions || defaultSortOptions;
+  
   const handleSortSelect = (option) => {
-    setSortBy(option);
+    setSortBy(option.label);
     setShowDropdown(false);
+    
+    if (onSort) {
+      onSort(option.value);
+    }
+  };
+  
+  // Determinar texto del botón basado en el título
+  const getAddButtonText = () => {
+    switch(title.toLowerCase()) {
+      case 'clientes':
+        return 'Nuevo cliente';
+      case 'relojes':
+        return 'Nuevo reloj';
+      default:
+        return `Nuevo ${title.toLowerCase()}`;
+    }
   };
   
   return (
@@ -31,32 +64,33 @@ const Header = ({ title = 'Relojes', onAddNew, onRefresh }) => {
             
             {showDropdown && (
               <div className="sort-dropdown-menu">
-                <div className="sort-option" onClick={() => handleSortSelect('Nombre')}>
-                  Nombre
-                </div>
-                <div className="sort-option" onClick={() => handleSortSelect('Precio')}>
-                  Precio
-                </div>
-                <div className="sort-option" onClick={() => handleSortSelect('Categoría')}>
-                  Categoría
-                </div>
-                <div className="sort-option" onClick={() => handleSortSelect('Fecha')}>
-                  Fecha de agregación
-                </div>
+                {finalSortOptions.map((option, index) => (
+                  <div 
+                    key={index} 
+                    className="sort-option" 
+                    onClick={() => handleSortSelect(option)}
+                  >
+                    {option.label}
+                  </div>
+                ))}
               </div>
             )}
           </div>
         </div>
         
-        <div className="search-container">
-          <input type="text" className="search-input" placeholder="Buscar..." />
-        </div>
+        {showSearch && (
+          <div className="search-container">
+            <input type="text" className="search-input" placeholder="Buscar..." />
+          </div>
+        )}
         
         <div className="header-buttons">
-          <button className="btn btn-primary" onClick={onAddNew}>
-            <span className="btn-icon">+</span>
-            <span className="btn-text">Nuevo reloj</span>
-          </button>
+          {showAddButton && (
+            <button className="btn btn-primary" onClick={onAddNew}>
+              <span className="btn-icon">+</span>
+              <span className="btn-text">{getAddButtonText()}</span>
+            </button>
+          )}
           
           <button className="btn btn-secondary" onClick={onRefresh}>
             <span className="btn-text">Refresh</span>
