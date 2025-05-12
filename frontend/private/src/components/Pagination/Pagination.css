@@ -1,0 +1,76 @@
+/* Pagination.css */
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #1c1717;
+  color: white;
+  border-top: 1px solid #333;
+}
+
+.page-size-selector {
+  display: flex;
+  align-items: center;
+  padding: 0.4rem 0.8rem;
+  background-color: #2a2424;
+  border-radius: 4px;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+.items-per-page {
+  margin-right: 0.5rem;
+  font-weight: 500;
+}
+
+.dropdown-arrow {
+  font-size: 0.7rem;
+  color: #e6c068;
+}
+
+.page-info {
+  margin-right: 1rem;
+  font-size: 0.9rem;
+}
+
+.page-controls {
+  display: flex;
+  align-items: center;
+}
+
+.refresh-button {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #e6c068;
+  color: black;
+  font-size: 1.2rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.refresh-button:hover {
+  background-color: #d4af57;
+}
+
+@media (max-width: 768px) {
+  .pagination {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+  
+  .page-info {
+    order: 3;
+    width: 100%;
+    text-align: center;
+    margin-top: 0.5rem;
+    margin-right: 0;
+  }
+}

@@ -1,0 +1,126 @@
+/* BrandCard.css actualizado para soportar imágenes de logo */
+.brand-card {
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  padding: 1.5rem;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  height: 100%;
+  min-height: 200px;
+}
+
+.brand-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.brand-initials {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.05);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.brand-logo {
+  font-size: 2.5rem;
+  color: #e6c068;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* Contenedor para la imagen del logo */
+.brand-logo-container {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 2;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Estilos para la imagen del logo */
+.brand-logo-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.brand-name {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: white;
+  position: relative;
+  z-index: 2;
+}
+
+.delete-icon {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  font-size: 1.25rem;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  cursor: pointer;
+  z-index: 3;
+  background-color: rgba(26, 26, 26, 0.7);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-icon:hover {
+  opacity: 1;
+  background-color: rgba(26, 26, 26, 0.9);
+}
+
+@media (max-width: 768px) {
+  .brand-card {
+    padding: 1rem;
+    min-height: 170px;
+  }
+  
+  .brand-logo {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .brand-logo-container {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 0.75rem;
+  }
+  
+  .brand-name {
+    font-size: 1.25rem;
+  }
+  
+  .brand-initials {
+    font-size: 4rem;
+  }
+}

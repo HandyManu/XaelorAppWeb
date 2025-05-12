@@ -1,0 +1,17 @@
+/* Layout.css */
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.layout-content {
+  flex: 1;
+  margin-left: 220px;
+  background-color: #1c1717;
+}
+
+@media (max-width: 768px) {
+  .layout-content {
+    margin-left: 70px;
+  }
+}
