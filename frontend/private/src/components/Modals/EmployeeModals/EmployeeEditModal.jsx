@@ -216,8 +216,8 @@ const EmployeeEditModal = ({ employee, isOpen, onClose, onSave, branches }) => {
                 name="salary"
                 value={formData.salary}
                 onChange={handleChange}
-                min="0"
-                step="100"
+                min="365"
+                step="1"
                 required
               />
               <span className="salary-currency">USD</span>
