@@ -1,14 +1,15 @@
 import express from 'express';
 import watchController from '../controllers/watchesCtrl.js';
+import { validateAuthToken } from '../middlewares/validateAuthToken.js';
 
 const router = express.Router();
 
 router.route('/')
 .get(watchController.getWatches)
-.post(watchController.insertWatches);
+.post(validateAuthToken(["admin","employee"]),watchController.insertWatches);
 
 router.route('/:id')
-.put(watchController.updateWatches)
-.delete(watchController.deleteWatches);
+.put(validateAuthToken(["admin","employee"]),watchController.updateWatches)
+.delete(validateAuthToken(["admin","employee"]),watchController.deleteWatches);
 
 export default router;

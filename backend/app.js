@@ -25,6 +25,7 @@ import inventoryRoutes from './src/routes/inventoryRoutes.js';
 import cookieParser from 'cookie-parser';
 import loginRoutes from './src/routes/logIn.js';
 import logoutRoutes from "./src/routes/logout.js";
+import { validateAuthToken } from './src/middlewares/validateAuthToken.js';
 
 
 //Create a new express app instance hola
@@ -35,15 +36,15 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/api/branches", branchesRoutes);
-app.use("/api/brands", brandsRoutes);
-app.use("/api/customers", customersRoutes);
-app.use("/api/employees", employeesRoutes);
-app.use("/api/inventories", inventoryRoutes);
-app.use("/api/memberships", membershipsRoutes);
-app.use("/api/reviews", reviewsRoutes);
-app.use("/api/sales", salesRoutes);
-app.use("/api/watches", watchesRoutes);
+app.use("/api/branches",validateAuthToken(["admin"]), branchesRoutes);
+app.use("/api/brands",validateAuthToken(["admin"]), brandsRoutes);
+app.use("/api/customers",validateAuthToken(["admin","employee"]), customersRoutes);
+app.use("/api/employees",validateAuthToken(["admin"]), employeesRoutes);
+app.use("/api/inventories",validateAuthToken(["admin","employee"]), inventoryRoutes);
+app.use("/api/memberships", membershipsRoutes);//las restricciones de authToken se manejan individualmente en las rutas
+app.use("/api/reviews",validateAuthToken(["customer","admin","employee"]), reviewsRoutes);
+app.use("/api/sales",validateAuthToken(["admin","employee"]), salesRoutes);
+app.use("/api/watches", watchesRoutes);//las restricciones de authToken se manejan individualmente en las rutas
 app.use("/api/login", loginRoutes);
 app.use("/api/logout",logoutRoutes)
 
