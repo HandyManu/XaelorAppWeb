@@ -48,12 +48,19 @@
 }
 
 /* Contenedor del grid con altura fija */
-.memberships-grid-container {
-  flex: 1;
+.memberships-content-scrollable {
+  flex: 1 1 auto;
   overflow-y: auto;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* Necesario para que flexbox y overflow funcionen bien */
+}
+
+.memberships-grid-container {
   padding: 1.5rem;
   padding-bottom: 1rem;
+  /* Quita flex: 1 y overflow aquí */
 }
 
 /* Grid de membresías */
