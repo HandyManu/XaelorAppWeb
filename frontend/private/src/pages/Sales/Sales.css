@@ -48,12 +48,13 @@
 }
 
 /* Contenedor del grid con altura fija */
-.sales-grid-container {
-  flex: 1;
+.sales-content-scrollable {
+  flex: 1 1 auto;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 1.5rem;
-  padding-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* Necesario para que flexbox y overflow funcionen bien */
 }
 
 /* Grid de ventas */
