@@ -5,7 +5,17 @@
   height: 100vh;
   background-color: #0f0f0f;
   color: white;
-  overflow: hidden;
+  overflow: hidden; /* Evita doble scroll */
+}
+
+/* Nuevo: Contenedor para stats + grid, con scroll */
+.reviews-content-scrollable {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* Necesario para que flexbox y overflow funcionen bien */
 }
 
 /* Estadísticas de reviews */
@@ -62,9 +72,6 @@
 
 /* Contenedor del grid con altura fija */
 .reviews-grid-container {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
   padding: 1.5rem;
   padding-bottom: 1rem;
 }
@@ -159,3 +166,4 @@
     font-size: 1.25rem;
   }
 }
+
