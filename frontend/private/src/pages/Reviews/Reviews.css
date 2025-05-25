@@ -6,10 +6,6 @@
   background-color: #0f0f0f;
   color: white;
   overflow: hidden; /* Evita doble scroll */
-}
-
-/* Nuevo: Contenedor para stats + grid, con scroll */
-.reviews-content-scrollable {
   flex: 1 1 auto;
   overflow-y: auto;
   overflow-x: hidden;
@@ -17,6 +13,8 @@
   flex-direction: column;
   min-height: 0; /* Necesario para que flexbox y overflow funcionen bien */
 }
+
+  
 
 /* Estadísticas de reviews */
 .reviews-stats {
