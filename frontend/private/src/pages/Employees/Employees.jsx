@@ -124,7 +124,7 @@ const EmployeesPage = () => {
         title="Empleados" 
         onAddNew={handleAddNew} 
         onRefresh={handleRefresh}
-        showSearch={true}
+        showSearch={false}
         onSearch={handleSearch}
         searchPlaceholder="Buscar por nombre, email, cargo o teléfono..."
         sortOptions={[
