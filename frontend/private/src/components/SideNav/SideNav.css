@@ -11,6 +11,8 @@
   left: 0;
   top: 0;
   z-index: 100;
+  scrollbar-width: thin;              /* Para Firefox */
+  scrollbar-color: #e6c068 #1a1a1a;   /* thumb color, track color */
 }
 
 .logo-container {
@@ -153,4 +155,21 @@
     margin-left: 70px;
     width: calc(100% - 70px);
   }
+}
+
+/* Para navegadores basados en Webkit (Chrome, Edge, Safari) */
+.sidenav::-webkit-scrollbar {
+  width: 8px;
+  background: #1a1a1a; /* color del track */
+  border-radius: 8px;
+}
+
+.sidenav::-webkit-scrollbar-thumb {
+  background: #e6c068; /* color del thumb */
+  border-radius: 8px;
+  border: 2px solid #1a1a1a; /* opcional: borde para separar el thumb del track */
+}
+
+.sidenav::-webkit-scrollbar-thumb:hover {
+  background: #ffd98a; /* color más claro al hacer hover */
 }

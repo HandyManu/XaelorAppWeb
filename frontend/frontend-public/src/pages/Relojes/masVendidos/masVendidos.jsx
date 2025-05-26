@@ -11,7 +11,7 @@ function MasVendidos() {
       precio: '$500.00',
       valoracion: 85,
       imagen: '/Images/Xaelör Noir Deluxe.svg',
-      enlace: '/watches/noir-deluxe'
+      enlace: '/watchInfo'
     },
     {
       id: 2,
@@ -19,7 +19,7 @@ function MasVendidos() {
       precio: '$500.00',
       valoracion: 85,
       imagen: '/Images/Xaelör Noir Deluxe.svg',
-      enlace: '/watches/noir-deluxe'
+      enlace: '/watchInfo'
     },
     {
       id: 3,
@@ -27,7 +27,7 @@ function MasVendidos() {
       precio: '$500.00',
       valoracion: 85,
       imagen: '/Images/Xaelör Noir Deluxe.svg',
-      enlace: '/watches/noir-deluxe'
+      enlace: '/watchInfo'
     },
     {
       id: 4,
@@ -35,7 +35,7 @@ function MasVendidos() {
       precio: '$500.00',
       valoracion: 85,
       imagen: '/Images/Xaelör Noir Deluxe.svg',
-      enlace: '/watches/noir-deluxe'
+      enlace: '/watchInfo'
     },
     {
       id: 5,
@@ -43,7 +43,7 @@ function MasVendidos() {
       precio: '$500.00',
       valoracion: 85,
       imagen: '/Images/Xaelör Noir Deluxe.svg',
-      enlace: '/watches/noir-deluxe'
+      enlace: '/watchInfo'
     },
     {
       id: 6,
@@ -51,7 +51,7 @@ function MasVendidos() {
       precio: '$500.00',
       valoracion: 85,
       imagen: '/Images/Xaelör Noir Deluxe.svg',
-      enlace: '/watches/noir-deluxe'
+      enlace: '/watchInfo'
     },
     {
       id: 7,
@@ -59,7 +59,7 @@ function MasVendidos() {
       precio: '$500.00',
       valoracion: 85,
       imagen: '/Images/Xaelör Noir Deluxe.svg',
-      enlace: '/watches/noir-deluxe'
+      enlace: '/watchInfo'
     },
     {
       id: 8,
@@ -67,7 +67,7 @@ function MasVendidos() {
       precio: '$500.00',
       valoracion: 85,
       imagen: '/Images/Xaelör Noir Deluxe.svg',
-      enlace: '/watches/noir-deluxe'
+      enlace: '/watchInfo'
     }
   ];
 

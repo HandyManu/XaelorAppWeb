@@ -10,18 +10,17 @@ import UltimosLanzamientos from './pages/ultimosLanzamientos/latestLaunches.jsx'
 import SobreNosotros from './pages/sobreNosotros/sobreNosotros.jsx'
 import Terminos from './pages/terminosYcondiciones/terminos.jsx'
 import Contacto from './pages/contactanos/contactanos.jsx'
+import Infoproducto from './pages/infoProduct/infoP.jsx'
 import LogIn from './pages/Login/LogIn.jsx'
 import SignUp from './pages/SignUp/signUp.jsx'
-import GmailVerify from './pages/forgotPassword/gmailVerify.jsx'
-import InsertCode from './pages/forgotPassword/insertCode.jsx'
-import ChangePassword from './pages/forgotPassword/changePassword.jsx'  
+
 
 // Creamos un componente wrapper para usar useLocation
 function AppContent() {
   const location = useLocation();
  
-  const showHeader = location.pathname !== '/login' && location.pathname !== '/signUp' && location.pathname !== '/gmailVerify'  && location.pathname !== '/insertCode' && location.pathname !== '/changePassword' && location.pathname !== '/contacto' ;
-  const showFooter = location.pathname !== '/login' && location.pathname !== '/signUp' && location.pathname !== '/gmailVerify' && location.pathname !== '/insertCode' && location.pathname !== '/changePassword' && location.pathname !== '/contacto' ;
+  const showHeader = location.pathname !== '/login' && location.pathname !== '/signUp'  && location.pathname !== '/contacto' ;
+  const showFooter = location.pathname !== '/login' && location.pathname !== '/signUp' && location.pathname !== '/contacto' ;
   
   return (
     <>
@@ -39,6 +38,7 @@ function AppContent() {
           <Route path='/terminos-condiciones' element={<Terminos />}/> 
           <Route path='/login' element={<LogIn />} />
           <Route path='/signUp' element={<SignUp />} />
+          <Route path='/watchInfo' element={<Infoproducto />} />
           <Route path='/gmailVerify' element={<GmailVerify />} />
           <Route path='/insertCode' element={<InsertCode />} />
           <Route path='/changePassword' element={<ChangePassword />} />
