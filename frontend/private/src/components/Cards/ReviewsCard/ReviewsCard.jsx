@@ -1,4 +1,4 @@
-// ReviewCard.jsx
+// ReviewCard.jsx - Actualizado para manejar IDs de base de datos
 import React, { useState } from 'react';
 import './ReviewsCard.css';
 
@@ -19,14 +19,23 @@ const ReviewCard = ({
   const handleDelete = (e) => {
     e.stopPropagation();
     if (onDelete) {
-      onDelete(data._id.$oid);
+      // Manejar tanto el formato de MongoDB ($oid) como el ID directo
+      const reviewId = data._id?.$oid || data._id;
+      onDelete(reviewId);
     }
   };
   
   // Formatear fecha
   const formatDate = (dateString) => {
     if (!dateString) return 'Sin fecha';
-    const date = new Date(dateString);
+    
+    // Manejar tanto el formato de MongoDB ($date) como el ISO string directo
+    const dateToFormat = dateString?.$date || dateString;
+    const date = new Date(dateToFormat);
+    
+    // Verificar que la fecha sea válida
+    if (isNaN(date.getTime())) return 'Fecha inválida';
+    
     return date.toLocaleDateString('es-ES', {
       year: 'numeric',
       month: 'long',
@@ -46,6 +55,21 @@ const ReviewCard = ({
     return `${(data.rating / 5) * 100}%`;
   };
   
+  // Validar datos mínimos
+  if (!data) {
+    return (
+      <div className="review-card">
+        <div className="review-body">
+          <div className="message-section">
+            <div className="review-message">
+              Error: Datos de reseña no disponibles
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  
   return (
     <div 
       className="review-card"
@@ -58,24 +82,27 @@ const ReviewCard = ({
       <div className="review-header">
         <div className="product-info">
           <img 
-            src={watchInfo?.image || 'https://via.placeholder.com/50'} 
-            alt={watchInfo?.model || 'Product'}
+            src={watchInfo?.image || 'https://via.placeholder.com/80x80?text=Reloj'} 
+            alt={watchInfo?.model || 'Producto'}
             className="product-image"
+            onError={(e) => {
+              e.target.src = 'https://via.placeholder.com/80x80?text=Reloj';
+            }}
           />
           <div className="product-details">
             <div className="product-model">
-              {watchInfo?.model || 'Producto'}
+              {watchInfo?.model || 'Producto no encontrado'}
             </div>
             <div className="review-date">
-              {formatDate(data.date?.$date)}
+              {formatDate(data.date)}
             </div>
           </div>
         </div>
         
         <div className="rating-badge">
-          <span className="rating-value">{data.rating}</span>
+          <span className="rating-value">{data.rating || 0}</span>
           <div className="rating-stars">
-            {renderStars(data.rating)}
+            {renderStars(data.rating || 0)}
           </div>
         </div>
       </div>
@@ -85,10 +112,10 @@ const ReviewCard = ({
           <div className="section-title">Cliente</div>
           <div className="customer-details">
             <div className="customer-name">
-              {customerInfo?.name || 'Cliente anónimo'}
+              {customerInfo?.name || 'Cliente no encontrado'}
             </div>
             <div className="customer-email">
-              {customerInfo?.email}
+              {customerInfo?.email || 'Email no disponible'}
             </div>
           </div>
         </div>
@@ -96,13 +123,13 @@ const ReviewCard = ({
         <div className="message-section">
           <div className="section-title">Reseña</div>
           <div className="review-message">
-            "{data.message}"
+            "{data.message || 'Sin mensaje'}"
           </div>
         </div>
       </div>
       
-      {showDeleteIcon && (
-        <div className="delete-icon" onClick={handleDelete}>
+      {showDeleteIcon && onDelete && (
+        <div className="delete-icon" onClick={handleDelete} title="Eliminar reseña">
           🗑️
         </div>
       )}
