@@ -1,0 +1,299 @@
+/* BrandEditModal.css actualizado para soportar imágenes */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal-container {
+  background-color: #1c1717;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  color: white;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #333;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: #ccc;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.close-button:hover {
+  color: white;
+}
+
+.edit-form {
+  padding: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+  position: relative;
+}
+
+.form-group.has-error input {
+  border-color: #e74c3c;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-group input[type="text"] {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 4px;
+  background-color: #2a2424;
+  border: 1px solid #3a3434;
+  color: white;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.form-group input[type="text"]:focus {
+  border-color: #e6c068;
+  outline: none;
+}
+
+.form-group input[type="text"].input-error {
+  border-color: #e74c3c;
+}
+
+.form-group input[type="text"].input-error:focus {
+  border-color: #e74c3c;
+}
+
+/* Contenedor para la carga y previsualización del logo */
+.logo-upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo-upload {
+  width: 120px;
+  height: 120px;
+  border-radius: 8px;
+  background-color: #2a2424;
+  border: 2px dashed #3a3434;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.logo-upload:hover {
+  border-color: #e6c068;
+  background-color: #2f2929;
+}
+
+.upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: #aaa;
+}
+
+.upload-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.upload-text {
+  font-size: 0.9rem;
+}
+
+.logo-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.remove-image-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  background-color: transparent;
+  border: 1px solid #e74c3c;
+  color: #e74c3c;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+
+.remove-image-btn:hover {
+  background-color: rgba(231, 76, 60, 0.1);
+}
+
+.logo-hint {
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+/* Vista previa de la marca */
+.brand-preview {
+  background-color: #242020;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.preview-label {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-bottom: 0.75rem;
+}
+
+.preview-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #1a1a1a;
+  border-radius: 4px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.preview-logo {
+  font-size: 2.5rem;
+  color: #e6c068;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
+
+/* Imagen del logo en la vista previa */
+.preview-logo-image {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 0.75rem;
+}
+
+.preview-name {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: white;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.cancel-button,
+.save-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cancel-button {
+  background-color: transparent;
+  border: 1px solid #555;
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #333;
+}
+
+.save-button {
+  background-color: #e6c068;
+  border: none;
+  color: black;
+}
+
+.save-button:hover {
+  background-color: #d4af57;
+}
+
+@media (max-width: 768px) {
+  .modal-container {
+    width: 95%;
+    max-height: 80vh;
+  }
+  
+  .edit-form {
+    padding: 1rem;
+  }
+  
+  .logo-upload {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .preview-box {
+    padding: 1rem;
+  }
+  
+  .preview-logo {
+    font-size: 2rem;
+  }
+  
+  .preview-logo-image {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .preview-name {
+    font-size: 1rem;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .cancel-button, 
+  .save-button {
+    width: 100%;
+  }
+}

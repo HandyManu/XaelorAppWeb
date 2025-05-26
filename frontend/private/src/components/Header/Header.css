@@ -1,0 +1,159 @@
+/* Header.css */
+.header {
+  padding: 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  background-color: #1c1717;
+  color: white;
+}
+
+.header-title h1 {
+  font-size: 2rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sort-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sort-container label {
+  white-space: nowrap;
+}
+
+.sort-dropdown-container {
+  position: relative;
+  min-width: 180px;
+}
+
+.sort-dropdown-toggle {
+  background-color: #2a2424;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid #3a3434;
+}
+
+.dropdown-arrow {
+  font-size: 0.8rem;
+  color: #e6c068;
+}
+
+.sort-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #2a2424;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  margin-top: 4px;
+  overflow: hidden;
+}
+
+.sort-option {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.sort-option:hover {
+  background-color: #3a3434;
+}
+
+.search-container {
+  flex-grow: 1;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  background-color: #2a2424;
+  border: 1px solid #3a3434;
+  color: white;
+}
+
+.search-input::placeholder {
+  color: #999;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  border-radius: 50px;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background-color: #e6c068;
+  color: #000;
+}
+
+.btn-primary:hover {
+  background-color: #d4af57;
+}
+
+.btn-secondary {
+  background-color: #9c8452;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #8a7449;
+}
+
+.btn-icon {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+@media (max-width: 992px) {
+  .header-actions {
+    flex-wrap: wrap;
+  }
+  
+  .search-container {
+    order: 3;
+    width: 100%;
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem;
+  }
+  
+  .header-buttons {
+    flex-direction: column;
+  }
+  
+  .btn-text {
+    font-size: 0.9rem;
+  }
+}

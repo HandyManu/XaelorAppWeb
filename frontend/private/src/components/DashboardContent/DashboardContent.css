@@ -1,0 +1,40 @@
+/* DashboardContent.css */
+.dashboard-content {
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #1c1717;
+}
+
+.dashboard-welcome {
+  text-align: center;
+  max-width: 600px;
+}
+
+.dashboard-welcome h1 {
+  font-size: 2.5rem;
+  color: #e6c068;
+  margin-bottom: 1.5rem;
+}
+
+.dashboard-welcome p {
+  font-size: 1.1rem;
+  color: #ddd;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .dashboard-content {
+    padding: 1.5rem;
+  }
+  
+  .dashboard-welcome h1 {
+    font-size: 2rem;
+  }
+  
+  .dashboard-welcome p {
+    font-size: 1rem;
+  }
+}

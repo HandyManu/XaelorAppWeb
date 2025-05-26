@@ -1,0 +1,342 @@
+/* InventoryEditModal.css */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal-container {
+  background-color: #1c1717;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 550px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  color: white;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #333;
+  position: sticky;
+  top: 0;
+  background-color: #1c1717;
+  z-index: 5;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: #ccc;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.close-button:hover {
+  color: white;
+}
+
+.edit-form {
+  padding: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-group input[type="number"],
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 4px;
+  background-color: #2a2424;
+  border: 1px solid #3a3434;
+  color: white;
+  font-size: 1rem;
+}
+
+.form-group select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e6c068' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1em;
+  cursor: pointer;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #e6c068;
+  box-shadow: 0 0 0 2px rgba(230, 192, 104, 0.2);
+}
+
+/* Información del inventario actual */
+.current-inventory-info {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-header {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #e6c068;
+  margin-bottom: 0.75rem;
+}
+
+.info-grid {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.25rem 0;
+}
+
+.info-label {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.info-value {
+  color: #ddd;
+  font-weight: 500;
+}
+
+.info-value.highlight {
+  color: #e6c068;
+  font-size: 1.1rem;
+}
+
+/* Selector de operación */
+.operation-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.operation-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background-color: #2a2424;
+  border: 2px solid #3a3434;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.operation-option:hover {
+  border-color: #555;
+}
+
+.operation-option.active {
+  border-color: #e6c068;
+  background-color: rgba(230, 192, 104, 0.1);
+}
+
+.operation-option input[type="radio"] {
+  display: none;
+}
+
+.operation-icon {
+  font-size: 1.5rem;
+  font-weight: bold;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.operation-option.active .operation-icon {
+  background-color: #e6c068;
+  color: #1c1717;
+}
+
+/* Input de stock */
+.stock-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stock-units {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+/* Área de notas */
+.form-group textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+/* Sección de vista previa de stock */
+.stock-preview-section {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.preview-title {
+  font-weight: 600;
+  color: #e6c068;
+  margin-bottom: 1rem;
+}
+
+.operation-summary {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.summary-item.operation {
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
+  color: #e6c068;
+  font-weight: 600;
+}
+
+.summary-item.result {
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.summary-item.result .success {
+  color: #2ed573;
+}
+
+.summary-item.result .error {
+  color: #ff4757;
+}
+
+.error-message {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background-color: rgba(255, 71, 87, 0.1);
+  color: #ff4757;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+  position: sticky;
+  bottom: 0;
+  background-color: #1c1717;
+  padding: 1rem 0;
+  z-index: 5;
+}
+
+.cancel-button,
+.save-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cancel-button {
+  background-color: transparent;
+  border: 1px solid #555;
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #333;
+}
+
+.save-button {
+  background-color: #e6c068;
+  border: none;
+  color: black;
+}
+
+.save-button:hover {
+  background-color: #d4af57;
+}
+
+.save-button:disabled {
+  background-color: #666;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+  .modal-container {
+    width: 95%;
+    max-height: 80vh;
+  }
+  
+  .edit-form {
+    padding: 1rem;
+  }
+  
+  .operation-selector {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .cancel-button, 
+  .save-button {
+    width: 100%;
+  }
+}

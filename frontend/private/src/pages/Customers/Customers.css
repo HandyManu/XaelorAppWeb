@@ -1,0 +1,69 @@
+/* Customers.css */
+.customers-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #0f0f0f;
+  color: white;
+}
+
+/* Estadísticas */
+.customer-stats {
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* Contador de clientes */
+.customers-count {
+  font-size: 0.9rem;
+  color: #aaa;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+}
+
+/* Grid de clientes */
+.customer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  padding: 0 1.5rem 1.5rem;
+  flex-grow: 1;
+}
+
+/* Mensaje cuando no hay clientes */
+.no-customers {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border: 1px dashed #333;
+  color: #aaa;
+  font-size: 1.1rem;
+  text-align: center;
+  padding: 2rem;
+}
+
+/* Adaptación a móviles */
+@media (max-width: 768px) {
+  .customer-stats {
+    padding: 0.75rem 1rem;
+  }
+  
+  .customer-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    padding: 0 1rem 1rem;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .customer-grid {
+    grid-template-columns: 1fr;
+  }
+}

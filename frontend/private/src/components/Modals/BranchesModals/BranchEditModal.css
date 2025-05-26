@@ -1,0 +1,223 @@
+/* BranchEditModal.css */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal-container {
+  background-color: #1c1717;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  color: white;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #333;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: #ccc;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.close-button:hover {
+  color: white;
+}
+
+.edit-form {
+  padding: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group input[type="time"],
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 4px;
+  background-color: #2a2424;
+  border: 1px solid #3a3434;
+  color: white;
+  font-size: 1rem;
+}
+
+.business-hours-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.hour-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-end;
+  position: relative;
+}
+
+.hour-input {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.hour-input label {
+  font-size: 0.85rem;
+  color: #bbb;
+}
+
+.remove-hour {
+  background-color: rgba(255, 87, 87, 0.2);
+  color: #ff9e9e;
+  border: none;
+  width: 28px;
+  height: 38px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  padding: 0;
+  margin-bottom: 0.75rem;
+}
+
+.remove-hour:hover {
+  background-color: rgba(255, 87, 87, 0.4);
+}
+
+.remove-hour:disabled {
+  background-color: rgba(100, 100, 100, 0.2);
+  color: #777;
+  cursor: not-allowed;
+}
+
+.add-hour-btn {
+  background-color: rgba(230, 192, 104, 0.2);
+  color: #e6c068;
+  border: 1px dashed #e6c068;
+  padding: 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  transition: all 0.2s;
+}
+
+.add-hour-btn:hover {
+  background-color: rgba(230, 192, 104, 0.3);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.cancel-button,
+.save-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cancel-button {
+  background-color: transparent;
+  border: 1px solid #555;
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #333;
+}
+
+.save-button {
+  background-color: #e6c068;
+  border: none;
+  color: black;
+}
+
+.save-button:hover {
+  background-color: #d4af57;
+}
+
+@media (max-width: 768px) {
+  .modal-container {
+    width: 95%;
+    max-height: 80vh;
+  }
+  
+  .edit-form {
+    padding: 1rem;
+  }
+  
+  .hour-row {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #333;
+  }
+  
+  .hour-input {
+    width: 100%;
+  }
+  
+  .remove-hour {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-bottom: 0;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .cancel-button, 
+  .save-button {
+    width: 100%;
+  }
+}

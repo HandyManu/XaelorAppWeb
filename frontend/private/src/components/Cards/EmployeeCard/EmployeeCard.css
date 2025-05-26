@@ -1,0 +1,177 @@
+/* EmployeeCard.css */
+.employee-card {
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  color: white;
+  display: flex;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+  padding: 1.5rem;
+  gap: 1.5rem;
+  height: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #333;
+}
+
+.employee-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  border-color: #e6c068;
+}
+
+/* Avatar del empleado */
+.employee-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e6c068 0%, #d4af57 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1a1a1a;
+  flex-shrink: 0;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Información del empleado */
+.employee-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex-grow: 1;
+}
+
+.employee-name {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #e6c068;
+  margin-bottom: 0.25rem;
+}
+
+.employee-position {
+  font-size: 1.1rem;
+  color: #ddd;
+  text-transform: capitalize;
+  margin-bottom: 0.5rem;
+}
+
+/* Información de contacto */
+.employee-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.contact-icon {
+  font-size: 1rem;
+  color: #e6c068;
+  opacity: 0.8;
+}
+
+/* Información de sucursal */
+.employee-branch {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.branch-icon {
+  font-size: 1rem;
+  color: #e6c068;
+}
+
+/* Información de salario */
+.employee-salary {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #333;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.salary-amount {
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.salary-amount.basic {
+  color: #a8a8a8;
+}
+
+.salary-amount.standard {
+  color: #ffa502;
+}
+
+.salary-amount.premium {
+  color: #2ed573;
+}
+
+.salary-label {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* Ícono de eliminación */
+.delete-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.25rem;
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  transition: opacity 0.2s, background-color 0.2s;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.delete-icon:hover {
+  opacity: 1;
+  background-color: rgba(231, 76, 60, 0.9);
+}
+
+@media (max-width: 768px) {
+  .employee-card {
+    padding: 1.2rem;
+    gap: 1rem;
+  }
+  
+  .employee-avatar {
+    width: 60px;
+    height: 60px;
+    font-size: 1.3rem;
+  }
+  
+  .employee-name {
+    font-size: 1.2rem;
+  }
+  
+  .employee-position {
+    font-size: 1rem;
+  }
+  
+  .delete-icon {
+    opacity: 0.9;
+  }
+}

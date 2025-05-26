@@ -1,0 +1,250 @@
+/* Pagination.css - Estilos para el componente de paginación */
+
+.pagination-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  border-top: 1px solid var(--border-color);
+  background-color: var(--card-background);
+  border-radius: 0 0 8px 8px;
+  margin-top: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.pagination-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.pagination-summary {
+  font-weight: 500;
+}
+
+.items-per-page {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 10;
+}
+
+.items-per-page label {
+  color: var(--text-secondary);
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.items-per-page-select {
+  background-color: var(--dark-background);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  min-width: 60px;
+  position: relative;
+  z-index: 15;
+}
+
+.items-per-page-select:focus {
+  outline: none;
+  border-color: var(--zgas-blue);
+  box-shadow: 0 0 0 2px rgba(14, 133, 209, 0.2);
+}
+
+.items-per-page-select option {
+  background-color: var(--dark-background);
+  color: var(--text-primary);
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pagination-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background-color: var(--dark-background);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  min-width: 44px;
+  height: 40px;
+  justify-content: center;
+}
+
+.pagination-btn:hover:not(.disabled) {
+  background-color: var(--zgas-blue);
+  border-color: var(--zgas-blue);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.pagination-btn.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  color: var(--text-muted);
+}
+
+.pagination-btn .btn-icon {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.pagination-numbers {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0 8px;
+}
+
+.pagination-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: var(--dark-background);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.pagination-number:hover {
+  background-color: var(--zgas-blue);
+  border-color: var(--zgas-blue);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.pagination-number.active {
+  background-color: var(--zgas-green);
+  border-color: var(--zgas-green);
+  color: white;
+  font-weight: 600;
+}
+
+.pagination-number.active:hover {
+  background-color: var(--zgas-green-light);
+  border-color: var(--zgas-green-light);
+}
+
+.pagination-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: var(--text-muted);
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .pagination-container {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .pagination-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .pagination-controls {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .pagination-btn {
+    padding: 6px 10px;
+    font-size: 13px;
+    min-width: 40px;
+    height: 36px;
+  }
+
+  .pagination-btn .btn-text {
+    display: none;
+  }
+
+  .pagination-number {
+    width: 36px;
+    height: 36px;
+    font-size: 13px;
+  }
+
+  .pagination-numbers {
+    margin: 0 4px;
+  }
+
+  .items-per-page {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 480px) {
+  .pagination-info {
+    font-size: 13px;
+  }
+
+  .pagination-controls {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .pagination-numbers {
+    flex: 1;
+    justify-content: center;
+    overflow-x: auto;
+    padding: 0 8px;
+  }
+
+  .pagination-btn {
+    flex-shrink: 0;
+  }
+}
+
+/* Estados de carga */
+.pagination-container.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Animaciones sutiles */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pagination-container {
+  animation: fadeIn 0.3s ease-out;
+}

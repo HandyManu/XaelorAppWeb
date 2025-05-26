@@ -1,0 +1,115 @@
+/* BranchCard.css */
+.branch-card {
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  padding: 1.5rem;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  height: 100%;
+}
+
+.branch-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.card-logo {
+  font-size: 1.75rem;
+  color: #e6c068;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #e6c068;
+  margin-bottom: 0.5rem;
+}
+
+.card-location {
+  margin-bottom: 0.5rem;
+}
+
+.card-country {
+  font-weight: 500;
+  font-size: 1rem;
+  color: #ccc;
+}
+
+.card-address {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-top: 0.25rem;
+}
+
+.card-contact {
+  font-size: 0.9rem;
+  color: #bbb;
+}
+
+.card-phone .label {
+  font-weight: 500;
+  color: #ccc;
+}
+
+.card-hours {
+  margin-top: 0.5rem;
+}
+
+.card-hours h4 {
+  margin: 0 0 0.25rem 0;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.hours-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.hour-item {
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+.hour-item .day {
+  font-weight: 500;
+  color: #bbb;
+}
+
+.delete-icon {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.25rem;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.delete-icon:hover {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .branch-card {
+    padding: 1rem;
+  }
+  
+  .card-logo {
+    font-size: 1.5rem;
+  }
+  
+  .card-title {
+    font-size: 1rem;
+  }
+}
