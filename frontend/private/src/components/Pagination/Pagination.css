@@ -34,34 +34,38 @@
 }
 
 .items-per-page label {
-  color: var(--text-secondary);
-  font-size: 14px;
-  white-space: nowrap;
+  color: #e6c068;
+  font-weight: 500;
+  margin-right: 6px;
+  font-size: 1rem;
 }
 
 .items-per-page-select {
-  background-color: var(--dark-background);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  padding: 6px 12px;
-  font-size: 14px;
+  background: #1a1a1a;
+  color: #e6c068;
+  border: 1.5px solid #e6c068;
+  border-radius: 8px;
+  padding: 6px 18px 6px 10px;
+  font-size: 1rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: none;
   cursor: pointer;
-  transition: border-color 0.2s ease;
-  min-width: 60px;
+  margin-left: 8px;
+  box-shadow: 0 2px 8px rgba(230, 192, 104, 0.08);
   position: relative;
-  z-index: 15;
 }
 
-.items-per-page-select:focus {
-  outline: none;
-  border-color: var(--zgas-blue);
-  box-shadow: 0 0 0 2px rgba(14, 133, 209, 0.2);
+.items-per-page-select:focus,
+.items-per-page-select:hover {
+  border-color: #ffd98a;
+  box-shadow: 0 0 0 2px rgba(230, 192, 104, 0.2);
 }
 
 .items-per-page-select option {
-  background-color: var(--dark-background);
-  color: var(--text-primary);
+  background: #232323;
+  color: #e6c068;
 }
 
 .pagination-controls {
