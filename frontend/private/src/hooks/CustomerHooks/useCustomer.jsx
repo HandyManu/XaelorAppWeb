@@ -17,7 +17,7 @@ export function useCustomersManager() {
 
     // Estados de paginación
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(6); // CAMBIAR A estado variable
+    const [itemsPerPage, setItemsPerPage] = useState(6);
 
     // Estados del formulario
     const [name, setName] = useState('');
@@ -36,10 +36,10 @@ export function useCustomersManager() {
     // GET - Obtener todas las membresías para el dropdown
     const fetchMemberships = async () => {
         try {
-            const response = await authenticatedFetch('http://localhost:3333/api/memberships'); // VOLVER A /memberships
+            const response = await authenticatedFetch('http://localhost:3333/api/memberships');
             if (response.ok) {
                 const data = await response.json();
-                console.log('Membresías recibidas:', data); // Debug para ver la estructura
+                console.log('Membresías recibidas:', data);
                 setMemberships(data);
             } else {
                 console.error('Error al cargar membresías:', response.status);
@@ -65,7 +65,6 @@ export function useCustomersManager() {
         }
 
         try {
-            setIsLoading(true);
             setError('');
             
             const response = await authenticatedFetch('http://localhost:3333/api/customers');
@@ -82,6 +81,24 @@ export function useCustomersManager() {
         } catch (error) {
             console.error('Error al cargar clientes:', error);
             setError('No se pudieron cargar los clientes. ' + error.message);
+        }
+    };
+
+    // Función para cargar todos los datos iniciales
+    const loadInitialData = async () => {
+        try {
+            setIsLoading(true);
+            setError('');
+            
+            // Cargar clientes y membresías en paralelo
+            await Promise.all([
+                fetchCustomers(),
+                fetchMemberships()
+            ]);
+            
+        } catch (error) {
+            console.error('Error al cargar datos iniciales:', error);
+            setError('Error al cargar los datos de clientes');
         } finally {
             setIsLoading(false);
         }
@@ -98,11 +115,15 @@ export function useCustomersManager() {
                 name: customerData.name?.trim(),
                 email: customerData.email?.trim(),
                 phone: customerData.phone?.trim(),
-                membership: {
+            };
+
+            // Solo incluir membership si se seleccionó una
+            if (customerData.membershipId && customerData.membershipId !== 'none') {
+                dataToSend.membership = {
                     membershipId: customerData.membershipId,
                     startDate: new Date(customerData.startDate)
-                }
-            };
+                };
+            }
 
             // Solo incluir password si se proporciona
             if (customerData.password && customerData.password.trim()) {
@@ -131,11 +152,8 @@ export function useCustomersManager() {
                 setError('El teléfono es obligatorio');
                 return;
             }
-            
-            if (!dataToSend.membership.membershipId) {
-                setError('La membresía es obligatoria');
-                return;
-            }
+
+            // La membresía ya no es obligatoria - puede ser 'none' o vacía
 
             // Para nuevos clientes, la contraseña es obligatoria
             if (!customerData._id && !dataToSend.password) {
@@ -304,7 +322,7 @@ export function useCustomersManager() {
         setEmail('');
         setPassword('');
         setPhone('');
-        setMembershipId('');
+        setMembershipId('none');
         setStartDate(new Date().toISOString().split('T')[0]);
         setIsEditing(false);
         setCurrentCustomerId(null);
@@ -318,7 +336,7 @@ export function useCustomersManager() {
         setEmail(customer.email || '');
         setPassword(''); // No mostrar contraseña actual por seguridad
         setPhone(customer.phone || '');
-        setMembershipId(customer.membership?.membershipId?._id || customer.membership?.membershipId || '');
+        setMembershipId(customer.membership?.membershipId?._id || customer.membership?.membershipId || 'none');
         setStartDate(
             customer.membership?.startDate 
                 ? new Date(customer.membership.startDate).toISOString().split('T')[0]
@@ -328,9 +346,7 @@ export function useCustomersManager() {
         setCurrentCustomerId(customer._id);
         setShowModal(true);
         
-        // Cargar membresías cuando se abre el modal
-        fetchMemberships();
-        console.log('Modal abierto para editar cliente, cargando membresías...', {
+        console.log('Modal abierto para editar cliente:', {
             customerMembershipId: customer.membership?.membershipId,
             currentMemberships: memberships
         });
@@ -340,14 +356,12 @@ export function useCustomersManager() {
     const handleAddNew = () => {
         resetForm();
         setShowModal(true);
-        // Cargar membresías cuando se abre el modal
-        fetchMemberships();
-        console.log('Modal abierto para nuevo cliente, cargando membresías...');
+        console.log('Modal abierto para nuevo cliente');
     };
 
     // Manejar refrescar datos
     const handleRefresh = () => {
-        fetchCustomers();
+        loadInitialData();
     };
 
     // Función para obtener el nombre de la membresía
@@ -357,19 +371,8 @@ export function useCustomersManager() {
         const membership = memberships.find(m => m._id === membershipId);
         if (!membership) return 'Sin membresía';
         
-        // Intentar diferentes propiedades para el nombre
-        if (membership.membershipName) return membership.membershipName;
-        if (membership.name) return membership.name;
-        if (membership.brandName) return membership.brandName;
-        
-        // Mapeo temporal por ID conocidos
-        const membershipNames = {
-            '67acd69ae1fa12d45243dc76': 'Bronze',
-            '67acd69ae1fa12d45243dc77': 'Silver', 
-            '67acd69ae1fa12d45243dc78': 'Gold'
-        };
-        
-        return membershipNames[membershipId] || `Membresía ${membershipId.slice(-4)}`;
+        // Usar membershipTier que es el campo correcto en el modelo
+        return membership.membershipTier || `Membresía ${membershipId.slice(-4)}`;
     };
 
     // Función para filtrar/ordenar clientes
@@ -449,6 +452,7 @@ export function useCustomersManager() {
         setStartDate,
         
         // Funciones
+        loadInitialData,
         fetchCustomers,
         fetchMemberships,
         handleSubmit,
