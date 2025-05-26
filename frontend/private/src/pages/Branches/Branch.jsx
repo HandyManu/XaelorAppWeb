@@ -186,7 +186,6 @@ const BranchesPage = () => {
       {!isLoading && (
         <div className="results-info">
           <span>
-            Mostrando {Math.min(indexOfFirstItem + 1, processedBranches.length)} - {Math.min(indexOfLastItem, processedBranches.length)} de {processedBranches.length} sucursales
             {searchTerm && ` (filtradas de ${branches.length} total)`}
           </span>
         </div>

@@ -202,7 +202,6 @@ const ProductsPage = () => {
       {!isLoading && (
         <div className="results-info">
           <span>
-            Mostrando {Math.min(indexOfFirstItem + 1, processedWatches.length)} - {Math.min(indexOfLastItem, processedWatches.length)} de {processedWatches.length} relojes
             {searchTerm && ` (filtrados de ${watches.length} total)`}
           </span>
         </div>

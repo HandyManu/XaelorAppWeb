@@ -168,7 +168,6 @@ const CustomersPage = () => {
       {!isLoading && (
         <div className="customer-stats">
           <span className="customers-count">
-            Mostrando {Math.min(indexOfFirstItem + 1, processedCustomers.length)} - {Math.min(indexOfLastItem, processedCustomers.length)} de {processedCustomers.length} clientes
             {searchTerm && ` (filtrados de ${customers.length} total)`}
           </span>
         </div>

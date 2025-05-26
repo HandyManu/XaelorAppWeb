@@ -177,7 +177,6 @@ const BrandsPage = () => {
       {!isLoading && (
         <div className="results-info">
           <span>
-            Mostrando {Math.min(indexOfFirstItem + 1, processedBrands.length)} - {Math.min(indexOfLastItem, processedBrands.length)} de {processedBrands.length} marcas
             {searchTerm && ` (filtradas de ${brands.length} total)`}
           </span>
         </div>
