@@ -298,7 +298,7 @@ const ReviewsPage = () => {
   
   const processedReviews = getProcessedReviews();
   
-  // Obtener reviews para la página actual
+  // Obtener reviews para la página current
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentReviews = processedReviews.slice(indexOfFirstItem, indexOfLastItem);
@@ -332,7 +332,7 @@ const ReviewsPage = () => {
     <div className="reviews-page">
       <Header 
         title="Reseñas" 
-        onAddNew={null} // Sin botón de añadir
+        onAddNew={null}
         onRefresh={handleRefresh}
         sortOptions={[
           { label: 'Fecha (Más reciente)', value: 'date-new' },
@@ -343,61 +343,61 @@ const ReviewsPage = () => {
         onSort={setSortBy}
         showSearch={true}
         showAddButton={false} 
-        
       />
-      
-      <div className="reviews-stats">
-        <div className="stat-card">
-          <div className="stat-label">Total Reseñas</div>
-          <div className="stat-value">{getTotalReviews()}</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-label">Rating Promedio</div>
-          <div className="stat-value">
-            <div className="rating-display">
-              <span>{getAverageRating().toFixed(1)}</span>
-              <div className="rating-stars">
-                {renderStars(Math.round(getAverageRating()))}
+
+      <div className="reviews-content-scrollable">
+        <div className="reviews-stats">
+          <div className="stat-card">
+            <div className="stat-label">Total Reseñas</div>
+            <div className="stat-value">{getTotalReviews()}</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Rating Promedio</div>
+            <div className="stat-value">
+              <div className="rating-display">
+                <span>{getAverageRating().toFixed(1)}</span>
+                <div className="rating-stars">
+                  {renderStars(Math.round(getAverageRating()))}
+                </div>
               </div>
             </div>
           </div>
+          <div className="stat-card">
+            <div className="stat-label">5 Estrellas</div>
+            <div className="stat-value">{getRatingCount(5)}</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">4 Estrellas</div>
+            <div className="stat-value">{getRatingCount(4)}</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">3 Estrellas</div>
+            <div className="stat-value">{getRatingCount(3)}</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Últimos 7 días</div>
+            <div className="stat-value">{getRecentReviews()}</div>
+          </div>
         </div>
-        <div className="stat-card">
-          <div className="stat-label">5 Estrellas</div>
-          <div className="stat-value">{getRatingCount(5)}</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-label">4 Estrellas</div>
-          <div className="stat-value">{getRatingCount(4)}</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-label">3 Estrellas</div>
-          <div className="stat-value">{getRatingCount(3)}</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-label">Últimos 7 días</div>
-          <div className="stat-value">{getRecentReviews()}</div>
-        </div>
-      </div>
-      
-      <div className="reviews-grid-container">
-        <div className="reviews-grid">
-          {currentReviews.length > 0 ? (
-            currentReviews.map(review => (
-              <ReviewCard 
-                key={review._id.$oid} 
-                data={review}
-                watchInfo={getWatchInfo(review.watchId)}
-                customerInfo={getCustomerInfo(review.customerId)}
-                onEdit={null} // Sin edición
-                onDelete={handleDeleteReview}
-              />
-            ))
-          ) : (
-            <div className="no-reviews">
-              <p>No se encontraron reseñas</p>
-            </div>
-          )}
+        <div className="reviews-grid-container">
+          <div className="reviews-grid">
+            {currentReviews.length > 0 ? (
+              currentReviews.map(review => (
+                <ReviewCard 
+                  key={review._id.$oid} 
+                  data={review}
+                  watchInfo={getWatchInfo(review.watchId)}
+                  customerInfo={getCustomerInfo(review.customerId)}
+                  onEdit={null} // Sin edición
+                  onDelete={handleDeleteReview}
+                />
+              ))
+            ) : (
+              <div className="no-reviews">
+                <p>No se encontraron reseñas</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
       
@@ -408,8 +408,6 @@ const ReviewsPage = () => {
         onPageChange={setCurrentPage}
         onItemsPerPageChange={setItemsPerPage}
       />
-      
-      {/* Modal eliminado - no se permite crear/editar reseñas desde la vista de empleado */}
     </div>
   );
 };

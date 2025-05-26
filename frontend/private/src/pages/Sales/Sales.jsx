@@ -259,7 +259,7 @@ const SalesPage = () => {
   
   const processedSales = getProcessedSales();
   
-  // Obtener ventas para la página actual
+  // Obtener ventas para la página current
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentSales = processedSales.slice(indexOfFirstItem, indexOfLastItem);
@@ -296,53 +296,54 @@ const SalesPage = () => {
         onSort={setSortBy}
         showSearch={false}
       />
-      
-      <div className="sales-stats">
-        <div className="stat-card">
-          <div className="stat-label">Total Ventas</div>
-          <div className="stat-value">{getTotalSales()}</div>
+
+      <div className="sales-content-scrollable">
+        <div className="sales-stats">
+          <div className="stat-card">
+            <div className="stat-label">Total Ventas</div>
+            <div className="stat-value">{getTotalSales()}</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Ingresos Totales</div>
+            <div className="stat-value">${getTotalRevenue().toLocaleString()}</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Ticket Promedio</div>
+            <div className="stat-value">${Math.round(getAverageTicket()).toLocaleString()}</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">En Proceso</div>
+            <div className="stat-value">{getSalesByStatus('Processing')}</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Enviadas</div>
+            <div className="stat-value">{getSalesByStatus('Shipped')}</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Entregadas</div>
+            <div className="stat-value">{getSalesByStatus('Delivered')}</div>
+          </div>
         </div>
-        <div className="stat-card">
-          <div className="stat-label">Ingresos Totales</div>
-          <div className="stat-value">${getTotalRevenue().toLocaleString()}</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-label">Ticket Promedio</div>
-          <div className="stat-value">${Math.round(getAverageTicket()).toLocaleString()}</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-label">En Proceso</div>
-          <div className="stat-value">{getSalesByStatus('Processing')}</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-label">Enviadas</div>
-          <div className="stat-value">{getSalesByStatus('Shipped')}</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-label">Entregadas</div>
-          <div className="stat-value">{getSalesByStatus('Delivered')}</div>
-        </div>
-      </div>
-      
-      <div className="sales-grid-container">
-        <div className="sales-grid">
-          {currentSales.length > 0 ? (
-            currentSales.map(sale => (
-              <SalesCard 
-                key={sale._id} 
-                data={sale}
-                customerInfo={getCustomerInfo(sale.customerId)}
-                employeeInfo={getEmployeeInfo(sale.employeeId)}
-                productsInfo={getProductsInfo()}
-                onEdit={handleEditSale}
-                onDelete={handleDeleteSale}
-              />
-            ))
-          ) : (
-            <div className="no-sales">
-              <p>No se encontraron ventas</p>
-            </div>
-          )}
+        <div className="sales-grid-container">
+          <div className="sales-grid">
+            {currentSales.length > 0 ? (
+              currentSales.map(sale => (
+                <SalesCard 
+                  key={sale._id} 
+                  data={sale}
+                  customerInfo={getCustomerInfo(sale.customerId)}
+                  employeeInfo={getEmployeeInfo(sale.employeeId)}
+                  productsInfo={getProductsInfo()}
+                  onEdit={handleEditSale}
+                  onDelete={handleDeleteSale}
+                />
+              ))
+            ) : (
+              <div className="no-sales">
+                <p>No se encontraron ventas</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
       

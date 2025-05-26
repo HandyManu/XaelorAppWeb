@@ -240,7 +240,7 @@ const EmployeesPage = () => {
   
   const processedEmployees = getProcessedEmployees();
   
-  // Obtener empleados para la página actual
+  // Obtener empleados para la página current
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentEmployees = processedEmployees.slice(indexOfFirstItem, indexOfLastItem);
@@ -273,42 +273,43 @@ const EmployeesPage = () => {
         onSort={setSortBy}
         showSearch={true}
       />
-      
-      <div className="employees-stats">
-        <div className="stat-card">
-          <div className="stat-label">Total Empleados</div>
-          <div className="stat-value">{getTotalEmployees()}</div>
+
+      <div className="employees-content-scrollable">
+        <div className="employees-stats">
+          <div className="stat-card">
+            <div className="stat-label">Total Empleados</div>
+            <div className="stat-value">{getTotalEmployees()}</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Nómina Total</div>
+            <div className="stat-value">${getTotalSalary().toLocaleString()}</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Salario Promedio</div>
+            <div className="stat-value">${Math.round(getAverageSalary()).toLocaleString()}</div>
+          </div>
         </div>
-        <div className="stat-card">
-          <div className="stat-label">Nómina Total</div>
-          <div className="stat-value">${getTotalSalary().toLocaleString()}</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-label">Salario Promedio</div>
-          <div className="stat-value">${Math.round(getAverageSalary()).toLocaleString()}</div>
+        <div className="employees-grid-container">
+          <div className="employees-grid">
+            {currentEmployees.length > 0 ? (
+              currentEmployees.map(employee => (
+                <EmployeeCard 
+                  key={employee._id} 
+                  data={employee}
+                  branchInfo={getBranchInfo(employee.branchId)}
+                  onEdit={handleEditEmployee}
+                  onDelete={handleDeleteEmployee}
+                />
+              ))
+            ) : (
+              <div className="no-employees">
+                <p>No se encontraron empleados</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-      
-      <div className="employees-grid-container">
-        <div className="employees-grid">
-          {currentEmployees.length > 0 ? (
-            currentEmployees.map(employee => (
-              <EmployeeCard 
-                key={employee._id} 
-                data={employee}
-                branchInfo={getBranchInfo(employee.branchId)}
-                onEdit={handleEditEmployee}
-                onDelete={handleDeleteEmployee}
-              />
-            ))
-          ) : (
-            <div className="no-employees">
-              <p>No se encontraron empleados</p>
-            </div>
-          )}
-        </div>
-      </div>
-      
+
       <Pagination 
         totalItems={processedEmployees.length}
         itemsPerPage={itemsPerPage}
@@ -316,7 +317,7 @@ const EmployeesPage = () => {
         onPageChange={setCurrentPage}
         onItemsPerPageChange={setItemsPerPage}
       />
-      
+
       {isModalOpen && (
         <EmployeeEditModal 
           employee={selectedEmployee}

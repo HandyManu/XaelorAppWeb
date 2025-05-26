@@ -1,6 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import watchController from '../controllers/watchesCtrl.js';
+import { validateAuthToken } from '../middlewares/validateAuthToken.js';
 
 const router = express.Router();
 

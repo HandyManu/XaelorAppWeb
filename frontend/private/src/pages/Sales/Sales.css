@@ -5,7 +5,14 @@
   height: 100vh;
   background-color: #0f0f0f;
   color: white;
-  overflow: hidden;
+    overflow-y: auto; 
+  overflow-x: hidden;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /*
 }
 
 /* Estadísticas de ventas */
@@ -47,14 +54,7 @@
   color: #e6c068;
 }
 
-/* Contenedor del grid con altura fija */
-.sales-grid-container {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 1.5rem;
-  padding-bottom: 1rem;
-}
+
 
 /* Grid de ventas */
 .sales-grid {

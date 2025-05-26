@@ -13,7 +13,7 @@ loginController.login = async (req, res) => {
         let userType;
 
         // Admin
-        if (email === config.emailAdmin.email && password === config.passwordAdmin.password) {
+        if (email === config.emailAdmin.email && password === config.emailAdmin.password) {
             userType = "admin";
             userFound = { _id: "admin" };
         } else {
@@ -42,8 +42,8 @@ loginController.login = async (req, res) => {
         // Token
         jwt.sign(
             { id: userFound._id, userType },
-            config.JWT.SECRET,
-            { expiresIn: config.JWT.EXPIRES_IN },
+            config.JWT.secret,
+            { expiresIn: config.JWT.expiresIn },
             (error, token) => {
                 if (error ) console.log(error);
                 res.cookie("authToken",token)

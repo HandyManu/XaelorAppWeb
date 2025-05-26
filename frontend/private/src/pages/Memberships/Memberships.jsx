@@ -163,42 +163,43 @@ const MembershipsPage = () => {
         onSort={setSortBy}
         showSearch={false}
       />
-      
-      <div className="memberships-stats">
-        <div className="stat-card">
-          <div className="stat-label">Tipos de Membresía</div>
-          <div className="stat-value">{memberships.length}</div>
+
+      <div className="memberships-content-scrollable">
+        <div className="memberships-stats">
+          <div className="stat-card">
+            <div className="stat-label">Tipos de Membresía</div>
+            <div className="stat-value">{memberships.length}</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Miembros Activos</div>
+            <div className="stat-value">{getActiveMembers()}</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Descuento Promedio</div>
+            <div className="stat-value">{getAverageDiscount()}%</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Ingresos Totales</div>
+            <div className="stat-value">${getTotalRevenue().toLocaleString()}</div>
+          </div>
         </div>
-        <div className="stat-card">
-          <div className="stat-label">Miembros Activos</div>
-          <div className="stat-value">{getActiveMembers()}</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-label">Descuento Promedio</div>
-          <div className="stat-value">{getAverageDiscount()}%</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-label">Ingresos Totales</div>
-          <div className="stat-value">${getTotalRevenue().toLocaleString()}</div>
-        </div>
-      </div>
-      
-      <div className="memberships-grid-container">
-        <div className="memberships-grid">
-          {processedMemberships.length > 0 ? (
-            processedMemberships.map(membership => (
-              <MembershipCard 
-                key={membership._id} 
-                data={membership}
-                onEdit={handleEditMembership}
-                onDelete={handleDeleteMembership}
-              />
-            ))
-          ) : (
-            <div className="no-memberships">
-              <p>No se encontraron membresías</p>
-            </div>
-          )}
+        <div className="memberships-grid-container">
+          <div className="memberships-grid">
+            {processedMemberships.length > 0 ? (
+              processedMemberships.map(membership => (
+                <MembershipCard 
+                  key={membership._id} 
+                  data={membership}
+                  onEdit={handleEditMembership}
+                  onDelete={handleDeleteMembership}
+                />
+              ))
+            ) : (
+              <div className="no-memberships">
+                <p>No se encontraron membresías</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
       
