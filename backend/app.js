@@ -46,7 +46,7 @@ app.use(
 )
 
 app.use("/api/branches",validateAuthToken(["admin"]), branchesRoutes);
-app.use("/api/brands",validateAuthToken(["admin"]), brandsRoutes);
+app.use("/api/brands", brandsRoutes);
 app.use("/api/customers",validateAuthToken(["admin","employee"]), customersRoutes);
 app.use("/api/employees",validateAuthToken(["admin"]), employeesRoutes);
 app.use("/api/inventories",validateAuthToken(["admin","employee"]), inventoryRoutes);

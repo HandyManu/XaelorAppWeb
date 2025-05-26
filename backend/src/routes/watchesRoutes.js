@@ -1,7 +1,6 @@
 import express from 'express';
 import multer from 'multer';
 import watchController from '../controllers/watchesCtrl.js';
-import { validateAuthToken } from '../middlewares/validateAuthToken.js';
 
 const router = express.Router();
 
@@ -12,10 +11,10 @@ const upload = multer({
 
 router.route('/')
     .get(watchController.getWatches)
-   .post(validateAuthToken(["admin","employee"]),watchController.insertWatches);
+    .post(upload.array('photos'), watchController.insertWatches); // Sin validateAuthToken
 
 router.route('/:id')
-.put(validateAuthToken(["admin","employee"]),watchController.updateWatches)
-.delete(validateAuthToken(["admin","employee"]),watchController.deleteWatches);
+    .put(upload.array('photos'), watchController.updateWatches) // Sin validateAuthToken
+    .delete(watchController.deleteWatches); // Sin validateAuthToken
 
 export default router;

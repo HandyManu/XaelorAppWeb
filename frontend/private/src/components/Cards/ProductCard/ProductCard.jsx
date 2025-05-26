@@ -1,4 +1,4 @@
-// ProductCard.jsx con manejo seguro del carrusel
+// ProductCard.jsx con manejo seguro del carrusel y Cloudinary
 import React, { useState, useEffect } from 'react';
 import './ProductCard.css';
 
@@ -26,6 +26,30 @@ const ProductCard = ({ data, onEdit, onDelete }) => {
       }
     }
   }, [data]);
+  
+  // Función para procesar URL de Cloudinary
+  const getCloudinaryUrl = (photo) => {
+    if (!photo) return 'https://via.placeholder.com/300x300?text=No+Image';
+    
+    // Si ya es una URL completa, la devolvemos
+    if (typeof photo === 'string' && photo.includes('res.cloudinary.com')) {
+      return photo;
+    }
+    
+    // Si es un objeto con url
+    if (typeof photo === 'object' && photo.url) {
+      if (photo.url.includes('res.cloudinary.com')) {
+        return photo.url;
+      }
+    }
+    
+    // Si es solo el public_id, construir la URL
+    // IMPORTANTE: Reemplaza 'demo' con tu cloud name real
+    const CLOUD_NAME = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME || 'demo';
+    const publicId = typeof photo === 'string' ? photo : (photo.url || photo);
+    
+    return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_400,h_300,c_fill,f_auto,q_auto/${publicId}`;
+  };
   
   // Manejar la navegación entre fotos de forma segura
   const nextPhoto = (e) => {
@@ -73,7 +97,7 @@ const ProductCard = ({ data, onEdit, onDelete }) => {
     if (data.photos && data.photos.length > 0) {
       // Asegurar que el índice esté dentro de los límites
       const safeIndex = Math.min(currentPhotoIndex, data.photos.length - 1);
-      return data.photos[safeIndex]?.url;
+      return getCloudinaryUrl(data.photos[safeIndex]);
     }
     return 'https://via.placeholder.com/300x300?text=No+Image';
   };
@@ -96,6 +120,10 @@ const ProductCard = ({ data, onEdit, onDelete }) => {
           src={getCurrentImage()}
           alt={data.model}
           className="product-image"
+          onError={(e) => {
+            console.error('Error cargando imagen:', e.target.src);
+            e.target.src = 'https://via.placeholder.com/300x300?text=Error+Imagen';
+          }}
         />
         
         {/* Controles de navegación entre fotos (solo visibles si hay más de una foto) */}

@@ -1,4 +1,4 @@
-// Brands.jsx actualizado con hook y funcionalidad completa
+// Brands.jsx - Versión completa y corregida
 import React, { useEffect, useState } from 'react';
 import { useBrandsManager } from '../../hooks/BrandsHooks/useBrands';
 import Header from '../../components/Header/header';
@@ -23,20 +23,27 @@ const BrandsPage = () => {
     isEditing,
     currentBrandId,
     
-    // Estados del formulario (para pasar al modal)
+    // Estados del formulario (nombres correctos del hook)
     brandName,
-    logoUrl,
+    setBrandName,
+    image,
+    setImage,
+    previewUrl,
+    setPreviewUrl,
+    fileInputRef,
     
     // Funciones
     fetchBrands,
     handleSubmit,
-    handleDeleteBrand,
+    startDeleteBrand,
     confirmDeleteBrand,
     cancelDeleteBrand,
     resetForm,
     handleEditBrand,
     handleAddNew,
-    handleRefresh
+    handleRefresh,
+    handleImageChange,
+    handleSelectImage
   } = useBrandsManager();
 
   // Estados locales para paginación y filtros
@@ -130,7 +137,7 @@ const BrandsPage = () => {
         title="Marcas" 
         onAddNew={handleAddNew} 
         onRefresh={handleRefresh}
-        showSearch={true}
+        showSearch={false}
         onSearch={handleSearch}
         searchPlaceholder="Buscar marcas por nombre..."
         sortOptions={[
@@ -184,7 +191,7 @@ const BrandsPage = () => {
               key={brand._id} 
               data={brand}
               onEdit={() => handleEditBrand(brand)}
-              onDelete={() => handleDeleteBrand(brand._id)}
+              onDelete={() => startDeleteBrand(brand._id)}
               isLoading={isLoading}
             />
           ))
@@ -225,34 +232,39 @@ const BrandsPage = () => {
         />
       )}
       
-      {/* Modal de edición/creación - Usar tu modal original */}
-      <BrandEditModal 
-        brand={isEditing ? {
-          _id: currentBrandId,
-          brandName: brandName,
-          logoUrl: logoUrl
-        } : {
-          brandName: '',
-          logoUrl: ''
-        }}
-        isOpen={showModal}
-        onClose={() => {
-          setShowModal(false);
-          resetForm();
-        }}
-        onSave={handleSubmit}
-      />
+      {/* Modal de edición/creación - Usando TU CSS */}
+      {showModal && (
+        <BrandEditModal 
+          brandName={brandName}
+          setBrandName={setBrandName}
+          previewUrl={previewUrl}
+          setPreviewUrl={setPreviewUrl}
+          setImage={setImage}
+          handleImageChange={handleImageChange}
+          handleSelectImage={handleSelectImage}
+          fileInputRef={fileInputRef}
+          handleSubmit={handleSubmit}
+          isLoading={isLoading}
+          isEditing={isEditing}
+          onClose={() => {
+            setShowModal(false);
+            resetForm();
+          }}
+        />
+      )}
       
       {/* Modal de confirmación de eliminación */}
-      <DeleteConfirmationModal
-        isOpen={showDeleteModal}
-        onClose={cancelDeleteBrand}
-        onConfirm={confirmDeleteBrand}
-        title="Eliminar Marca"
-        message="¿Estás seguro de que deseas eliminar esta marca?"
-        itemName={brandToDelete?.brandName || ""}
-        isLoading={isLoading}
-      />
+      {showDeleteModal && (
+        <DeleteConfirmationModal
+          isOpen={showDeleteModal}
+          onClose={cancelDeleteBrand}
+          onConfirm={confirmDeleteBrand}
+          title="Eliminar Marca"
+          message="¿Estás seguro de que deseas eliminar esta marca?"
+          itemName={brandToDelete?.brandName || ""}
+          isLoading={isLoading}
+        />
+      )}
     </div>
   );
 };

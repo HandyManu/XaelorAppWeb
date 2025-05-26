@@ -17,26 +17,24 @@ brandsController.getBrands = async (req, res) => {
   res.json(brands);
 };
 
-// INSERT
+// INSERT (solo una foto)
 brandsController.insertBrands = async (req, res) => {
   try {
     const { brandName } = req.body;
-        let photos = "";
+    let photos = "";
 
-    // Si se suben archivos, subirlos a Cloudinary
-    if (req.files && req.files.length > 0) {
-      for (const file of req.files) {
-        const result = await cloudinary.uploader.upload(file.path, {
-          folder: "brands",
-          allowed_formats: ["jpg", "png", "jpeg"]
-        });
-        photos.push(result.secure_url);
-      }
+    // Si se sube un archivo, subirlo a Cloudinary
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "brands",
+        allowed_formats: ["jpg", "png", "jpeg"]
+      });
+      photos = result.secure_url;
     }
 
     const newBrands = new brandsModel({ brandName, photos });
     await newBrands.save();
-    res.json({ message: "Brands saved" });
+    res.status(201).json({ message: "Brands saved" });
   } catch (error) {
     res.status(500).json({ message: "Error saving brand", error: error.message });
   }
@@ -48,30 +46,28 @@ brandsController.deleteBrands = async (req, res) => {
   res.json({ message: "Brands deleted" });
 };
 
-// UPDATE
+// UPDATE (solo una foto)
 brandsController.updateBrands = async (req, res) => {
   try {
     const { brandName } = req.body;
-        let photos = "";
+    let photos;
 
-    // Si se suben archivos, subirlos a Cloudinary
-    if (req.files && req.files.length > 0) {
-      for (const file of req.files) {
-        const result = await cloudinary.uploader.upload(file.path, {
-          folder: "brands",
-          allowed_formats: ["jpg", "png", "jpeg"]
-        });
-        photos.push(result.secure_url);
-      }
+    // Si se sube un archivo, subirlo a Cloudinary
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "brands",
+        allowed_formats: ["jpg", "png", "jpeg"]
+      });
+      photos = result.secure_url;
     } else {
-      // Si no se suben nuevas fotos, mantener las existentes
+      // Si no se sube nueva foto, mantener la existente
       const currentBrand = await brandsModel.findById(req.params.id);
       if (currentBrand) {
-        photos = currentBrand.photos;
+        photos = currentBrand.photo;
       }
     }
 
-    const updateBrands = await brandsModel.findByIdAndUpdate(
+    await brandsModel.findByIdAndUpdate(
       req.params.id,
       { brandName, photos },
       { new: true }

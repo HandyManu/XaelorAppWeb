@@ -24,7 +24,12 @@ export const AuthProvider = ({ children }) => {
             }
 
             const data = await response.json();
-            
+
+            // No permitir login si el usuario es customer
+            if (data.user && data.user.userType === "customer") {
+                return { success: false, message: "No tienes permisos para acceder a este sistema." };
+            }
+
             // Guardar en localStorage
             localStorage.setItem("authToken", data.token);
             localStorage.setItem("user", JSON.stringify(data.user));
@@ -72,13 +77,23 @@ export const AuthProvider = ({ children }) => {
         };
     };
 
-    // Utilidad para fetch autenticado
+    // Utilidad para fetch autenticado - MODIFICACIÓN MÍNIMA PARA FORMDATA
     const authenticatedFetch = async (url, options = {}) => {
+        const token = authCokie || localStorage.getItem('authToken') ||
+            document.cookie.split('; ').find(row => row.startsWith('authToken='))?.split('=')[1];
+
+        // Detectar si se está enviando FormData
+        const isFormData = options.body instanceof FormData;
+
         const config = {
             ...options,
             credentials: 'include',
             headers: {
-                ...getAuthHeaders(),
+                // Solo agregar Content-Type si NO es FormData
+                ...(!isFormData && { 'Content-Type': 'application/json' }),
+                // Siempre agregar Authorization si hay token
+                ...(token && { 'Authorization': `Bearer ${token}` }),
+                // Mantener headers adicionales
                 ...options.headers
             }
         };

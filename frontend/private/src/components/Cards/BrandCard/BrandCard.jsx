@@ -1,72 +1,59 @@
-// BrandCard.jsx con soporte para imágenes de logo
-import React, { useState } from 'react';
+// BrandCard.jsx - Usando TU estructura CSS original
+import React from 'react';
 import './BrandCard.css';
 
-const BrandCard = ({ data, onEdit, onDelete }) => {
-  const [showDeleteIcon, setShowDeleteIcon] = useState(false);
-  const [imageError, setImageError] = useState(false);
-  
-  const handleClick = () => {
-    if (onEdit) {
-      onEdit(data);
-    }
-  };
-  
+const BrandCard = ({ data, onEdit, onDelete, isLoading }) => {
   const handleDelete = (e) => {
     e.stopPropagation();
-    if (onDelete) {
-      onDelete(data._id);
-    }
+    console.log('Eliminando marca:', data._id);
+    onDelete(e);
   };
-  
-  // Obtener las iniciales de la marca para el fondo/fallback
-  const getInitials = () => {
-    if (!data.brandName) return '';
-    const words = data.brandName.split(' ');
-    if (words.length === 1) {
-      return words[0].charAt(0).toUpperCase();
-    } else {
-      return (words[0].charAt(0) + words[1].charAt(0)).toUpperCase();
-    }
+
+  const handleEdit = () => {
+    console.log('Editando marca:', data);
+    onEdit();
   };
-  
-  // Manejar errores de carga de imagen
-  const handleImageError = () => {
-    setImageError(true);
-  };
-  
+
   return (
-    <div 
-      className="brand-card"
-      onClick={handleClick}
-      onMouseEnter={() => setShowDeleteIcon(true)}
-      onMouseLeave={() => setShowDeleteIcon(false)}
-    >
-      <div className="brand-initials">{getInitials()}</div>
+    <div className="brand-card" onClick={handleEdit}>
+      {/* Iniciales de fondo */}
+      <div className="brand-initials">
+        {data.brandName ? data.brandName.substring(0, 2).toUpperCase() : 'BR'}
+      </div>
       
-      {/* Mostrar imagen de logo si existe y no hay error, o el logo predeterminado si no hay imagen o hay error */}
-      {data.logoUrl && !imageError ? (
+      {/* Logo o iniciales principales */}
+      {data.photos ? (
         <div className="brand-logo-container">
           <img 
-            src={data.logoUrl} 
-            alt={`Logo de ${data.brandName}`} 
+            src={data.photos} 
+            alt={data.brandName}
             className="brand-logo-image"
-            onError={handleImageError}
+            onLoad={() => console.log('✅ Imagen cargada:', data.brandName)}
+            onError={(e) => {
+              console.log('❌ Error cargando imagen:', data.photos);
+              // Si falla la imagen, mostrar las iniciales
+              e.target.style.display = 'none';
+              e.target.parentNode.innerHTML = `<div class="brand-logo">${data.brandName.substring(0, 2).toUpperCase()}</div>`;
+            }}
           />
         </div>
       ) : (
-        <div className="brand-logo">æ</div>
-      )}
-      
-      <div className="brand-name">
-        {data.brandName}
-      </div>
-      
-      {showDeleteIcon && (
-        <div className="delete-icon" onClick={handleDelete}>
-          🗑️
+        <div className="brand-logo">
+          {data.brandName ? data.brandName.substring(0, 2).toUpperCase() : 'BR'}
         </div>
       )}
+      
+      {/* Nombre de la marca */}
+      <div className="brand-name">{data.brandName}</div>
+      
+      {/* Icono de eliminar */}
+      <div 
+        className="delete-icon"
+        onClick={handleDelete}
+        title="Eliminar marca"
+      >
+        ×
+      </div>
     </div>
   );
 };
