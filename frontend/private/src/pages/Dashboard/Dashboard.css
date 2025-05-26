@@ -6,7 +6,7 @@
 
 .dashboard-content {
   flex: 1;
-  margin-left: 220px;
+  margin-left: 0px;
   padding: 2rem;
   background-color: #1c1717;
   display: flex;

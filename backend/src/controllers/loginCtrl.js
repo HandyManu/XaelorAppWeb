@@ -62,6 +62,12 @@ loginController.login = async (req, res) => {
                     maxAge: 24 * 60 * 60 * 1000 // 24 horas
                 });
                 
+                res.cookie('userType', userType, {
+                    httpOnly: false, // Para que el frontend pueda leerla
+                    sameSite: 'lax', // O 'strict' según tu flujo
+                    // secure: true, // Solo si usas HTTPS
+                });
+                
                 // Datos del usuario para enviar (sin password)
                 const userData = {
                     id: userFound._id,
