@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 export function useWatchesManager() {
     const [watches, setWatches] = useState([]);
@@ -41,13 +41,13 @@ export function useWatchesManager() {
         try {
             setIsLoading(true);
             setError('');
-            
+
             const response = await fetch('http://localhost:3333/api/watches');
-            
+
             if (!response.ok) {
                 throw new Error(`Error al cargar los relojes: ${response.status} ${response.statusText}`);
             }
-            
+
             const data = await response.json();
             console.log('Relojes recibidos:', data);
             setWatches(data);
@@ -59,6 +59,11 @@ export function useWatchesManager() {
         }
     };
 
+    // Ejecutar fetchWatches solo una vez al montar el hook
+    useEffect(() => {
+        fetchWatches();
+    }, []);
+
     // POST/PUT - Crear o actualizar reloj
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -66,31 +71,31 @@ export function useWatchesManager() {
             setError('El modelo es obligatorio');
             return;
         }
-        
         if (!brandId.trim()) {
             setError('La marca es obligatoria');
             return;
         }
-        
         if (price <= 0) {
             setError('El precio debe ser mayor a 0');
             return;
         }
-        
         if (!category.trim()) {
             setError('La categoría es obligatoria');
             return;
         }
-        
         if (!description.trim()) {
             setError('La descripción es obligatoria');
             return;
         }
-        
+        if (!photos.length) {
+            setError('Debes añadir al menos una imagen');
+            return;
+        }
+
         try {
             setIsLoading(true);
             setError('');
-            
+
             // Crear FormData para enviar archivos
             const formData = new FormData();
             formData.append('model', model.trim());
@@ -99,24 +104,24 @@ export function useWatchesManager() {
             formData.append('category', category.trim());
             formData.append('description', description.trim());
             formData.append('availability', availability);
-            
+
             // Separar fotos nuevas y existentes
             const newPhotos = photos.filter(photo => photo.file && !photo.isServerImage);
             const existingPhotos = photos.filter(photo => photo.isServerImage && !photo.file);
-            
+
             // Agregar fotos nuevas
             newPhotos.forEach((photo, index) => {
                 formData.append('photos', photo.file);
                 console.log(`Agregando nueva foto ${index}:`, photo.file.name);
             });
-            
+
             // Si estamos editando, enviar las URLs de las fotos que queremos mantener
             if (isEditing) {
                 const photosToKeep = existingPhotos.map(photo => photo.url);
                 formData.append('existingPhotos', JSON.stringify(photosToKeep));
                 console.log('Fotos existentes a mantener:', photosToKeep);
             }
-            
+
             // Log para debug
             console.log('Enviando formulario:', {
                 model: model.trim(),
@@ -130,7 +135,7 @@ export function useWatchesManager() {
                 totalPhotos: photos.length,
                 isEditing
             });
-            
+
             let response;
             if (isEditing && currentWatchId) {
                 response = await fetch(`http://localhost:3333/api/watches/${currentWatchId}`, {
@@ -143,14 +148,14 @@ export function useWatchesManager() {
                     body: formData,
                 });
             }
-            
+
             if (!response.ok) {
                 throw new Error(`Error al ${isEditing ? 'actualizar' : 'crear'} el reloj: ${response.status} ${response.statusText}`);
             }
 
             setSuccess(`Reloj ${isEditing ? 'actualizado' : 'creado'} exitosamente`);
             setTimeout(() => setSuccess(''), 3000);
-            
+
             fetchWatches();
             setShowModal(false);
             resetForm();
@@ -165,17 +170,17 @@ export function useWatchesManager() {
     const handleDeleteWatch = async (watchId, event) => {
         if (event) event.stopPropagation();
         if (!watchId) return;
-        
+
         try {
             setIsLoading(true);
             const response = await fetch(`http://localhost:3333/api/watches/${watchId}`, {
                 method: 'DELETE',
             });
-            
+
             if (!response.ok) {
                 throw new Error(`Error al eliminar el reloj: ${response.status} ${response.statusText}`);
             }
-            
+
             setSuccess('Reloj eliminado exitosamente');
             setTimeout(() => setSuccess(''), 3000);
             fetchWatches();
@@ -195,10 +200,10 @@ export function useWatchesManager() {
                 setError(`El archivo ${file.name} no es una imagen válida. Use JPG, PNG, WebP o GIF.`);
                 return null;
             }
-            
+
             // Crear URL temporal para vista previa
             const photoUrl = URL.createObjectURL(file);
-            
+
             return {
                 url: photoUrl,
                 file: file,
@@ -206,13 +211,13 @@ export function useWatchesManager() {
                 isServerImage: false
             };
         }).filter(photo => photo !== null);
-        
+
         if (newPhotos.length === 0) return;
-        
+
         // Actualizamos el estado añadiendo las nuevas fotos
         const updatedPhotos = [...photos, ...newPhotos];
         setPhotos(updatedPhotos);
-        
+
         // Si no había fotos antes, seleccionamos la primera nueva
         if (photos.length === 0 && newPhotos.length > 0) {
             setActivePhotoIndex(0);
@@ -222,16 +227,16 @@ export function useWatchesManager() {
     const handleDeletePhoto = (index) => {
         const updatedPhotos = [...photos];
         const photoToDelete = updatedPhotos[index];
-        
+
         // Liberar URL si es temporal (blob) - solo para nuevas imágenes
         if (photoToDelete.url && photoToDelete.url.startsWith('blob:')) {
             URL.revokeObjectURL(photoToDelete.url);
         }
-        
+
         // Eliminar la foto del array inmediatamente
         updatedPhotos.splice(index, 1);
         setPhotos(updatedPhotos);
-        
+
         // Manejar el índice activo para evitar errores
         if (updatedPhotos.length === 0) {
             setActivePhotoIndex(0);
@@ -247,10 +252,10 @@ export function useWatchesManager() {
                 setActivePhotoIndex(Math.min(activePhotoIndex, updatedPhotos.length - 1));
             }
         }
-        
+
         console.log('Foto eliminada del array local. Fotos restantes:', updatedPhotos.length);
         console.log('Foto eliminada:', photoToDelete.url);
-        
+
         // IMPORTANTE: La eliminación real se hará en el servidor cuando se envíe el formulario
         // El backend recibirá solo las fotos que están en 'existingPhotos' y las mantendrá
         // Las que no estén en ese array se eliminarán del servidor
@@ -269,17 +274,17 @@ export function useWatchesManager() {
         setIsEditing(false);
         setCurrentWatchId(null);
         setError('');
-        
+
         // Liberar URLs temporales antes de limpiar
         photos.forEach(photo => {
             if (photo.url && photo.url.startsWith('blob:')) {
                 URL.revokeObjectURL(photo.url);
             }
         });
-        
+
         // Limpiar array de fotos
         setPhotos([]);
-        
+
         console.log('Formulario reiniciado');
     };
 
@@ -290,11 +295,11 @@ export function useWatchesManager() {
         setCategory(watch.category || '');
         setDescription(watch.description || '');
         setAvailability(watch.availability !== undefined ? watch.availability : true);
-        
+
         // Convertir fotos del formato del servidor al formato del componente
         const formattedPhotos = (watch.photos || []).map((photo, index) => {
             let photoUrl;
-            
+
             if (typeof photo === 'string') {
                 photoUrl = photo;
             } else if (typeof photo === 'object') {
@@ -302,22 +307,22 @@ export function useWatchesManager() {
             } else {
                 photoUrl = photo;
             }
-            
+
             return {
                 url: photoUrl,
                 name: photo.name || photo.original_filename || `Imagen ${index + 1}`,
                 isServerImage: true // Marcar como imagen del servidor
             };
         });
-        
+
         console.log('Fotos formateadas para edición:', formattedPhotos);
-        
+
         setPhotos(formattedPhotos);
         setActivePhotoIndex(watch.activePhotoIndex || 0);
         setIsEditing(true);
         setCurrentWatchId(watch._id);
         setShowModal(true);
-        
+
         // Cargar marcas cuando se abre el modal
         fetchBrands();
     };
@@ -353,8 +358,8 @@ export function useWatchesManager() {
         setShowDeleteModal(true);
     };
 
+    // No pongas ningún JSX aquí, solo retorna los estados y funciones
     return {
-        // Estados
         watches,
         setWatches,
         brands,
@@ -375,8 +380,6 @@ export function useWatchesManager() {
         setIsEditing,
         currentWatchId,
         setCurrentWatchId,
-        
-        // Estados del formulario
         model,
         setModel,
         brandId,
@@ -394,8 +397,6 @@ export function useWatchesManager() {
         activePhotoIndex,
         setActivePhotoIndex,
         fileInputRef,
-        
-        // Funciones
         fetchWatches,
         fetchBrands,
         handleSubmit,
