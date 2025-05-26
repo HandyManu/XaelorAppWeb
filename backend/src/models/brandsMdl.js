@@ -8,6 +8,10 @@ const brandsSchema = new Schema({
     brandName:{
         type:String,
         required: true
+    },
+    photos: {
+        type: String,
+        required: true
     }
 },{ timestamps:true,
     strict: false

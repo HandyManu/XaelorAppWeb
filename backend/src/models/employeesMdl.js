@@ -39,11 +39,11 @@ const employeesSchema = new Schema({
         trim: true,
         validate: {
             validator: function (v) {
-               // This regex allows for various phone number formats
-               return /^[\d\s\-()]+$/.test(v);
+                // This regex allows for various phone number formats
+                return /^[\d\s\-()]+$/.test(v);
             },
             message: props => `${props.value} is not a valid phone number`
-         }
+        }
     },
     branchId: {
         type: Schema.Types.ObjectId,
