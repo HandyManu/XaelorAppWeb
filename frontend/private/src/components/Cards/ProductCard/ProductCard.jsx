@@ -115,19 +115,22 @@ const ProductCard = ({ data, onEdit, onDelete }) => {
       onMouseLeave={() => setShowDeleteIcon(false)}
     >
       <div className="product-image-container">
-        {/* Imagen del producto */}
-        <img
-          src={
-            data.photos && data.photos.length > 0
-              ? data.photos[0].url || data.photos[0]
-              : "https://www.svgrepo.com/show/508699/landscape-placeholder.svg"
-          }
-          alt={data.model}
-          onError={e => {
-            e.target.onerror = null;
-            e.target.src = "https://www.svgrepo.com/show/508699/landscape-placeholder.svg";
-          }}
-        />
+        <div className="carousel-image-wrapper">
+          {/* Imagen del producto */}
+          <img
+            className="product-image"
+            src={getCurrentImage()}
+            alt={data.model}
+            onError={e => {
+              e.target.onerror = null;
+              e.target.src = "https://www.svgrepo.com/show/508699/landscape-placeholder.svg";
+            }}
+            style={{
+              transform: `translateX(-${currentPhotoIndex * 100}%)`,
+              transition: 'transform 0.5s cubic-bezier(.77,0,.18,1)'
+            }}
+          />
+        </div>
         
         {/* Controles de navegación entre fotos (solo visibles si hay más de una foto) */}
         {hasMultiplePhotos && (
