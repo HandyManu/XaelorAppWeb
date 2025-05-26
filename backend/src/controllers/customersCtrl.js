@@ -2,6 +2,7 @@
 
 const customersCtrl = {};
 import customersMdl from "../models/customersMdl.js"
+import bcryptjs from "bcryptjs";
 
 //* GET
 customersCtrl.getCustomers = async (req, res) => {

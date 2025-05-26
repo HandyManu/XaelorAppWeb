@@ -12,6 +12,7 @@
 
 //import necessary modules
 import express from 'express';
+import cors from "cors";
 
 import branchesRoutes from './src/routes/branchesRoutes.js';
 import brandsRoutes from './src/routes/brandsRoutes.js';
@@ -26,6 +27,7 @@ import cookieParser from 'cookie-parser';
 import loginRoutes from './src/routes/logIn.js';
 import logoutRoutes from "./src/routes/logout.js";
 
+import { validateAuthToken } from "./src/middlewares/validateAuthToken.js";
 
 //Create a new express app instance hola
 const app = express();
@@ -34,6 +36,15 @@ const app = express();
 //middlewares
 app.use(express.json());
 app.use(cookieParser());
+
+//MiddleWares 
+app.use(
+    cors({
+        origin: "http://localhost:5173",
+        //Permitir envío de cookies y credenciales
+        credentials: true,
+    })
+)
 
 app.use("/api/branches", branchesRoutes);
 app.use("/api/brands", brandsRoutes);
