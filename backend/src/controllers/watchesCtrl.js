@@ -55,6 +55,11 @@ WatchesController.insertWatches = async (req, res) => {
       }
     }
 
+    // VALIDACIÓN: Debe haber al menos una foto
+    if (!photos.length) {
+      return res.status(400).json({ message: "Debes subir al menos una imagen." });
+    }
+
     const newWatch = new WatchesModel({
       model,
       brandId,
@@ -164,7 +169,12 @@ WatchesController.updateWatches = async (req, res) => {
     
     // Combinar fotos existentes que queremos mantener + nuevas fotos
     const finalPhotos = [...photosToKeep, ...newPhotoUrls];
-    
+
+    // VALIDACIÓN: Debe haber al menos una foto
+    if (!finalPhotos.length) {
+      return res.status(400).json({ message: "Debes mantener o subir al menos una imagen." });
+    }
+
     console.log('Resultado final:', {
       fotosAnteriores: currentWatch.photos.length,
       fotosAMantener: photosToKeep.length,

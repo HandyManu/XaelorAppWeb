@@ -116,13 +116,16 @@ const ProductCard = ({ data, onEdit, onDelete }) => {
     >
       <div className="product-image-container">
         {/* Imagen del producto */}
-        <img 
-          src={getCurrentImage()}
+        <img
+          src={
+            data.photos && data.photos.length > 0
+              ? data.photos[0].url || data.photos[0]
+              : "https://www.svgrepo.com/show/508699/landscape-placeholder.svg"
+          }
           alt={data.model}
-          className="product-image"
-          onError={(e) => {
-            console.error('Error cargando imagen:', e.target.src);
-            e.target.src = 'https://via.placeholder.com/300x300?text=Error+Imagen';
+          onError={e => {
+            e.target.onerror = null;
+            e.target.src = "https://www.svgrepo.com/show/508699/landscape-placeholder.svg";
           }}
         />
         
