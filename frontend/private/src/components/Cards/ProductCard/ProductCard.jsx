@@ -4,6 +4,7 @@ import './ProductCard.css';
 
 const ProductCard = ({ data, onEdit, onDelete }) => {
   const [showDeleteIcon, setShowDeleteIcon] = useState(false);
+  const [fade, setFade] = useState(false);
   // Usamos el índice activo del producto si existe, o empezamos en 0
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(
     data.activePhotoIndex !== undefined ? data.activePhotoIndex : 0
@@ -55,22 +56,26 @@ const ProductCard = ({ data, onEdit, onDelete }) => {
   const nextPhoto = (e) => {
     e.stopPropagation(); // Evitar que se active el onEdit
     if (data.photos && data.photos.length > 1) {
-      setCurrentPhotoIndex((prevIndex) => {
-        // Asegurar que el nuevo índice esté dentro de los límites
-        const nextIndex = prevIndex === data.photos.length - 1 ? 0 : prevIndex + 1;
-        return nextIndex;
-      });
+      setFade(true);
+      setTimeout(() => {
+        setCurrentPhotoIndex((prevIndex) =>
+          prevIndex === data.photos.length - 1 ? 0 : prevIndex + 1
+        );
+        setFade(false);
+      }, 200);
     }
   };
   
   const prevPhoto = (e) => {
     e.stopPropagation(); // Evitar que se active el onEdit
     if (data.photos && data.photos.length > 1) {
-      setCurrentPhotoIndex((prevIndex) => {
-        // Asegurar que el nuevo índice esté dentro de los límites
-        const prevIdxValue = prevIndex === 0 ? data.photos.length - 1 : prevIndex - 1;
-        return prevIdxValue;
-      });
+      setFade(true);
+      setTimeout(() => {
+        setCurrentPhotoIndex((prevIndex) =>
+          prevIndex === 0 ? data.photos.length - 1 : prevIndex - 1
+        );
+        setFade(false);
+      }, 200);
     }
   };
   
@@ -115,22 +120,16 @@ const ProductCard = ({ data, onEdit, onDelete }) => {
       onMouseLeave={() => setShowDeleteIcon(false)}
     >
       <div className="product-image-container">
-        <div className="carousel-image-wrapper">
-          {/* Imagen del producto */}
-          <img
-            className="product-image"
-            src={getCurrentImage()}
-            alt={data.model}
-            onError={e => {
-              e.target.onerror = null;
-              e.target.src = "https://www.svgrepo.com/show/508699/landscape-placeholder.svg";
-            }}
-            style={{
-              transform: `translateX(-${currentPhotoIndex * 100}%)`,
-              transition: 'transform 0.5s cubic-bezier(.77,0,.18,1)'
-            }}
-          />
-        </div>
+        {/* Imagen del producto */}
+        <img
+          className={`product-image${fade ? ' fade' : ''}`}
+          src={getCurrentImage()}
+          alt={data.model}
+          onError={e => {
+            e.target.onerror = null;
+            e.target.src = "https://www.svgrepo.com/show/508699/landscape-placeholder.svg";
+          }}
+        />
         
         {/* Controles de navegación entre fotos (solo visibles si hay más de una foto) */}
         {hasMultiplePhotos && (
@@ -138,7 +137,7 @@ const ProductCard = ({ data, onEdit, onDelete }) => {
             <button className="nav-button prev" onClick={prevPhoto}>&#10094;</button>
             <button className="nav-button next" onClick={nextPhoto}>&#10095;</button>
             
-            {/* Indicadores de foto actual */}
+            {/* Indicadores de foto currente */}
             <div className="photo-indicators">
               {data.photos.map((_, index) => (
                 <span 
