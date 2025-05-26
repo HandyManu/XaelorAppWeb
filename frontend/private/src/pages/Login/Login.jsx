@@ -60,9 +60,7 @@ function Login() {
                         </button>
                     </div>
 
-                    <div className="forgot-password">
-                        <a href="#reset-password">¿Olvidaste tu contraseña?</a>
-                    </div>
+                    
                 </form>
             </div>
         </div>
