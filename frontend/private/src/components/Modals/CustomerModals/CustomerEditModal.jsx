@@ -25,21 +25,10 @@ const CustomerEditModal = ({
   onClose
 }) => {
 
-  // Función temporal para mapear IDs a nombres hasta que sepamos la estructura real
+  // Función para mostrar el nombre de la membresía en el dropdown
   const getMembershipDisplayName = (membership) => {
-    // Primero intentar las propiedades normales
-    if (membership.membershipName) return membership.membershipName;
-    if (membership.name) return membership.name;
-    if (membership.brandName) return membership.brandName;
-    
-    // Si no tiene nombre, mapear por ID conocidos (temporal)
-    const membershipNames = {
-      '67acd69ae1fa12d45243dc76': 'Bronze',
-      '67acd69ae1fa12d45243dc77': 'Silver', 
-      '67acd69ae1fa12d45243dc78': 'Gold'
-    };
-    
-    return membershipNames[membership._id] || `Membresía ${membership._id.slice(-4)}`;
+    // Usar membershipTier que es el campo correcto en el modelo
+    return membership.membershipTier || `Membresía ${membership._id.slice(-4)}`;
   };
 
   const handleFormSubmit = (e) => {
@@ -73,10 +62,7 @@ const CustomerEditModal = ({
       return;
     }
 
-    if (!membershipId) {
-      alert('Debe seleccionar una membresía');
-      return;
-    }
+    // La membresía ya no es obligatoria
     
     // Preparar los datos para el submit
     const formData = {
@@ -84,7 +70,7 @@ const CustomerEditModal = ({
       email: email.trim(),
       password: password.trim(),
       phone: phone.trim(),
-      membershipId,
+      membershipId: membershipId === 'none' ? null : membershipId,
       startDate
     };
     
@@ -166,9 +152,8 @@ const CustomerEditModal = ({
               value={membershipId}
               onChange={(e) => setMembershipId(e.target.value)}
               disabled={isLoading}
-              required
             >
-              <option value="">Seleccionar membresía</option>
+              <option value="none">Sin membresía</option>
               {memberships && memberships.length > 0 ? (
                 memberships.map((membership) => (
                   <option key={membership._id} value={membership._id}>
@@ -187,18 +172,21 @@ const CustomerEditModal = ({
             )}
           </div>
           
-          <div className="form-group">
-            <label htmlFor="startDate">Fecha de Inicio de Membresía</label>
-            <input
-              type="date"
-              id="startDate"
-              name="startDate"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-              disabled={isLoading}
-              required
-            />
-          </div>
+          {/* Solo mostrar fecha de inicio si hay membresía seleccionada */}
+          {membershipId && membershipId !== 'none' && (
+            <div className="form-group">
+              <label htmlFor="startDate">Fecha de Inicio de Membresía</label>
+              <input
+                type="date"
+                id="startDate"
+                name="startDate"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                disabled={isLoading}
+                required
+              />
+            </div>
+          )}
           
           <div className="form-actions">
             <button 
