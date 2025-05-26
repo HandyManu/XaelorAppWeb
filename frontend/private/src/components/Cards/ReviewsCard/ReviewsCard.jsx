@@ -82,11 +82,11 @@ const ReviewCard = ({
       <div className="review-header">
         <div className="product-info">
           <img 
-            src={watchInfo?.image || 'https://via.placeholder.com/80x80?text=Reloj'} 
+            src={watchInfo?.image || 'https://www.svgrepo.com/show/508699/landscape-placeholder.svg'} 
             alt={watchInfo?.model || 'Producto'}
             className="product-image"
             onError={(e) => {
-              e.target.src = 'https://via.placeholder.com/80x80?text=Reloj';
+              e.target.src = 'https://www.svgrepo.com/show/508699/landscape-placeholder.svg';
             }}
           />
           <div className="product-details">
