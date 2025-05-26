@@ -11,4 +11,8 @@ router.route('/:id')
     .put(inventoryCtrl.updateInventory)
     .delete(inventoryCtrl.deleteInventory)
 
+// Ruta para agregar movimientos
+router.route('/:id/movement')
+    .put(inventoryCtrl.addMovement)
+
 export default router;

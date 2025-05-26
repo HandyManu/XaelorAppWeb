@@ -47,7 +47,7 @@ const employeesSchema = new Schema({
     },
     branchId: {
         type: Schema.Types.ObjectId,
-        ref: "Branches",
+        ref: "branches", // Cambiado de "Branches" a "branches" (minúscula)
         required: [true, 'El ID de la sucursal es obligatorio']
     },
     position: {

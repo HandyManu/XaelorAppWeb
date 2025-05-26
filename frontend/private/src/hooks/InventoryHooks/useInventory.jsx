@@ -76,7 +76,6 @@ export function useInventoryManager() {
         }
 
         try {
-            setIsLoading(true);
             setError('');
             
             const response = await authenticatedFetch('http://localhost:3333/api/inventories');
@@ -100,6 +99,25 @@ export function useInventoryManager() {
         } catch (error) {
             console.error('Error al cargar inventarios:', error);
             setError('No se pudieron cargar los inventarios. ' + error.message);
+        }
+    };
+
+    // Función para cargar todos los datos iniciales
+    const loadInitialData = async () => {
+        try {
+            setIsLoading(true);
+            setError('');
+            
+            // Cargar inventarios, relojes y sucursales en paralelo
+            await Promise.all([
+                fetchInventories(),
+                fetchWatches(), 
+                fetchBranches()
+            ]);
+            
+        } catch (error) {
+            console.error('Error al cargar datos iniciales:', error);
+            setError('Error al cargar los datos del inventario');
         } finally {
             setIsLoading(false);
         }
@@ -334,9 +352,7 @@ export function useInventoryManager() {
         setCurrentInventoryId(inventory._id);
         setShowModal(true);
         
-        // Cargar relojes y sucursales cuando se abre el modal
-        fetchWatches();
-        fetchBranches();
+        // Ya no necesitamos cargar aquí, ya están cargados
         
         console.log('Modal abierto para editar inventario:', {
             inventoryId: inventory._id,
@@ -352,15 +368,13 @@ export function useInventoryManager() {
     const handleAddNew = () => {
         resetForm();
         setShowModal(true);
-        // Cargar relojes y sucursales cuando se abre el modal
-        fetchWatches();
-        fetchBranches();
-        console.log('Modal abierto para nuevo inventario, cargando datos...');
+        // Ya no necesitamos cargar aquí, ya están cargados
+        console.log('Modal abierto para nuevo inventario');
     };
 
     // Manejar refrescar datos
     const handleRefresh = () => {
-        fetchInventories();
+        loadInitialData();
     };
 
     // Función para obtener información del reloj
@@ -540,6 +554,7 @@ export function useInventoryManager() {
         setCurrentStock,
         
         // Funciones
+        loadInitialData,
         fetchInventories,
         fetchWatches,
         fetchBranches,

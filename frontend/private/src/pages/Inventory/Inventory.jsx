@@ -46,6 +46,7 @@ const InventoryPage = () => {
     setCurrentStock,
     
     // Funciones
+    loadInitialData,
     fetchInventories,
     handleSubmit,
     handleDeleteInventory,
@@ -66,10 +67,11 @@ const InventoryPage = () => {
   // Estados locales para filtros y búsqueda
   const [sortBy, setSortBy] = useState('model');
   const [searchTerm, setSearchTerm] = useState('');
+  const [branchFilter, setBranchFilter] = useState('all');
   
-  // Cargar inventarios al montar el componente
+  // Cargar todos los datos al montar el componente
   useEffect(() => {
-    fetchInventories();
+    loadInitialData();
   }, []);
 
   // Función para manejar búsqueda desde el Header
@@ -84,8 +86,14 @@ const InventoryPage = () => {
     setCurrentPage(1); // Resetear a la primera página al ordenar
   };
 
+  // Función para manejar filtro por sucursal
+  const handleBranchFilter = (branchId) => {
+    setBranchFilter(branchId);
+    setCurrentPage(1); // Resetear a la primera página al filtrar
+  };
+
   // Obtener inventarios procesados (filtrados y ordenados)
-  const processedInventories = getFilteredInventories(sortBy, searchTerm);
+  const processedInventories = getFilteredInventories(sortBy, searchTerm, branchFilter);
 
   // Calcular paginación con los inventarios procesados
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -96,7 +104,7 @@ const InventoryPage = () => {
   // Resetear página al cambiar filtros o items per page
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchTerm, sortBy, itemsPerPage]);
+  }, [searchTerm, sortBy, itemsPerPage, branchFilter]);
 
   // Función para cerrar mensajes de error
   const handleCloseError = () => {
@@ -138,6 +146,8 @@ const InventoryPage = () => {
         showAddButton={true}
       />
       
+      
+      
       {/* Mostrar mensajes de error */}
       {error && (
         <div className="error-message">
@@ -176,6 +186,12 @@ const InventoryPage = () => {
             <div className="stat-label">Total Registros</div>
             <div className="stat-value">{inventories.length}</div>
           </div>
+          {branchFilter !== 'all' && (
+            <div className="stat-card">
+              <div className="stat-label">Registros Filtrados</div>
+              <div className="stat-value">{processedInventories.length}</div>
+            </div>
+          )}
         </div>
       )}
       
@@ -185,7 +201,10 @@ const InventoryPage = () => {
           currentInventories.map(inventory => (
             <InventoryCard 
               key={inventory._id} 
-              data={inventory}
+              data={{
+                ...inventory,
+                stock: inventory.calculatedStock || calculateStockFromMovements(inventory)
+              }}
               watchInfo={getWatchInfo(inventory.watchId)}
               branchInfo={getBranchInfo(inventory.branchId)}
               onEdit={() => handleEditInventory(inventory)}
@@ -197,11 +216,14 @@ const InventoryPage = () => {
         ) : (
           !isLoading && (
             <div className="no-inventory">
-              {searchTerm ? (
+              {searchTerm || branchFilter !== 'all' ? (
                 <>
-                  <p>No se encontraron registros que coincidan con "{searchTerm}"</p>
-                  <button onClick={() => setSearchTerm('')} className="btn btn-secondary">
-                    Limpiar búsqueda
+                  <p>No se encontraron registros que coincidan con los filtros aplicados</p>
+                  <button onClick={() => {
+                    setSearchTerm('');
+                    setBranchFilter('all');
+                  }} className="btn btn-secondary">
+                    Limpiar filtros
                   </button>
                 </>
               ) : (
