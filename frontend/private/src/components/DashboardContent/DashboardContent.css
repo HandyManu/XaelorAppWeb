@@ -2,6 +2,7 @@
 .dashboard-content {
   padding: 2rem;
   display: flex;
+  margin: 0px;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
