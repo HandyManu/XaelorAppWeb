@@ -1,148 +1,140 @@
-// Pagination.jsx
-import React, { useState, useEffect } from 'react';
+// Pagination.jsx - Componente mejorado con flechas y dropdown funcional
+import React from 'react';
 import './Pagination.css';
 
-const Pagination = ({ 
-  totalItems, 
-  itemsPerPage: defaultItemsPerPage = 10, 
-  currentPage = 1, 
+const Pagination = ({
+  totalItems,
+  itemsPerPage,
+  currentPage,
   onPageChange,
-  onItemsPerPageChange
+  onItemsPerPageChange,
+  showItemsPerPage = true,
+  itemsPerPageOptions = [6, 10, 25, 50]
 }) => {
-  const [itemsPerPage, setItemsPerPage] = useState(defaultItemsPerPage);
-  const [showDropdown, setShowDropdown] = useState(false);
-  
-  // Actualizar itemsPerPage cuando cambie la prop
-  useEffect(() => {
-    setItemsPerPage(defaultItemsPerPage);
-  }, [defaultItemsPerPage]);
-  
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-  
+
+  // No mostrar paginación si hay una página o menos
+  if (totalPages <= 1 && !showItemsPerPage) return null;
+
+  // Calcular rango de páginas a mostrar
+  const getVisiblePages = () => {
+    const delta = 2;
+    const range = [];
+    const rangeWithDots = [];
+
+    for (let i = Math.max(2, currentPage - delta); 
+         i <= Math.min(totalPages - 1, currentPage + delta); 
+         i++) {
+      range.push(i);
+    }
+
+    if (currentPage - delta > 2) {
+      rangeWithDots.push(1, '...');
+    } else {
+      rangeWithDots.push(1);
+    }
+
+    rangeWithDots.push(...range);
+
+    if (currentPage + delta < totalPages - 1) {
+      rangeWithDots.push('...', totalPages);
+    } else if (totalPages > 1) {
+      rangeWithDots.push(totalPages);
+    }
+
+    return rangeWithDots;
+  };
+
+  const visiblePages = getVisiblePages();
+
+  // Manejar cambio de página
   const handlePageChange = (page) => {
-    if (page < 1 || page > totalPages) return;
-    if (onPageChange) {
+    if (page >= 1 && page <= totalPages && page !== currentPage) {
       onPageChange(page);
     }
   };
-  
-  const handleItemsPerPageChange = (value) => {
-    setItemsPerPage(value);
-    setShowDropdown(false);
-    
+
+  // Manejar cambio de items por página
+  const handleItemsPerPageChange = (e) => {
+    const newItemsPerPage = parseInt(e.target.value);
     if (onItemsPerPageChange) {
-      onItemsPerPageChange(value);
-    }
-    
-    // Resetear a la primera página cuando cambia el número de items
-    if (onPageChange) {
-      onPageChange(1);
+      onItemsPerPageChange(newItemsPerPage);
     }
   };
-  
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      handlePageChange(currentPage - 1);
-    }
-  };
-  
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      handlePageChange(currentPage + 1);
-    }
-  };
-  
-  const firstItem = totalItems > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0;
-  const lastItem = Math.min(currentPage * itemsPerPage, totalItems);
-  
-  // Validar que currentPage sea válido
-  const safeCurrentPage = Math.max(1, Math.min(currentPage, totalPages || 1));
-  
+
+  // Calcular información de elementos mostrados
+  const startItem = Math.min((currentPage - 1) * itemsPerPage + 1, totalItems);
+  const endItem = Math.min(currentPage * itemsPerPage, totalItems);
+
   return (
-    <div className="pagination">
-      <div className="pagination-left">
-        <div className="page-size-container">
-          <div 
-            className="page-size-selector"
-            onClick={() => setShowDropdown(!showDropdown)}
-          >
-            <span className="items-per-page">{itemsPerPage}</span>
-            <span className="dropdown-arrow">▼</span>
+    <div className="pagination-container">
+      <div className="pagination-info">
+        <span className="pagination-summary">
+          Mostrando {startItem} - {endItem} de {totalItems} elementos
+        </span>
+        
+        {showItemsPerPage && (
+          <div className="items-per-page">
+            <label htmlFor="itemsPerPage">Elementos por página:</label>
+            <select
+              id="itemsPerPage"
+              value={itemsPerPage}
+              onChange={handleItemsPerPageChange}
+              className="items-per-page-select"
+            >
+              {itemsPerPageOptions.map(option => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
           </div>
-          
-          {showDropdown && (
-            <div className="page-size-dropdown">
-              <div 
-                className="page-size-option" 
-                onClick={() => handleItemsPerPageChange(6)}
-              >
-                6
-              </div>
-              <div 
-                className="page-size-option" 
-                onClick={() => handleItemsPerPageChange(10)}
-              >
-                10
-              </div>
-              <div 
-                className="page-size-option" 
-                onClick={() => handleItemsPerPageChange(25)}
-              >
-                25
-              </div>
-              <div 
-                className="page-size-option" 
-                onClick={() => handleItemsPerPageChange(50)}
-              >
-                50
-              </div>
-            </div>
-          )}
-        </div>
+        )}
       </div>
-      
-      <div className="pagination-center">
-        <div className="page-info">
-          {totalItems > 0 
-            ? `${firstItem}-${lastItem} of ${totalItems}` 
-            : '0 items'
-          }
+
+      {totalPages > 1 && (
+        <div className="pagination-controls">
+          {/* Botón Anterior */}
+          <button
+            className={`pagination-btn prev-btn ${currentPage === 1 ? 'disabled' : ''}`}
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            title="Página anterior"
+          >
+            <span className="btn-icon">‹</span>
+            <span className="btn-text">Anterior</span>
+          </button>
+
+          {/* Números de página */}
+          <div className="pagination-numbers">
+            {visiblePages.map((page, index) => (
+              <React.Fragment key={index}>
+                {page === '...' ? (
+                  <span className="pagination-dots">...</span>
+                ) : (
+                  <button
+                    className={`pagination-number ${page === currentPage ? 'active' : ''}`}
+                    onClick={() => handlePageChange(page)}
+                  >
+                    {page}
+                  </button>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+
+          {/* Botón Siguiente */}
+          <button
+            className={`pagination-btn next-btn ${currentPage === totalPages ? 'disabled' : ''}`}
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            title="Página siguiente"
+          >
+            <span className="btn-text">Siguiente</span>
+            <span className="btn-icon">›</span>
+          </button>
         </div>
-      </div>
-      
-      <div className="pagination-right">
-        <button 
-          className="nav-button prev"
-          onClick={handlePrevPage}
-          disabled={safeCurrentPage <= 1}
-          title="Previous page"
-        >
-          ◄
-        </button>
-        
-        <div className="page-display">
-          <span className="current-page">{safeCurrentPage}</span>
-          <span className="separator">/</span>
-          <span className="total-pages">{totalPages || 1}</span>
-        </div>
-        
-        <button 
-          className="nav-button next"
-          onClick={handleNextPage}
-          disabled={safeCurrentPage >= totalPages || totalPages === 0}
-          title="Next page"
-        >
-          ►
-        </button>
-        
-        <button 
-          className="refresh-button"
-          onClick={() => window.location.reload()}
-          title="Refresh page"
-        >
-          ⟳
-        </button>
-      </div>
+      )}
     </div>
   );
 };

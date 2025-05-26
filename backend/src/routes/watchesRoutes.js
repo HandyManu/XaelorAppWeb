@@ -12,10 +12,10 @@ const upload = multer({
 
 router.route('/')
     .get(watchController.getWatches)
-    .post(upload.array("photos"), watchController.insertWatches);
+   .post(validateAuthToken(["admin","employee"]),watchController.insertWatches);
 
 router.route('/:id')
-    .put(upload.array("photos"), watchController.updateWatches)
-    .delete(watchController.deleteWatches);
+.put(validateAuthToken(["admin","employee"]),watchController.updateWatches)
+.delete(validateAuthToken(["admin","employee"]),watchController.deleteWatches);
 
 export default router;

@@ -15,7 +15,11 @@ loginController.login = async (req, res) => {
         // Admin
         if (email === config.emailAdmin.email && password === config.emailAdmin.password) {
             userType = "admin";
-            userFound = { _id: "admin" };
+            userFound = { 
+                _id: "admin", 
+                email: config.emailAdmin.email,
+                name: "Administrator" 
+            };
         } else {
             userFound = await employeeModel.findOne({ email });
             userType = "employee";
@@ -45,10 +49,33 @@ loginController.login = async (req, res) => {
             config.JWT.secret,
             { expiresIn: config.JWT.expiresIn },
             (error, token) => {
-                if (error ) console.log(error);
-                res.cookie("authToken",token)
-                res.json({ message: "Logged in successfully" });
+                if (error) {
+                    console.log(error);
+                    return res.status(500).json({ message: "Error generating token" });
+                }
                 
+                // Enviar cookie
+                res.cookie("authToken", token, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    sameSite: 'lax',
+                    maxAge: 24 * 60 * 60 * 1000 // 24 horas
+                });
+                
+                // Datos del usuario para enviar (sin password)
+                const userData = {
+                    id: userFound._id,
+                    email: userFound.email,
+                    name: userFound.name || userFound.firstName || "Usuario",
+                    userType: userType
+                };
+                
+                // Respuesta JSON con token y usuario
+                res.json({ 
+                    message: "Logged in successfully",
+                    token: token,
+                    user: userData
+                });
             }
         );
     } catch (error) {

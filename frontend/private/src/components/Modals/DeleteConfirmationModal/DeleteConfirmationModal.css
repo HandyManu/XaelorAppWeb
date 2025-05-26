@@ -1,0 +1,213 @@
+    /* DeleteConfirmationModal.css */
+
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        animation: fadeIn 0.2s ease-out;
+    }
+
+    .delete-confirmation-modal {
+        background: var(--card-background);
+        border-radius: 8px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        width: 90%;
+        max-width: 450px;
+        max-height: 90vh;
+        overflow: hidden;
+        animation: slideUp 0.3s ease-out;
+        border: 1px solid var(--border-color);
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 24px 16px;
+        border-bottom: 1px solid var(--border-color);
+        background: var(--darker-background);
+    }
+
+    .modal-header h3 {
+        margin: 0;
+        color: var(--error-color);
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    .close-button {
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: var(--text-secondary);
+        cursor: pointer;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        transition: background-color 0.2s, color 0.2s;
+    }
+
+    .close-button:hover {
+        background-color: var(--border-color);
+        color: var(--text-primary);
+    }
+
+    .modal-body {
+        padding: 24px;
+        text-align: center;
+    }
+
+    .warning-icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+        display: block;
+    }
+
+    .confirmation-message {
+        font-size: 16px;
+        color: var(--text-primary);
+        margin-bottom: 12px;
+        line-height: 1.5;
+    }
+
+    .item-name {
+        font-size: 16px;
+        color: var(--zgas-blue);
+        margin-bottom: 16px;
+    }
+
+    .item-name strong {
+        color: var(--text-primary);
+    }
+
+    .warning-text {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-bottom: 0;
+        font-style: italic;
+    }
+
+    .modal-actions {
+        display: flex;
+        gap: 12px;
+        padding: 16px 24px 24px;
+        justify-content: flex-end;
+    }
+
+    .modal-actions .btn {
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: none;
+        min-width: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .btn-cancel {
+        background-color: var(--border-color);
+        color: var(--text-primary);
+    }
+
+    .btn-cancel:hover:not(:disabled) {
+        background-color: var(--divider-color);
+    }
+
+    .btn-delete {
+        background-color: var(--error-color);
+        color: white;
+    }
+
+    .btn-delete:hover:not(:disabled) {
+        background-color: #e03333;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(255, 76, 76, 0.3);
+    }
+
+    .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none !important;
+        box-shadow: none !important;
+    }
+
+    .spinner-small {
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top: 2px solid white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    /* Animaciones */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+        .delete-confirmation-modal {
+            width: 95%;
+            margin: 0 auto;
+        }
+
+        .modal-header,
+        .modal-body,
+        .modal-actions {
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+
+        .modal-actions {
+            flex-direction: column-reverse;
+        }
+
+        .modal-actions .btn {
+            width: 100%;
+        }
+    }

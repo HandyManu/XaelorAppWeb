@@ -1,19 +1,27 @@
 // SideNav.jsx
 import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useAuth } from "../../context/AuthContext";
 import './SideNav.css';
 
 function SideNav() {
     const location = useLocation();
     const navigate = useNavigate();
+    const { logout } = useAuth();
     
     // Determinamos la página activa directamente usando la ruta actual
     const isActive = (path) => {
         return location.pathname.includes(path);
     };
     
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        navigate('/');
+    const handleLogout = async () => {
+        try {
+            await logout(); // Usa el método logout del AuthContext que ya maneja la limpieza
+            navigate('/');
+        } catch (error) {
+            console.error('Error durante logout:', error);
+            // En caso de error, igual limpiamos localmente y redirigimos
+            navigate('/');
+        }
     };
 
     return (
@@ -27,6 +35,16 @@ function SideNav() {
             
             <nav className="nav-menu">
                 <ul className="nav-list">
+                    <li>
+                        <Link 
+                            to="/dashboard" 
+                            className={`nav-item ${isActive('/dashboard') ? 'active' : ''}`}
+                        >
+                            <i className="nav-icon">🏠</i>
+                            <span className="nav-text">Dashboard</span>
+                        </Link>
+                    </li>
+                    
                     <li>
                         <Link 
                             to="/sucursales" 

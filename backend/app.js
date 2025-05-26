@@ -28,8 +28,6 @@ import loginRoutes from './src/routes/logIn.js';
 import logoutRoutes from "./src/routes/logout.js";
 import { validateAuthToken } from './src/middlewares/validateAuthToken.js';
 
-import { validateAuthToken } from "./src/middlewares/validateAuthToken.js";
-
 //Create a new express app instance hola
 const app = express();
 

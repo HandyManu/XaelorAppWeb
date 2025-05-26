@@ -1,12 +1,10 @@
 // Dashboard.jsx
 import React from 'react';
-import SideNav from '../../components/SideNav/SideNav';
 import './Dashboard.css';
 
 const Dashboard = () => {
   return (
     <div className="dashboard">
-      <SideNav activePage="Dashboard" />
       <div className="dashboard-content">
         <div className="dashboard-welcome">
           <h1>Dashboard</h1>
