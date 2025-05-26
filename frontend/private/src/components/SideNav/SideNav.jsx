@@ -3,11 +3,22 @@ import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from "../../context/AuthContext";
 import './SideNav.css';
 
+// Función para leer cookies
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+}
+
 function SideNav() {
     const location = useLocation();
     const navigate = useNavigate();
     const { logout } = useAuth();
-    
+
+    // Lee el tipo de usuario de la cookie (ajusta el nombre si es diferente)
+    const userType = getCookie('userType');
+
     // Determinamos la página activa directamente usando la ruta actual
     const isActive = (path) => {
         return location.pathname.includes(path);
@@ -45,16 +56,30 @@ function SideNav() {
                         </Link>
                     </li>
                     
-                    <li>
-                        <Link 
-                            to="/sucursales" 
-                            className={`nav-item ${isActive('/sucursales') ? 'active' : ''}`}
-                        >
-                            <i className="nav-icon">🏪</i>
-                            <span className="nav-text">Sucursales</span>
-                        </Link>
-                    </li>
-                    
+                    {/* Solo mostrar Sucursales y Empleados si el usuario es admin */}
+                    {userType === 'admin' && (
+                        <>
+                            <li>
+                                <Link 
+                                    to="/sucursales" 
+                                    className={`nav-item ${isActive('/sucursales') ? 'active' : ''}`}
+                                >
+                                    <i className="nav-icon">🏪</i>
+                                    <span className="nav-text">Sucursales</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link 
+                                    to="/empleados" 
+                                    className={`nav-item ${isActive('/empleados') ? 'active' : ''}`}
+                                >
+                                    <i className="nav-icon">👨‍💼</i>
+                                    <span className="nav-text">Empleados</span>
+                                </Link>
+                            </li>
+                        </>
+                    )}
+
                     <li>
                         <Link 
                             to="/marcas" 
@@ -92,16 +117,6 @@ function SideNav() {
                         >
                             <i className="nav-icon">📦</i>
                             <span className="nav-text">Inventario</span>
-                        </Link>
-                    </li>
-                    
-                    <li>
-                        <Link 
-                            to="/empleados" 
-                            className={`nav-item ${isActive('/empleados') ? 'active' : ''}`}
-                        >
-                            <i className="nav-icon">👨‍💼</i>
-                            <span className="nav-text">Empleados</span>
                         </Link>
                     </li>
                     
