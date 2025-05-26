@@ -130,16 +130,6 @@ const MembershipsPage = () => {
   
   const processedMemberships = getProcessedMemberships();
   
-  // Calcular estadísticas
-  const getTotalRevenue = () => {
-    // En una aplicación real, esto se calcularía con el número real de miembros
-    return 0; // Por ahora retornamos 0
-  };
-  
-  const getActiveMembers = () => {
-    // En una aplicación real, esto vendría de la base de datos
-    return 0; // Por ahora retornamos 0
-  };
   
   const getAverageDiscount = () => {
     if (memberships.length === 0) return 0;
@@ -170,18 +160,12 @@ const MembershipsPage = () => {
             <div className="stat-label">Tipos de Membresía</div>
             <div className="stat-value">{memberships.length}</div>
           </div>
-          <div className="stat-card">
-            <div className="stat-label">Miembros Activos</div>
-            <div className="stat-value">{getActiveMembers()}</div>
-          </div>
+    
           <div className="stat-card">
             <div className="stat-label">Descuento Promedio</div>
             <div className="stat-value">{getAverageDiscount()}%</div>
           </div>
-          <div className="stat-card">
-            <div className="stat-label">Ingresos Totales</div>
-            <div className="stat-value">${getTotalRevenue().toLocaleString()}</div>
-          </div>
+         
         </div>
         <div className="memberships-grid-container">
           <div className="memberships-grid">
