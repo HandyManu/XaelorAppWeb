@@ -1,5 +1,8 @@
 import { useState } from 'react';
-import { useAuth } from '../../context/AuthContext'; 
+import { useAuth } from '../../context/AuthContext';
+import { config } from '../../config';
+
+const API_BASE = config.api.API_BASE;
 
 export function useCustomersManager() {
     const { authenticatedFetch, isAuthenticated, user } = useAuth();
@@ -36,10 +39,9 @@ export function useCustomersManager() {
     // GET - Obtener todas las membresías para el dropdown
     const fetchMemberships = async () => {
         try {
-            const response = await authenticatedFetch('http://localhost:3333/api/memberships');
+            const response = await authenticatedFetch(`${API_BASE}/memberships`);
             if (response.ok) {
                 const data = await response.json();
-                console.log('Membresías recibidas:', data);
                 setMemberships(data);
             } else {
                 console.error('Error al cargar membresías:', response.status);
@@ -67,19 +69,15 @@ export function useCustomersManager() {
         try {
             setError('');
             
-            const response = await authenticatedFetch('http://localhost:3333/api/customers');
-            
-            console.log('Respuesta del servidor:', response);
+            const response = await authenticatedFetch(`${API_BASE}/customers`);
             
             if (!response.ok) {
                 throw new Error(`Error al cargar los clientes: ${response.status} ${response.statusText}`);
             }
             
             const data = await response.json();
-            console.log('Clientes recibidos:', data);
             setCustomers(data);
         } catch (error) {
-            console.error('Error al cargar clientes:', error);
             setError('No se pudieron cargar los clientes. ' + error.message);
         }
     };
@@ -173,7 +171,7 @@ export function useCustomersManager() {
                 // Actualizar cliente existente (PUT)
                 console.log('Actualizando cliente con ID:', customerData._id);
                 
-                response = await authenticatedFetch(`http://localhost:3333/api/customers/${customerData._id}`, {
+                response = await authenticatedFetch(`${API_BASE}/customers/${customerData._id}`, {
                     method: 'PUT',
                     body: JSON.stringify(dataToSend),
                 });
@@ -181,7 +179,7 @@ export function useCustomersManager() {
                 // Crear nuevo cliente (POST)
                 console.log('Creando nuevo cliente');
                 
-                response = await authenticatedFetch('http://localhost:3333/api/customers', {
+                response = await authenticatedFetch(`${API_BASE}/customers`, {
                     method: 'POST',
                     body: JSON.stringify(dataToSend),
                 });
@@ -259,7 +257,7 @@ export function useCustomersManager() {
             
             console.log('Intentando eliminar cliente con ID:', customerToDelete._id);
             
-            const response = await authenticatedFetch(`http://localhost:3333/api/customers/${customerToDelete._id}`, {
+            const response = await authenticatedFetch(`${API_BASE}/customers/${customerToDelete._id}`, {
                 method: 'DELETE',
             });
             
