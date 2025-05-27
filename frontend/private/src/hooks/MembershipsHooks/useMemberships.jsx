@@ -46,7 +46,9 @@ export function useMembershipsManager() {
             setError('');
             
             console.log('Iniciando fetch de membresías...');
-            const response = await authenticatedFetch(`${API_BASE}/memberships`);
+            const response = await authenticatedFetch(`${API_BASE}/memberships`, {
+                credentials: 'include'
+            });
             
             console.log('Respuesta del servidor membresías:', response);
             

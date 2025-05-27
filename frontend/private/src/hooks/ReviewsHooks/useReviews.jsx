@@ -23,7 +23,9 @@ export function useReviewsManager() {
     // GET - Obtener todos los relojes para referenciar en las reseñas
     const fetchWatches = async () => {
         try {
-            const response = await authenticatedFetch(`${API_BASE}/watches`);
+            const response = await authenticatedFetch(`${API_BASE}/watches`, {
+                credentials: 'include'
+            });
             if (response.ok) {
                 const data = await response.json();
                 setWatches(data);
@@ -38,7 +40,9 @@ export function useReviewsManager() {
     // GET - Obtener todos los clientes para referenciar en las reseñas
     const fetchCustomers = async () => {
         try {
-            const response = await authenticatedFetch(`${API_BASE}/customers`);
+            const response = await authenticatedFetch(`${API_BASE}/customers`, {
+                credentials: 'include'
+            });
             if (response.ok) {
                 const data = await response.json();
                 setCustomers(data);
@@ -64,7 +68,9 @@ export function useReviewsManager() {
         try {
             setError('');
             setIsLoading(true);
-            const response = await authenticatedFetch(`${API_BASE}/reviews`);
+            const response = await authenticatedFetch(`${API_BASE}/reviews`, {
+                credentials: 'include'
+            });
             if (!response.ok) {
                 throw new Error(`Error al cargar las reseñas: ${response.status} ${response.statusText}`);
             }

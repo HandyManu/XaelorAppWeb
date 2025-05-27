@@ -50,7 +50,9 @@ export function useBranchesManager() {
         try {
             setIsLoading(true);
             setError('');
-            const response = await authenticatedFetch(`${API_BASE}/branches`);
+            const response = await authenticatedFetch(`${API_BASE}/branches`, {
+                credentials: 'include'
+            });
             if (!response.ok) {
                 throw new Error(`Error al cargar las sucursales: ${response.status} ${response.statusText}`);
             }

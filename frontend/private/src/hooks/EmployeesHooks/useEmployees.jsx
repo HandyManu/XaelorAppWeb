@@ -34,7 +34,9 @@ export function useEmployeesManager() {
     // GET - Obtener todas las sucursales para el dropdown
     const fetchBranches = async () => {
         try {
-            const response = await authenticatedFetch(`${API_BASE}/branches`);
+            const response = await authenticatedFetch(`${API_BASE}/branches`, {
+                credentials: 'include'
+            });
             if (response.ok) {
                 const data = await response.json();
                 setBranches(data);
@@ -59,7 +61,9 @@ export function useEmployeesManager() {
         }
         try {
             setError('');
-            const response = await authenticatedFetch(`${API_BASE}/employees`);
+            const response = await authenticatedFetch(`${API_BASE}/employees`, {
+                credentials: 'include'
+            });
             if (!response.ok) {
                 throw new Error(`Error al cargar los empleados: ${response.status} ${response.statusText}`);
             }

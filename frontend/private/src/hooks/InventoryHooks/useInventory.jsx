@@ -34,7 +34,9 @@ export function useInventoryManager() {
     // GET - Obtener todos los relojes para el dropdown
     const fetchWatches = async () => {
         try {
-            const response = await authenticatedFetch(`${API_BASE}/watches`);
+            const response = await authenticatedFetch(`${API_BASE}/watches`, {
+                credentials: 'include'
+            });
             if (response.ok) {
                 const data = await response.json();
                 setWatches(data);
@@ -49,7 +51,9 @@ export function useInventoryManager() {
     // GET - Obtener todas las sucursales para el dropdown
     const fetchBranches = async () => {
         try {
-            const response = await authenticatedFetch(`${API_BASE}/branches`);
+            const response = await authenticatedFetch(`${API_BASE}/branches`, {
+                credentials: 'include'
+            });
             if (response.ok) {
                 const data = await response.json();
                 setBranches(data);
@@ -79,7 +83,9 @@ export function useInventoryManager() {
         try {
             setError('');
             
-            const response = await authenticatedFetch(`${API_BASE}/inventories`);
+            const response = await authenticatedFetch(`${API_BASE}/inventories`, {
+                credentials: 'include'
+            });
             
             if (!response.ok) {
                 throw new Error(`Error al cargar el inventario: ${response.status} ${response.statusText}`);

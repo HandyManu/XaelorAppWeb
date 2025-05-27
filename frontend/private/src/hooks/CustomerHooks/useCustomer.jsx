@@ -39,7 +39,9 @@ export function useCustomersManager() {
     // GET - Obtener todas las membresías para el dropdown
     const fetchMemberships = async () => {
         try {
-            const response = await authenticatedFetch(`${API_BASE}/memberships`);
+            const response = await authenticatedFetch(`${API_BASE}/memberships`, {
+                credentials: 'include'
+            });
             if (response.ok) {
                 const data = await response.json();
                 setMemberships(data);
@@ -69,7 +71,9 @@ export function useCustomersManager() {
         try {
             setError('');
             
-            const response = await authenticatedFetch(`${API_BASE}/customers`);
+            const response = await authenticatedFetch(`${API_BASE}/customers`, {
+                credentials: 'include'
+            });
             
             if (!response.ok) {
                 throw new Error(`Error al cargar los clientes: ${response.status} ${response.statusText}`);
