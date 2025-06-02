@@ -1,5 +1,8 @@
 import { useState } from 'react';
-import { useAuth } from '../../context/AuthContext'; 
+import { useAuth } from '../../context/AuthContext';
+import { config } from '../../config';
+
+const API_BASE = config.api.API_BASE;
 
 export function useMembershipsManager() {
     const { authenticatedFetch, isAuthenticated, user } = useAuth();
@@ -43,7 +46,9 @@ export function useMembershipsManager() {
             setError('');
             
             console.log('Iniciando fetch de membresías...');
-            const response = await authenticatedFetch('http://localhost:3333/api/memberships');
+            const response = await authenticatedFetch(`${API_BASE}/memberships`, {
+                credentials: 'include'
+            });
             
             console.log('Respuesta del servidor membresías:', response);
             
@@ -126,7 +131,7 @@ export function useMembershipsManager() {
                 // Actualizar membresía existente (PUT)
                 console.log('Actualizando membresía con ID:', membershipData._id);
                 
-                response = await authenticatedFetch(`http://localhost:3333/api/memberships/${membershipData._id}`, {
+                response = await authenticatedFetch(`${API_BASE}/memberships/${membershipData._id}`, {
                     method: 'PUT',
                     body: JSON.stringify(dataToSend),
                 });
@@ -134,7 +139,7 @@ export function useMembershipsManager() {
                 // Crear nueva membresía (POST)
                 console.log('Creando nueva membresía');
                 
-                response = await authenticatedFetch('http://localhost:3333/api/memberships', {
+                response = await authenticatedFetch(`${API_BASE}/memberships`, {
                     method: 'POST',
                     body: JSON.stringify(dataToSend),
                 });
@@ -209,7 +214,7 @@ export function useMembershipsManager() {
             
             console.log('Intentando eliminar membresía con ID:', membershipToDelete._id);
             
-            const response = await authenticatedFetch(`http://localhost:3333/api/memberships/${membershipToDelete._id}`, {
+            const response = await authenticatedFetch(`${API_BASE}/memberships/${membershipToDelete._id}`, {
                 method: 'DELETE',
             });
             

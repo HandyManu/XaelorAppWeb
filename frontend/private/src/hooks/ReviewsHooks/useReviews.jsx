@@ -1,5 +1,8 @@
-    import { useState } from 'react';
-import { useAuth } from '../../context/AuthContext'; 
+import { useState } from 'react';
+import { useAuth } from '../../context/AuthContext';
+import { config } from '../../config';
+
+const API_BASE = config.api.API_BASE;
 
 export function useReviewsManager() {
     const { authenticatedFetch, isAuthenticated, user } = useAuth();
@@ -20,10 +23,11 @@ export function useReviewsManager() {
     // GET - Obtener todos los relojes para referenciar en las reseñas
     const fetchWatches = async () => {
         try {
-            const response = await authenticatedFetch('http://localhost:3333/api/watches');
+            const response = await authenticatedFetch(`${API_BASE}/watches`, {
+                credentials: 'include'
+            });
             if (response.ok) {
                 const data = await response.json();
-                console.log('Relojes recibidos:', data);
                 setWatches(data);
             } else {
                 console.error('Error al cargar relojes:', response.status);
@@ -36,10 +40,11 @@ export function useReviewsManager() {
     // GET - Obtener todos los clientes para referenciar en las reseñas
     const fetchCustomers = async () => {
         try {
-            const response = await authenticatedFetch('http://localhost:3333/api/customers');
+            const response = await authenticatedFetch(`${API_BASE}/customers`, {
+                credentials: 'include'
+            });
             if (response.ok) {
                 const data = await response.json();
-                console.log('Clientes recibidos:', data);
                 setCustomers(data);
             } else {
                 console.error('Error al cargar clientes:', response.status);
@@ -51,37 +56,27 @@ export function useReviewsManager() {
 
     // GET - Obtener todas las reseñas
     const fetchReviews = async () => {
-        // Validar autenticación
         if (!isAuthenticated) {
             setError('Debes iniciar sesión para ver las reseñas.');
             return;
         }
-
-        // Validar tipo de usuario (empleados y admins pueden ver reseñas)
         if (!user || (user.userType !== 'admin' && user.userType !== 'employee')) {
             setError('No tienes permisos para ver las reseñas.');
             setReviews([]);
             return;
         }
-
         try {
             setError('');
             setIsLoading(true);
-            
-            const response = await authenticatedFetch('http://localhost:3333/api/reviews');
-            
-            console.log('Respuesta del servidor reseñas:', response);
-            
+            const response = await authenticatedFetch(`${API_BASE}/reviews`, {
+                credentials: 'include'
+            });
             if (!response.ok) {
                 throw new Error(`Error al cargar las reseñas: ${response.status} ${response.statusText}`);
             }
-            
             const data = await response.json();
-            console.log('Reseñas recibidas:', data);
-            
             setReviews(data);
         } catch (error) {
-            console.error('Error al cargar reseñas:', error);
             setError('No se pudieron cargar las reseñas. ' + error.message);
         } finally {
             setIsLoading(false);
@@ -93,16 +88,12 @@ export function useReviewsManager() {
         try {
             setIsLoading(true);
             setError('');
-            
-            // Cargar reseñas, relojes y clientes en paralelo
             await Promise.all([
                 fetchReviews(),
                 fetchWatches(), 
                 fetchCustomers()
             ]);
-            
         } catch (error) {
-            console.error('Error al cargar datos iniciales:', error);
             setError('Error al cargar los datos de las reseñas');
         } finally {
             setIsLoading(false);
@@ -114,25 +105,18 @@ export function useReviewsManager() {
         if (event && typeof event.stopPropagation === 'function') {
             event.stopPropagation();
         }
-        
         if (!reviewId) {
-            console.error('ID de reseña no válido');
             setError('Error: ID de reseña no válido');
             return;
         }
-
         if (!isAuthenticated) {
             setError('Debes iniciar sesión para eliminar reseñas');
             return;
         }
-
-        // Solo admins pueden eliminar reseñas
         if (!user || user.userType !== 'admin') {
             setError('Solo los administradores pueden eliminar reseñas');
             return;
         }
-        
-        // Buscar la reseña para mostrar en el modal
         const reviewToDelete = reviews.find(review => 
             (review._id?.$oid || review._id) === reviewId
         );
@@ -143,24 +127,15 @@ export function useReviewsManager() {
     // Confirmar eliminación
     const confirmDeleteReview = async () => {
         if (!reviewToDelete) return;
-        
         try {
             setIsLoading(true);
             setError('');
-            
             const reviewId = reviewToDelete._id?.$oid || reviewToDelete._id;
-            console.log('Intentando eliminar reseña con ID:', reviewId);
-            
-            const response = await authenticatedFetch(`http://localhost:3333/api/reviews/${reviewId}`, {
+            const response = await authenticatedFetch(`${API_BASE}/reviews/${reviewId}`, {
                 method: 'DELETE',
             });
-            
-            console.log('Respuesta de eliminación:', response);
-            
             if (!response.ok) {
                 const errorData = await response.json();
-                
-                // Manejar errores específicos
                 if (response.status === 404) {
                     throw new Error('La reseña ya no existe o fue eliminada previamente');
                 } else if (response.status === 403) {
@@ -169,23 +144,13 @@ export function useReviewsManager() {
                     throw new Error(errorData.message || `Error al eliminar la reseña: ${response.status} ${response.statusText}`);
                 }
             }
-            
-            // Mostrar mensaje de éxito
             setSuccess('Reseña eliminada exitosamente');
             setTimeout(() => setSuccess(''), 4000);
-            
-            // Cerrar modal de confirmación
             setShowDeleteModal(false);
             setReviewToDelete(null);
-            
-            // Actualizar la lista de reseñas
             await fetchReviews();
-            
         } catch (error) {
-            console.error('Error al eliminar reseña:', error);
             setError(error.message || 'Error al eliminar la reseña');
-            
-            // Limpiar el error después de 5 segundos
             setTimeout(() => setError(''), 5000);
         } finally {
             setIsLoading(false);
@@ -218,8 +183,6 @@ export function useReviewsManager() {
     // Función para filtrar/ordenar reseñas
     const getFilteredReviews = (sortBy = '', searchTerm = '') => {
         let filtered = [...reviews];
-        
-        // Filtrar por término de búsqueda
         if (searchTerm.trim()) {
             filtered = filtered.filter(review => {
                 const watch = getWatchInfo(review.watchId);
@@ -232,8 +195,6 @@ export function useReviewsManager() {
                 );
             });
         }
-        
-        // Aplicar ordenamiento
         switch (sortBy) {
             case 'date-new':
                 return filtered.sort((a, b) => 
@@ -260,7 +221,6 @@ export function useReviewsManager() {
                     return (watchA?.model || '').localeCompare(watchB?.model || '');
                 });
             default:
-                // Por defecto, ordenar por fecha más reciente
                 return filtered.sort((a, b) => 
                     new Date(b.date?.$date || b.date) - new Date(a.date?.$date || a.date)
                 );
@@ -269,17 +229,14 @@ export function useReviewsManager() {
 
     // Calcular estadísticas
     const getTotalReviews = () => reviews.length;
-    
     const getAverageRating = () => {
         if (reviews.length === 0) return 0;
         const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
         return totalRating / reviews.length;
     };
-    
     const getRatingCount = (rating) => {
         return reviews.filter(r => r.rating === rating).length;
     };
-    
     const getRecentReviews = () => {
         const oneWeekAgo = new Date();
         oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
@@ -297,7 +254,6 @@ export function useReviewsManager() {
     };
 
     return {
-        // Estados principales
         reviews,
         setReviews,
         watches,
@@ -314,14 +270,10 @@ export function useReviewsManager() {
         setError,
         success,
         setSuccess,
-        
-        // Estados de paginación
         currentPage,
         setCurrentPage,
         itemsPerPage,
         setItemsPerPage,
-        
-        // Funciones principales
         loadInitialData,
         fetchReviews,
         fetchWatches,
@@ -333,8 +285,6 @@ export function useReviewsManager() {
         getWatchInfo,
         getCustomerInfo,
         getFilteredReviews,
-        
-        // Funciones de estadísticas
         getTotalReviews,
         getAverageRating,
         getRatingCount,

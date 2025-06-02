@@ -39,12 +39,11 @@ app.use(cookieParser());
 //MiddleWares 
 app.use(
     cors({
-        origin: "http://localhost:5173",
+        origin: "https://xaelor-app-web-nu.vercel.app",
         //Permitir envío de cookies y credenciales
         credentials: true,
     })
 )
-
 app.use("/api/branches",validateAuthToken(["admin"]), branchesRoutes);
 app.use("/api/brands", brandsRoutes);
 app.use("/api/customers",validateAuthToken(["admin","employee"]), customersRoutes);

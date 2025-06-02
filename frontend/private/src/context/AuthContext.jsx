@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-const SERVER_URL = "http://localhost:3333/api";
+import { config } from "../config";
+const SERVER_URL = config.api.API_BASE;;
 
 const AuthContext = createContext();
 
