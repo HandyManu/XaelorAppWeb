@@ -119,7 +119,7 @@ const CustomerCard = ({ data, onEdit, onDelete, isLoading, getMembershipName }) 
       {/* Botón de eliminar */}
       {showDeleteIcon && (
         <div className="delete-icon" onClick={handleDelete} disabled={isLoading}>
-          🗑️
+          <img src="/basura.svg" alt="Delete Icon" className="delete-icon-img" />
         </div>
       )}
     </div>

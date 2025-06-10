@@ -51,7 +51,7 @@ function SideNav() {
                             to="/dashboard" 
                             className={`nav-item ${isActive('/dashboard') ? 'active' : ''}`}
                         >
-                            <i className="nav-icon">🏠</i>
+                            <img src="/Home.svg"  className="nav-icon" />
                             <span className="nav-text">Dashboard</span>
                         </Link>
                     </li>
@@ -64,7 +64,7 @@ function SideNav() {
                                     to="/sucursales" 
                                     className={`nav-item ${isActive('/sucursales') ? 'active' : ''}`}
                                 >
-                                    <i className="nav-icon">🏪</i>
+                                    <img src="/tienda.svg"  className="nav-icon" />
                                     <span className="nav-text">Sucursales</span>
                                 </Link>
                             </li>
@@ -73,7 +73,7 @@ function SideNav() {
                                     to="/empleados" 
                                     className={`nav-item ${isActive('/empleados') ? 'active' : ''}`}
                                 >
-                                    <i className="nav-icon">👨‍💼</i>
+                                    <img src="/CV.svg"  className="nav-icon" />
                                     <span className="nav-text">Empleados</span>
                                 </Link>
                             </li>
@@ -85,7 +85,7 @@ function SideNav() {
                             to="/marcas" 
                             className={`nav-item ${isActive('/marcas') ? 'active' : ''}`}
                         >
-                            <i className="nav-icon">🏷️</i>
+                            <img src="/Price Tag.svg"  className="nav-icon" />
                             <span className="nav-text">Marcas</span>
                         </Link>
                     </li>
@@ -95,7 +95,7 @@ function SideNav() {
                             to="/relojes" 
                             className={`nav-item ${isActive('/relojes') ? 'active' : ''}`}
                         >
-                            <i className="nav-icon">⌚</i>
+                            <img src="/Watches Front View.svg"  className="nav-icon" />
                             <span className="nav-text">Relojes</span>
                         </Link>
                     </li>
@@ -105,7 +105,7 @@ function SideNav() {
                             to="/clientes" 
                             className={`nav-item ${isActive('/clientes') ? 'active' : ''}`}
                         >
-                            <i className="nav-icon">👥</i>
+                            <img src="/User.svg"  className="nav-icon" />
                             <span className="nav-text">Clientes</span>
                         </Link>
                     </li>
@@ -115,7 +115,7 @@ function SideNav() {
                             to="/inventario" 
                             className={`nav-item ${isActive('/inventario') ? 'active' : ''}`}
                         >
-                            <i className="nav-icon">📦</i>
+                            <img src="/inventario.svg"  className="nav-icon" />
                             <span className="nav-text">Inventario</span>
                         </Link>
                     </li>
@@ -125,7 +125,7 @@ function SideNav() {
                             to="/membresias" 
                             className={`nav-item ${isActive('/membresias') ? 'active' : ''}`}
                         >
-                            <i className="nav-icon vip-icon">VIP</i>
+                            <img src="/VIP.svg"  className="nav-icon" />
                             <span className="nav-text">Membresias</span>
                         </Link>
                     </li>
@@ -135,7 +135,7 @@ function SideNav() {
                             to="/ventas" 
                             className={`nav-item ${isActive('/ventas') ? 'active' : ''}`}
                         >
-                            <i className="nav-icon">💰</i>
+                            <img src="/Stocks Growth.svg"  className="nav-icon" />
                             <span className="nav-text">Ventas</span>
                         </Link>
                     </li>
@@ -145,7 +145,7 @@ function SideNav() {
                             to="/resenas" 
                             className={`nav-item ${isActive('/resenas') ? 'active' : ''}`}
                         >
-                            <i className="nav-icon">⭐</i>
+                            <img src="/Star Half Empty.svg"  className="nav-icon" />
                             <span className="nav-text">Reseñas</span>
                         </Link>
                     </li>
@@ -154,7 +154,7 @@ function SideNav() {
             
             <div className="logout-container">
                 <div className="nav-item logout" onClick={handleLogout}>
-                    <i className="nav-icon">📤</i>
+                <img src="/Logout.svg"  className="nav-icon" />
                     <span className="nav-text">Log Out</span>
                 </div>
             </div>
