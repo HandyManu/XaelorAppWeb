@@ -182,6 +182,12 @@
   z-index: 3;
 }
 
+.delete-icon-img {
+  width: 20px; /* Ajusta el ancho de la imagen */
+  height: 20px; /* Ajusta la altura de la imagen */
+  cursor: pointer; /* Mantiene el cursor como puntero */
+}
+
 .delete-icon:hover {
   opacity: 1;
   background-color: rgba(231, 76, 60, 0.9);

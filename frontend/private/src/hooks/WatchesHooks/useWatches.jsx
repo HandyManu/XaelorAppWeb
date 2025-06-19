@@ -1,4 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
+import { config } from '../../config';
+
+const API_BASE = config.api.API_BASE;
 
 export function useWatchesManager() {
     const [watches, setWatches] = useState([]);
@@ -26,7 +29,7 @@ export function useWatchesManager() {
     // GET - Obtener marcas para el dropdown
     const fetchBrands = async () => {
         try {
-            const response = await fetch('http://localhost:3333/api/brands');
+            const response = await fetch(`${API_BASE}/brands`);
             if (response.ok) {
                 const data = await response.json();
                 setBrands(data);
@@ -42,7 +45,7 @@ export function useWatchesManager() {
             setIsLoading(true);
             setError('');
 
-            const response = await fetch('http://localhost:3333/api/watches');
+            const response = await fetch(`${API_BASE}/watches`);
 
             if (!response.ok) {
                 throw new Error(`Error al cargar los relojes: ${response.status} ${response.statusText}`);
@@ -138,12 +141,12 @@ export function useWatchesManager() {
 
             let response;
             if (isEditing && currentWatchId) {
-                response = await fetch(`http://localhost:3333/api/watches/${currentWatchId}`, {
+                response = await fetch(`${API_BASE}/watches/${currentWatchId}`, {
                     method: 'PUT',
                     body: formData,
                 });
             } else {
-                response = await fetch('http://localhost:3333/api/watches', {
+                response = await fetch(`${API_BASE}/watches`, {
                     method: 'POST',
                     body: formData,
                 });
@@ -173,7 +176,7 @@ export function useWatchesManager() {
 
         try {
             setIsLoading(true);
-            const response = await fetch(`http://localhost:3333/api/watches/${watchId}`, {
+            const response = await fetch(`${API_BASE}/watches/${watchId}`, {
                 method: 'DELETE',
             });
 
@@ -242,23 +245,16 @@ export function useWatchesManager() {
             setActivePhotoIndex(0);
         } else if (index <= activePhotoIndex) {
             if (index === activePhotoIndex && index === updatedPhotos.length) {
-                // Si eliminamos la última imagen y era la activa
                 setActivePhotoIndex(Math.max(0, updatedPhotos.length - 1));
             } else if (index < activePhotoIndex) {
-                // Si eliminamos una imagen anterior a la activa
                 setActivePhotoIndex(activePhotoIndex - 1);
             } else if (index === activePhotoIndex && updatedPhotos.length > 0) {
-                // Si eliminamos la imagen activa pero hay más imágenes
                 setActivePhotoIndex(Math.min(activePhotoIndex, updatedPhotos.length - 1));
             }
         }
 
         console.log('Foto eliminada del array local. Fotos restantes:', updatedPhotos.length);
         console.log('Foto eliminada:', photoToDelete.url);
-
-        // IMPORTANTE: La eliminación real se hará en el servidor cuando se envíe el formulario
-        // El backend recibirá solo las fotos que están en 'existingPhotos' y las mantendrá
-        // Las que no estén en ese array se eliminarán del servidor
     };
 
     const handleSelectImage = () => fileInputRef.current.click();

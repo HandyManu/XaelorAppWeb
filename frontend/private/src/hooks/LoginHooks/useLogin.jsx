@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { config } from "../../config";
+
+const API_BASE = config.api.API_BASE;
 
 export function useLogin() {
     const { Login } = useAuth();
@@ -16,7 +19,11 @@ export function useLogin() {
         setError("");
         
         console.log("Attempting login with:", { email }); // Debug
-        
+
+        // Si tu AuthContext/Login usa API_BASE, no necesitas cambiar nada aquí.
+        // Si quieres hacer el fetch aquí directamente, usa API_BASE:
+        // const response = await fetch(`${API_BASE}/login`, { ... });
+
         const result = await Login(email, password);
         setLoading(false);
 
@@ -24,7 +31,6 @@ export function useLogin() {
 
         if (result.success) {
             console.log("Login successful, navigating to dashboard"); // Debug
-            // Pequeño delay para asegurar que el estado se actualice
             setTimeout(() => {
                 navigate("/dashboard", { replace: true });
             }, 100);

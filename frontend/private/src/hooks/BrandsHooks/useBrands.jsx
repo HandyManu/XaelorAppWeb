@@ -1,22 +1,22 @@
 import { useState, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { config } from '../../config';
+
+const API_BASE = config.api.API_BASE;
 
 export function useBrandsManager() {
     const auth = useAuth();
     const { isAuthenticated, user } = auth;
-    
+
     // Función para obtener headers de autenticación (compatible con tu AuthContext original)
     const getAuthHeaders = () => {
-        // Si tu AuthContext tiene getAuthHeaders, usarlo; sino, crear los headers manualmente
         if (auth.getAuthHeaders && typeof auth.getAuthHeaders === 'function') {
             return auth.getAuthHeaders();
         }
-        
-        // Fallback: crear headers manualmente
         const token = localStorage.getItem('authToken');
         return token ? { 'Authorization': `Bearer ${token}` } : {};
     };
-    
+
     const [brands, setBrands] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -27,85 +27,79 @@ export function useBrandsManager() {
     const [isEditing, setIsEditing] = useState(false);
     const [currentBrandId, setCurrentBrandId] = useState(null);
 
-    // Estados del formulario (exactamente igual que useBlog)
+    // Estados del formulario
     const [brandName, setBrandName] = useState('');
     const [image, setImage] = useState(null);
     const [previewUrl, setPreviewUrl] = useState('');
     const fileInputRef = useRef(null);
 
-    // GET - Obtener todas las marcas (SIN HEADERS como en useBlog)
+    // GET - Obtener todas las marcas
     const fetchBrands = async () => {
         try {
             setIsLoading(true);
             setError('');
-            
-            const response = await fetch('http://localhost:3333/api/brands');
-            
+            const response = await fetch(`${API_BASE}/brands`, {
+                credentials: 'include',
+            });
             if (!response.ok) {
                 throw new Error(`Error al cargar las marcas: ${response.status} ${response.statusText}`);
             }
-            
             const data = await response.json();
-            console.log('Marcas recibidas:', data);
             setBrands(data);
         } catch (error) {
-            console.error('Error al cargar marcas:', error);
             setError('No se pudieron cargar las marcas. ' + error.message);
         } finally {
             setIsLoading(false);
         }
     };
 
-    // POST - Crear marca (exactamente igual que createBlog - SIN HEADERS)
+    // POST - Crear marca
     const createBrand = async () => {
         const formData = new FormData();
         formData.append('brandName', brandName);
         if (image) formData.append('photos', image);
 
-        return await fetch('http://localhost:3333/api/brands', {
+        return await fetch(`${API_BASE}/brands`, {
             method: 'POST',
             body: formData,
+            credentials: 'include',
         });
     };
 
-    // PUT - Actualizar marca (exactamente igual que updateBlog - SIN HEADERS)
+    // PUT - Actualizar marca
     const updateBrand = async () => {
         const formData = new FormData();
         formData.append('brandName', brandName);
         if (image) formData.append('photos', image);
 
-        return await fetch(`http://localhost:3333/api/brands/${currentBrandId}`, {
+        return await fetch(`${API_BASE}/brands/${currentBrandId}`, {
             method: 'PUT',
             body: formData,
+            credentials: 'include',
         });
     };
 
-    // POST/PUT - Crear o actualizar marca (exactamente igual que handleSubmit de useBlog)
+    // POST/PUT - Crear o actualizar marca
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!brandName.trim()) {
             setError('El nombre de la marca es obligatorio');
             return;
         }
-        
         try {
             setIsLoading(true);
             setError('');
-            
             let response;
             if (isEditing && currentBrandId) {
                 response = await updateBrand();
             } else {
                 response = await createBrand();
             }
-            
             if (!response.ok) {
                 throw new Error(`Error al ${isEditing ? 'actualizar' : 'crear'} la marca: ${response.status} ${response.statusText}`);
             }
-
             setSuccess(`Marca ${isEditing ? 'actualizada' : 'creada'} exitosamente`);
             setTimeout(() => setSuccess(''), 3000);
-            
             fetchBrands();
             setShowModal(false);
             resetForm();
@@ -116,22 +110,20 @@ export function useBrandsManager() {
         }
     };
 
-    // DELETE - Eliminar marca (exactamente igual que handleDeleteBlog)
+    // DELETE - Eliminar marca
     const handleDeleteBrand = async (brandId, event) => {
         if (event) event.stopPropagation();
         if (!brandId) return;
         if (!window.confirm('¿Estás seguro de que deseas eliminar esta marca?')) return;
-        
         try {
             setIsLoading(true);
-            const response = await fetch(`http://localhost:3333/api/brands/${brandId}`, {
+            const response = await fetch(`${API_BASE}/brands/${brandId}`, {
                 method: 'DELETE',
+                credentials: 'include',
             });
-            
             if (!response.ok) {
                 throw new Error(`Error al eliminar la marca: ${response.status} ${response.statusText}`);
             }
-            
             setSuccess('Marca eliminada exitosamente');
             setTimeout(() => setSuccess(''), 3000);
             fetchBrands();
@@ -142,7 +134,7 @@ export function useBrandsManager() {
         }
     };
 
-    // Helpers (exactamente igual que useBlog)
+    // Helpers
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -203,7 +195,6 @@ export function useBrandsManager() {
     };
 
     return {
-        // Estados
         brands,
         setBrands,
         showModal,
@@ -222,8 +213,6 @@ export function useBrandsManager() {
         setIsEditing,
         currentBrandId,
         setCurrentBrandId,
-        
-        // Estados del formulario
         brandName,
         setBrandName,
         image,
@@ -231,8 +220,6 @@ export function useBrandsManager() {
         previewUrl,
         setPreviewUrl,
         fileInputRef,
-        
-        // Funciones
         fetchBrands,
         createBrand,
         updateBrand,

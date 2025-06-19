@@ -81,7 +81,7 @@ const EmployeeCard = ({ data, branchInfo, onEdit, onDelete }) => {
       
       {showDeleteIcon && (
         <div className="delete-icon" onClick={handleDelete}>
-          🗑️
+          <img src="/basura.svg" alt="Delete Icon" className="delete-icon-img" />
         </div>
       )}
     </div>

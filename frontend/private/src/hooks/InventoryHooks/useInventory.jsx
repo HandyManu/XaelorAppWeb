@@ -1,5 +1,8 @@
 import { useState } from 'react';
-import { useAuth } from '../../context/AuthContext'; 
+import { useAuth } from '../../context/AuthContext';
+import { config } from '../../config';
+
+const API_BASE = config.api.API_BASE;
 
 export function useInventoryManager() {
     const { authenticatedFetch, isAuthenticated, user } = useAuth();
@@ -31,10 +34,11 @@ export function useInventoryManager() {
     // GET - Obtener todos los relojes para el dropdown
     const fetchWatches = async () => {
         try {
-            const response = await authenticatedFetch('http://localhost:3333/api/watches');
+            const response = await authenticatedFetch(`${API_BASE}/watches`, {
+                credentials: 'include'
+            });
             if (response.ok) {
                 const data = await response.json();
-                console.log('Relojes recibidos:', data);
                 setWatches(data);
             } else {
                 console.error('Error al cargar relojes:', response.status);
@@ -47,10 +51,11 @@ export function useInventoryManager() {
     // GET - Obtener todas las sucursales para el dropdown
     const fetchBranches = async () => {
         try {
-            const response = await authenticatedFetch('http://localhost:3333/api/branches');
+            const response = await authenticatedFetch(`${API_BASE}/branches`, {
+                credentials: 'include'
+            });
             if (response.ok) {
                 const data = await response.json();
-                console.log('Sucursales recibidas:', data);
                 setBranches(data);
             } else {
                 console.error('Error al cargar sucursales:', response.status);
@@ -78,16 +83,15 @@ export function useInventoryManager() {
         try {
             setError('');
             
-            const response = await authenticatedFetch('http://localhost:3333/api/inventories');
-            
-            console.log('Respuesta del servidor inventario:', response);
+            const response = await authenticatedFetch(`${API_BASE}/inventories`, {
+                credentials: 'include'
+            });
             
             if (!response.ok) {
                 throw new Error(`Error al cargar el inventario: ${response.status} ${response.statusText}`);
             }
             
             const data = await response.json();
-            console.log('Inventarios recibidos:', data);
             
             // Procesar inventarios para calcular stock actual
             const processedInventories = data.map(inventory => ({
@@ -188,7 +192,7 @@ export function useInventoryManager() {
                 // Agregar movimiento a inventario existente (PUT)
                 console.log('Agregando movimiento a inventario con ID:', currentInventoryId);
                 
-                response = await authenticatedFetch(`http://localhost:3333/api/inventories/${currentInventoryId}/movement`, {
+                response = await authenticatedFetch(`${API_BASE}/inventories/${currentInventoryId}/movement`, {
                     method: 'PUT',
                     body: JSON.stringify(dataToSend),
                 });
@@ -196,7 +200,7 @@ export function useInventoryManager() {
                 // Crear nuevo inventario (POST)
                 console.log('Creando nuevo inventario');
                 
-                response = await authenticatedFetch('http://localhost:3333/api/inventories', {
+                response = await authenticatedFetch(`${API_BASE}/inventories`, {
                     method: 'POST',
                     body: JSON.stringify(dataToSend),
                 });
@@ -276,7 +280,7 @@ export function useInventoryManager() {
             
             console.log('Intentando eliminar inventario con ID:', inventoryToDelete._id);
             
-            const response = await authenticatedFetch(`http://localhost:3333/api/inventories/${inventoryToDelete._id}`, {
+            const response = await authenticatedFetch(`${API_BASE}/inventories/${inventoryToDelete._id}`, {
                 method: 'DELETE',
             });
             

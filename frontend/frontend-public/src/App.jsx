@@ -10,7 +10,7 @@ import UltimosLanzamientos from './pages/ultimosLanzamientos/latestLaunches.jsx'
 import SobreNosotros from './pages/sobreNosotros/sobreNosotros.jsx'
 import Terminos from './pages/terminosYcondiciones/terminos.jsx'
 import Contacto from './pages/contactanos/contactanos.jsx'
-import Infoproducto from './pages/infoProduct/infoP.jsx'
+import Infoproducto from './pages/'
 import LogIn from './pages/Login/LogIn.jsx'
 import SignUp from './pages/SignUp/signUp.jsx'
 
