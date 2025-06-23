@@ -174,19 +174,37 @@ nav a.active::after {
     margin-right: 10px;
 }
 
-.logout-btn {
-    background-color: rgba(255, 87, 87, 0.7) !important;
-    border: #ffaaaa 1px solid !important;
+/* Estilo cuando el usuario está autenticado */
+.logout-btn.authenticated {
+    background: none; /* Elimina el círculo amarillo */
+    box-shadow: none; /* Elimina cualquier borde o sombra */
+    padding: 0; /* Ajusta el espacio */
+    border: none;
+    box-shadow: none;
+    
 }
 
-.logout-btn::before {
-    background-color: #ffaaaa !important;
+/* Estilo cuando el usuario no está autenticado */
+.logout-btn.not-authenticated {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; /* Tamaño del botón */
+    height: 40px; /* Tamaño del botón */
+    border-radius: 50%; /* Círculo por defecto */
+    background-color: #FFC464; /* Color del círculo amarillo */
+    transition: all 0.3s ease;
 }
 
-.logout-btn:hover {
-    color: rgba(255, 87, 87, 1) !important;
-    box-shadow: 0 5px 15px rgba(255, 87, 87, 0.3) !important;
+/* Estilo del ícono de logout */
+.logout-icon {
+    width: 50px; /* Tamaño del ícono */
+    height: 50px;
+    object-fit: contain;
+    cursor: pointer;
 }
+
+
 
 .hero-carousel {
     position: relative;

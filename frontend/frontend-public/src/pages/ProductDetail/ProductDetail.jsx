@@ -6,7 +6,7 @@ import './ProductDetail.css';
 function ProductDetail() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { product, isLoading, error, addToCart } = useProductDetail(id);
+    const { product, isLoading, error } = useProductDetail(id);
     
 
     // Estados locales para la interacción
@@ -35,21 +35,7 @@ function ProductDetail() {
         return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_600,h_600,c_fill,f_auto,q_auto/${publicId}`;
     };
 
-    // Función para manejar agregar al carrito
-    const handleAddToCart = async () => {
-        setAddingToCart(true);
-        
-        const result = await addToCart(quantity, selectedColor);
-        
-        if (result.success) {
-            alert('Producto agregado al carrito exitosamente');
-        } else {
-            alert(`Error: ${result.message}`);
-        }
-        
-        setAddingToCart(false);
-    };
-
+   
     // Función para navegar entre imágenes
     const handleImageNavigation = (direction) => {
         if (!product?.photos || product.photos.length === 0) return;
@@ -195,8 +181,7 @@ function ProductDetail() {
                     {/* Botón de agregar al carrito */}
                     <button 
                         className="add-to-cart-btn"
-                        onClick={handleAddToCart}
-                        disabled={addingToCart}
+                                                disabled={addingToCart}
                     >
                         {addingToCart ? 'Agregando...' : 'Añadir al carrito 🛒'}
                     </button>

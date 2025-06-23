@@ -1,5 +1,23 @@
 import jsonwebtoken from "jsonwebtoken";
 import { config } from "../config.js";
+import jwt from 'jsonwebtoken';
+
+// Middleware para validar el token desde los headers
+const authMiddleware = (req, res, next) => {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) {
+        return res.status(401).json({ message: "No token provided" });
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.userId = decoded.id; // Adjuntar el ID del usuario al objeto de la solicitud
+        next();
+    } catch (error) {
+        console.error("Invalid token:", error);
+        res.status(401).json({ message: "Invalid token" });
+    }
+};
 
 export const validateAuthToken = (allowedUserTypes = []) => {
     return (req, res, next) => {
@@ -10,7 +28,7 @@ export const validateAuthToken = (allowedUserTypes = []) => {
             //2- validar si existen las cookies
             if (!authToken) {
                 return res.status(401).json({
-                    message: "Cokies not found, please login",
+                    message: "Cookies not found, please login",
                 });
             }
             //3- extraemos la información del token
@@ -27,8 +45,10 @@ export const validateAuthToken = (allowedUserTypes = []) => {
         }
         catch (error) {
             return res.status(401).json({
-                message: "error"+ error
+                message: "error" + error
             });
         };
     }
-}
+};
+
+export default authMiddleware;
