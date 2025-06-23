@@ -6,13 +6,13 @@ import Home from '../pages/homePage/homePage.jsx';
 import Relojes from '../pages/Relojes/Relojes.jsx';
 import Naturen from '../pages/ettMedNaturen/ettMedNaturen.jsx';
 import Nautilus from '../pages/Nautilus/Nautilus.jsx';
-import UltimosLanzamientos from '../pages/ultimosLanzamientos/latestLaunches.jsx';
 import SobreNosotros from '../pages/sobreNosotros/sobreNosotros.jsx';
 import Terminos from '../pages/terminosYcondiciones/terminos.jsx';
 import Contacto from '../pages/contactanos/contactanos.jsx';
 import ProductDetail from '../pages/ProductDetail/ProductDetail.jsx';
 import LogIn from '../pages/Login/LogIn.jsx';
 import SignUp from '../pages/SignUp/signUp.jsx';
+import SalesPage from '../pages/Sales/Sales.jsx';
 import PasswordRecovery from '../pages/PasswordRecovery/passwordRecovery.jsx';
 import { Toaster } from 'react-hot-toast';
 
@@ -51,7 +51,6 @@ export default function Navegation() {
                     <Route path='/watches' element={<Relojes />} />
                     <Route path='/ett-med-naturen' element={<Naturen />} />
                     <Route path='/nautilus' element={<Nautilus />} />
-                    <Route path='/last-publishes' element={<UltimosLanzamientos />} />
                     <Route path='/about-us' element={<SobreNosotros />} />
                     <Route path='/contacto' element={<Contacto />} />
                     <Route path='/terminos-condiciones' element={<Terminos />} />
@@ -68,6 +67,9 @@ export default function Navegation() {
                         </ProtectedAuthRoute>
                     } />
                     <Route path='/watchInfo/:id' element={<ProductDetail />} />
+
+                    {/* Historial de Compras */}
+                    <Route path='/sales' element={<SalesPage />} />
                 </Routes>
             </div>
 
