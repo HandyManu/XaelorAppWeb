@@ -44,17 +44,19 @@ const customersSchema = new Schema(
             message: props => `${props.value} is not a valid phone number`
          }
       },
+      isVerified: {
+         type: Boolean,
+         default: false
+      },
       membership:
       {
          membershipId: {
             type: Schema.Types.ObjectId,
             ref: "memberships",
-            required: [true, "The membership is required"]
          },
          startDate: {
             type: Date,
-            required: [true, "The start date is required"],
-            default: Date.now
+            default: null
          }
       }
 

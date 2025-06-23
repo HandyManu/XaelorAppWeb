@@ -6,9 +6,7 @@ import membershipMdl from "../models/membershipsMdl.js"
 //* GET
 membershipCtrl.getMemberships = async (req, res) => {
    try {
-      console.log('Obteniendo membresías...');
       const memberships = await membershipMdl.find();
-      console.log('Membresías encontradas:', memberships.length);
       res.json(memberships);
    } catch (err) {
       console.error('Error en getMemberships:', err);

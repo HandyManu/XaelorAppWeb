@@ -14,11 +14,11 @@ import ProductDetail from '../pages/ProductDetail/ProductDetail.jsx';
 import LogIn from '../pages/Login/LogIn.jsx';
 import SignUp from '../pages/SignUp/signUp.jsx';
 
-// Componente para proteger la ruta de login
-function ProtectedLoginRoute({ children }) {
+// Componente para proteger las rutas de login y signup
+function ProtectedAuthRoute({ children }) {
     const { isAuthenticated, isLoading } = useAuth();
 
-    // Mientras carga, no hacer nada
+    // Mientras carga, mostrar loading
     if (isLoading) {
         return <div>Cargando...</div>;
     }
@@ -28,7 +28,7 @@ function ProtectedLoginRoute({ children }) {
         return <Navigate to="/" replace />;
     }
 
-    // Si no está autenticado, mostrar el login
+    // Si no está autenticado, mostrar el componente
     return children;
 }
 
@@ -53,11 +53,15 @@ export default function Navegation() {
                     <Route path='/contacto' element={<Contacto />} />
                     <Route path='/terminos-condiciones' element={<Terminos />} />
                     <Route path='/login' element={
-                        <ProtectedLoginRoute>
+                        <ProtectedAuthRoute>
                             <LogIn />
-                        </ProtectedLoginRoute>
+                        </ProtectedAuthRoute>
                     } />
-                    <Route path='/signUp' element={<SignUp />} />
+                    <Route path='/signUp' element={
+                        <ProtectedAuthRoute>
+                            <SignUp />
+                        </ProtectedAuthRoute>
+                    } />
                     <Route path='/watchInfo/:id' element={<ProductDetail />} />
                 </Routes>
             </div>

@@ -23,6 +23,7 @@ import reviewsRoutes from './src/routes/reviewsRoutes.js';
 import salesRoutes from './src/routes/salesRoutes.js';
 import watchesRoutes from './src/routes/watchesRoutes.js';
 import inventoryRoutes from './src/routes/inventoryRoutes.js';
+import registerCLients from './src/routes/registerClients.js';
 import cookieParser from 'cookie-parser';
 import loginRoutes from './src/routes/logIn.js';
 import logoutRoutes from "./src/routes/logout.js";
@@ -52,6 +53,8 @@ app.use("/api/inventories",validateAuthToken(["admin","employee"]), inventoryRou
 app.use("/api/memberships", membershipsRoutes);//las restricciones de authToken se manejan individualmente en las rutas
 app.use("/api/reviews",validateAuthToken(["customer","admin","employee"]), reviewsRoutes);
 app.use("/api/sales",validateAuthToken(["admin","employee"]), salesRoutes);
+app.use("/api/registerClient", registerCLients);
+
 app.use("/api/watches", watchesRoutes);//las restricciones de authToken se manejan individualmente en las rutas
 app.use("/api/login", loginRoutes);
 app.use("/api/logout",logoutRoutes)
