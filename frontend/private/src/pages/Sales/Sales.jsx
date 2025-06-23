@@ -6,6 +6,7 @@ import SalesCard from '../../components/Cards/SalesCard/SalesCard';
 import Pagination from '../../components/Pagination/Pagination';
 import SalesEditModal from '../../components/Modals/SalesModals/SalesEditModal';
 import DeleteConfirmationModal from '../../components/Modals/DeleteConfirmationModal/DeleteConfirmationModal';
+import toast, { Toaster } from 'react-hot-toast'; 
 import './Sales.css';
 
 const SalesPage = () => {
@@ -21,8 +22,8 @@ const SalesPage = () => {
     saleToDelete,
     isLoading,
     error,
-    setError,
     success,
+    setError,
     isEditing,
     currentSaleId,
     
@@ -105,10 +106,14 @@ const SalesPage = () => {
     setCurrentPage(1);
   }, [searchTerm, sortBy, itemsPerPage]);
 
-  // Función para cerrar mensajes de error
-  const handleCloseError = () => {
-    setError('');
-  };
+  // Mostrar notificaciones de error y éxito
+  useEffect(() => {
+    if (error) toast.error(error);
+  }, [error]);
+
+  useEffect(() => {
+    if (success) toast.success(success);
+  }, [success]);
 
   // Función para preparar datos del formulario para el submit
   const handleFormSubmit = (formData) => {
@@ -133,7 +138,7 @@ const SalesPage = () => {
         title="Ventas" 
         onAddNew={handleAddNew} 
         onRefresh={handleRefresh}
-        showSearch={true}
+        showSearch={false}
         onSearch={handleSearch}
         searchPlaceholder="Buscar por cliente, empleado, ID de venta..."
         sortOptions={[
@@ -147,22 +152,22 @@ const SalesPage = () => {
         onSort={handleSort}
         showAddButton={true}
       />
-      
-      {/* Mostrar mensajes de error */}
+
+      {/* Elimina los mensajes visuales de error y éxito */}
+      {/* 
       {error && (
         <div className="error-message">
           <span>{error}</span>
           <button onClick={handleCloseError} className="close-btn">×</button>
         </div>
       )}
-      
-      {/* Mostrar mensajes de éxito */}
       {success && (
         <div className="success-message">
           {success}
         </div>
       )}
-      
+      */}
+
       {/* Mostrar indicador de carga */}
       {isLoading && (
         <div className="loading-indicator">
@@ -299,6 +304,8 @@ const SalesPage = () => {
           isLoading={isLoading}
         />
       )}
+
+      <Toaster position="top-right" />
     </div>
   );
 };

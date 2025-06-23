@@ -1,6 +1,8 @@
 // App.jsx
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import Navegation from './components/Navegation.jsx';
+import { Toaster } from 'react-hot-toast'; // <-- Importa hot-toast
 
 // Components
 import SideNav from './components/SideNav/SideNav.jsx';
@@ -15,6 +17,7 @@ import Employees from './pages/Employees/Employees.jsx';
 import Memberships from './pages/Memberships/Memberships.jsx';
 import Sales from './pages/Sales/Sales.jsx';
 import Reviews from './pages/Reviews/Reviews.jsx';
+import { AuthProvider } from './context/AuthContext.jsx';
 
 // Wrapper component to use useLocation
 function AppContent() {
@@ -59,6 +62,7 @@ function App() {
     <AuthProvider>
       <Router>
         <Navegation />
+        <Toaster position="top-right" />
       </Router>
     </AuthProvider>
   );

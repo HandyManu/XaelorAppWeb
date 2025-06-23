@@ -1,5 +1,7 @@
 import './App.css'
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
+import { AuthProvider } from './context/AuthContext' // Importar AuthProvider
+import Navegation from './components/Navegation'
 import Header from './components/header/header.jsx'
 import Footer from './components/footer/footer.jsx'
 import Home from './pages/homePage/homePage.jsx'
@@ -52,9 +54,11 @@ function AppContent() {
 
 function App() {
   return (
-    <Router>
-      <AppContent />
-    </Router>
+    <AuthProvider> {/* Envolver todo con AuthProvider */}
+      <Router>
+        <Navegation />
+      </Router>
+    </AuthProvider>
   );
 }
 

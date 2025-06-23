@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-const SERVER_URL = "http://localhost:3333/api";
+import { config } from "../config";
+const SERVER_URL = config.api.API_BASE;;
 
 const AuthContext = createContext();
 
@@ -25,10 +26,7 @@ export const AuthProvider = ({ children }) => {
 
             const data = await response.json();
 
-            // No permitir login si el usuario es customer
-            if (data.user && data.user.userType === "customer") {
-                return { success: false, message: "No tienes permisos para acceder a este sistema." };
-            }
+            // Ya no hay restricción por tipo de usuario
 
             // Guardar en localStorage
             localStorage.setItem("authToken", data.token);
@@ -37,8 +35,6 @@ export const AuthProvider = ({ children }) => {
             // Actualizar estado inmediatamente
             setAuthCokie(data.token);
             setUser(data.user);
-
-            console.log("Login exitoso:", { token: data.token, user: data.user }); // Debug
 
             return { success: true, message: data.message };
         } catch (error) {
@@ -60,7 +56,7 @@ export const AuthProvider = ({ children }) => {
         } finally {
             // Limpiar datos locales siempre
             localStorage.removeItem("authToken");
-            localStorage.removeItem("userType");
+            localStorage.removeItem("user");
             setAuthCokie(null);
             setUser(null);
         }
@@ -131,14 +127,12 @@ export const AuthProvider = ({ children }) => {
         const token = localStorage.getItem("authToken");
         const savedUser = localStorage.getItem("user");
         
-        console.log("useEffect - Checking stored auth:", { token, savedUser }); // Debug
         
         if (token && savedUser && savedUser !== "undefined") {
             try {
                 const parsedUser = JSON.parse(savedUser);
                 setUser(parsedUser);
                 setAuthCokie(token);
-                console.log("Auth restored from localStorage:", { token, user: parsedUser }); // Debug
             } catch (error) {
                 console.error("Error parsing saved user:", error);
                 localStorage.removeItem("user");

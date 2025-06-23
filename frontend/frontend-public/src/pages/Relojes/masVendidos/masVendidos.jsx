@@ -1,75 +1,99 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useProducts } from '../../../hooks/ProductHooks/useProducts';
 import './masVendidos.css';
 
 function MasVendidos() {
-  // Datos de productos más vendidos - todos con el mismo reloj como en la imagen de referencia
-  const productosDestacados = [
-    {
-      id: 1,
-      nombre: 'Xaelör Noir Deluxe',
-      precio: '$500.00',
-      valoracion: 85,
-      imagen: '/Images/Xaelör Noir Deluxe.svg',
-      enlace: '/watchInfo'
-    },
-    {
-      id: 2,
-      nombre: 'Xaelör Noir Deluxe',
-      precio: '$500.00',
-      valoracion: 85,
-      imagen: '/Images/Xaelör Noir Deluxe.svg',
-      enlace: '/watchInfo'
-    },
-    {
-      id: 3,
-      nombre: 'Xaelör Noir Deluxe',
-      precio: '$500.00',
-      valoracion: 85,
-      imagen: '/Images/Xaelör Noir Deluxe.svg',
-      enlace: '/watchInfo'
-    },
-    {
-      id: 4,
-      nombre: 'Xaelör Noir Deluxe',
-      precio: '$500.00',
-      valoracion: 85,
-      imagen: '/Images/Xaelör Noir Deluxe.svg',
-      enlace: '/watchInfo'
-    },
-    {
-      id: 5,
-      nombre: 'Xaelör Noir Deluxe',
-      precio: '$500.00',
-      valoracion: 85,
-      imagen: '/Images/Xaelör Noir Deluxe.svg',
-      enlace: '/watchInfo'
-    },
-    {
-      id: 6,
-      nombre: 'Xaelör Noir Deluxe',
-      precio: '$500.00',
-      valoracion: 85,
-      imagen: '/Images/Xaelör Noir Deluxe.svg',
-      enlace: '/watchInfo'
-    },
-    {
-      id: 7,
-      nombre: 'Xaelör Noir Deluxe',
-      precio: '$500.00',
-      valoracion: 85,
-      imagen: '/Images/Xaelör Noir Deluxe.svg',
-      enlace: '/watchInfo'
-    },
-    {
-      id: 8,
-      nombre: 'Xaelör Noir Deluxe',
-      precio: '$500.00',
-      valoracion: 85,
-      imagen: '/Images/Xaelör Noir Deluxe.svg',
-      enlace: '/watchInfo'
+  // Usar el hook para cargar productos más vendidos de CUALQUIER categoría
+  const { products, isLoading, error } = useProducts({
+    featured: true, // Solo productos destacados/más vendidos
+    limit: 8,
+    sortBy: 'popularity', // O el campo que uses para popularidad
+    // NO especificamos category para que cargue de todas las categorías
+  });
+
+  // Función para procesar URL de imagen de Cloudinary
+  const getCloudinaryUrl = (photo) => {
+    if (!photo) return '/Images/Xaelör Noir Deluxe.svg';
+    
+    if (typeof photo === 'string' && photo.includes('res.cloudinary.com')) {
+      return photo;
     }
-  ];
+    
+    if (typeof photo === 'object' && photo.url) {
+      if (photo.url.includes('res.cloudinary.com')) {
+        return photo.url;
+      }
+    }
+    
+    const CLOUD_NAME = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME || 'demo';
+    const publicId = typeof photo === 'string' ? photo : (photo.url || photo);
+    
+    return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_400,h_400,c_fill,f_auto,q_auto/${publicId}`;
+  };
+
+  // Mostrar estado de carga
+  if (isLoading) {
+    return (
+      <section className="mas-vendidos-section">
+        <div className="mas-vendidos-container">
+          <h2>Lo más vendido</h2>
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'center', 
+            height: '200px',
+            color: 'white' 
+          }}>
+            <div style={{ textAlign: 'center' }}>
+              <div className="loading-spinner" style={{
+                width: '40px',
+                height: '40px',
+                border: '3px solid #333',
+                borderTop: '3px solid #ffc464',
+                borderRadius: '50%',
+                animation: 'spin 1s linear infinite',
+                margin: '0 auto 10px'
+              }}></div>
+              Cargando productos más vendidos...
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Mostrar error o productos vacíos
+  if (error || products.length === 0) {
+    return (
+      <section className="mas-vendidos-section">
+        <div className="mas-vendidos-container">
+          <h2>Lo más vendido</h2>
+          <div style={{ 
+            textAlign: 'center', 
+            color: 'white', 
+            padding: '40px' 
+          }}>
+            {error ? (
+              <>
+                <p>Error al cargar productos: {error}</p>
+                <p style={{ fontSize: '0.9rem', color: '#bbb', marginTop: '10px' }}>
+                  Buscando productos destacados de todas las categorías
+                </p>
+              </>
+            ) : (
+              <>
+                <p>No hay productos destacados disponibles en este momento</p>
+                <p style={{ fontSize: '0.9rem', color: '#bbb', marginTop: '10px' }}>
+                  Verifica que existan productos marcados como "featured: true" en la base de datos
+                </p>
+              </>
+            )}
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="mas-vendidos-section">
@@ -77,24 +101,52 @@ function MasVendidos() {
         <h2>Lo más vendido</h2>
         
         <div className="mas-vendidos-grid">
-          {productosDestacados.map((producto) => (
-            <Link key={producto.id} to={producto.enlace} className="producto-card-vendido">
-              <div className="producto-imagen-vendido">
-                <img src={producto.imagen} alt={producto.nombre} />
-              </div>
-              
-              <div className="producto-info-vendido">
-                <h3 className="producto-nombre-vendido">{producto.nombre}</h3>
-                <div className="producto-detalles-vendido">
-                  <span className="producto-precio-vendido">{producto.precio}</span>
-                  <div className="producto-valoracion-vendido">
-                    <span className="valoracion-valor-vendido">{producto.valoracion}%</span>
-                    <span className="valoracion-icono-vendido">❤</span>
+          {products.map((producto) => {
+            // Obtener la primera imagen del producto
+            const productImage = producto.photos && producto.photos.length > 0
+              ? getCloudinaryUrl(producto.photos[0])
+              : '/Images/Xaelör Noir Deluxe.svg';
+
+            return (
+              <Link 
+                key={producto._id} 
+                to={`/watchInfo/${producto._id}`} 
+                className="producto-card-vendido"
+              >
+                <div className="producto-imagen-vendido">
+                  <img 
+                    src={productImage} 
+                    alt={producto.model} 
+                    onError={(e) => {
+                      e.target.src = '/Images/Xaelör Noir Deluxe.svg';
+                    }}
+                  />
+                </div>
+                
+                <div className="producto-info-vendido">
+                  <h3 className="producto-nombre-vendido">{producto.model}</h3>
+                  <div className="producto-detalles-vendido">
+                    <span className="producto-precio-vendido">
+                      ${producto.price?.toLocaleString()}
+                    </span>
+                    <div className="producto-valoracion-vendido">
+                      <span className="valoracion-valor-vendido">85%</span>
+                      <span className="valoracion-icono-vendido">❤</span>
+                    </div>
+                  </div>
+                  {/* Mostrar la categoría del producto */}
+                  <div style={{ 
+                    fontSize: '0.7rem', 
+                    color: '#bbb', 
+                    textAlign: 'center', 
+                    marginTop: '4px' 
+                  }}>
+                    {producto.category}
                   </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            );
+          })}
         </div>
         
         <div className="ver-mas-container">

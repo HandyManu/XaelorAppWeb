@@ -6,6 +6,7 @@ import CustomerCard from '../../components/Cards/CustomerCard/CustomerCard';
 import Pagination from '../../components/Pagination/Pagination';
 import CustomerEditModal from '../../components/Modals/CustomerModals/CustomerEditModal';
 import DeleteConfirmationModal from '../../components/Modals/DeleteConfirmationModal/DeleteConfirmationModal';
+import toast, { Toaster } from 'react-hot-toast'; // <-- Agrega esto
 import './Customers.css';
 
 const CustomersPage = () => {
@@ -19,8 +20,8 @@ const CustomersPage = () => {
     customerToDelete,
     isLoading,
     error,
-    setError,
     success,
+    setError,
     isEditing,
     currentCustomerId,
     
@@ -101,10 +102,14 @@ const CustomersPage = () => {
     setCurrentPage(1);
   }, [searchTerm, sortBy, itemsPerPage]);
 
-  // Función para cerrar mensajes de error
-  const handleCloseError = () => {
-    setError('');
-  };
+  // Mostrar notificaciones de error y éxito
+  useEffect(() => {
+    if (error) toast.error(error);
+  }, [error]);
+
+  useEffect(() => {
+    if (success) toast.success(success);
+  }, [success]);
 
   // Función para preparar datos del formulario para el submit
   const handleFormSubmit = (formData) => {
@@ -141,20 +146,6 @@ const CustomersPage = () => {
         showAddButton={true}
       />
       
-      {/* Mostrar mensajes de error */}
-      {error && (
-        <div className="error-message">
-          <span>{error}</span>
-          <button onClick={handleCloseError} className="close-btn">×</button>
-        </div>
-      )}
-      
-      {/* Mostrar mensajes de éxito */}
-      {success && (
-        <div className="success-message">
-          {success}
-        </div>
-      )}
       
       {/* Mostrar indicador de carga */}
       {isLoading && (
@@ -261,6 +252,8 @@ const CustomersPage = () => {
           isLoading={isLoading}
         />
       )}
+
+      <Toaster position="top-right" />
     </div>
   );
 };
