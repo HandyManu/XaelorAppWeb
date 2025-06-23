@@ -5,6 +5,7 @@ import Header from '../../components/Header/header';
 import ReviewCard from '../../components/Cards/ReviewsCard/ReviewsCard';
 import Pagination from '../../components/Pagination/Pagination';
 import DeleteConfirmationModal from '../../components/Modals/DeleteConfirmationModal/DeleteConfirmationModal';
+import toast, { Toaster } from 'react-hot-toast'; // <-- Agrega esto
 import './Reviews.css';
 
 const ReviewsPage = () => {
@@ -17,8 +18,8 @@ const ReviewsPage = () => {
     reviewToDelete,
     isLoading,
     error,
-    setError,
     success,
+    setError,
     
     // Estados de paginación
     currentPage,
@@ -88,10 +89,14 @@ const ReviewsPage = () => {
     setCurrentPage(1);
   }, [searchTerm, sortBy, itemsPerPage]);
 
-  // Función para cerrar mensajes de error
-  const handleCloseError = () => {
-    setError('');
-  };
+  // Mostrar notificaciones de error y éxito
+  useEffect(() => {
+    if (error) toast.error(error);
+  }, [error]);
+
+  useEffect(() => {
+    if (success) toast.success(success);
+  }, [success]);
 
   // Función para renderizar estrellas con JSX
   const renderStarsJSX = (rating) => {
@@ -121,21 +126,21 @@ const ReviewsPage = () => {
         showAddButton={false} 
       />
 
-      {/* Mostrar mensajes de error */}
+      {/* Elimina los mensajes visuales de error y éxito */}
+      {/* 
       {error && (
         <div className="error-message">
           <span>{error}</span>
           <button onClick={handleCloseError} className="close-btn">×</button>
         </div>
       )}
-      
-      {/* Mostrar mensajes de éxito */}
       {success && (
         <div className="success-message">
           {success}
         </div>
       )}
-      
+      */}
+
       {/* Mostrar indicador de carga */}
       {isLoading && (
         <div className="loading-indicator">
@@ -244,6 +249,8 @@ const ReviewsPage = () => {
           isLoading={isLoading}
         />
       )}
+
+      <Toaster position="top-right" />
     </div>
   );
 };

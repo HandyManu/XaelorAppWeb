@@ -6,6 +6,7 @@ import BranchCard from '../../components/Cards/BranchCard/BranchCard';
 import Pagination from '../../components/Pagination/Pagination';
 import BranchEditModal from '../../components/Modals/BranchesModals/BranchEditModal';
 import DeleteConfirmationModal from '../../components/Modals/DeleteConfirmationModal/DeleteConfirmationModal';
+import toast, { Toaster } from 'react-hot-toast'; // <-- Importa hot-toast
 import './Branch.css';
 
 const BranchesPage = () => {
@@ -138,6 +139,15 @@ const BranchesPage = () => {
     setItemsPerPage(newItemsPerPage);
   };
   
+  // Mostrar notificaciones de error y éxito
+  useEffect(() => {
+    if (error) toast.error(error);
+  }, [error]);
+
+  useEffect(() => {
+    if (success) toast.success(success);
+  }, [success]);
+
   return (
     <div className="branches-page">
       <Header 
@@ -158,22 +168,22 @@ const BranchesPage = () => {
         onSort={handleSort}
         showAddButton={true}
       />
-      
-      {/* Mostrar mensajes de error */}
+
+      {/* Elimina los mensajes visuales de error y éxito */}
+      {/* 
       {error && (
         <div className="error-message">
           <span>{error}</span>
           <button onClick={handleCloseError} className="close-btn">×</button>
         </div>
       )}
-      
-      {/* Mostrar mensajes de éxito */}
       {success && (
         <div className="success-message">
           {success}
         </div>
       )}
-      
+      */}
+
       {/* Mostrar indicador de carga */}
       {isLoading && (
         <div className="loading-indicator">
@@ -271,6 +281,8 @@ const BranchesPage = () => {
         itemName={branchToDelete?.branch_name || ""}
         isLoading={isLoading}
       />
+
+      <Toaster position="top-right" />
     </div>
   );
 };

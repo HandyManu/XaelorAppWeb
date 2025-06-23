@@ -6,6 +6,7 @@ import InventoryCard from '../../components/Cards/InventoryCard/InventoryCard';
 import Pagination from '../../components/Pagination/Pagination';
 import InventoryEditModal from '../../components/Modals/InventoryModals/InventoryEditModal';
 import DeleteConfirmationModal from '../../components/Modals/DeleteConfirmationModal/DeleteConfirmationModal';
+import toast, { Toaster } from 'react-hot-toast'; // <-- Agrega esto
 import './Inventory.css';
 
 const InventoryPage = () => {
@@ -20,8 +21,8 @@ const InventoryPage = () => {
     inventoryToDelete,
     isLoading,
     error,
-    setError,
     success,
+    setError,
     isEditing,
     currentInventoryId,
     
@@ -106,10 +107,14 @@ const InventoryPage = () => {
     setCurrentPage(1);
   }, [searchTerm, sortBy, itemsPerPage, branchFilter]);
 
-  // Función para cerrar mensajes de error
-  const handleCloseError = () => {
-    setError('');
-  };
+  // Mostrar notificaciones de error y éxito
+  useEffect(() => {
+    if (error) toast.error(error);
+  }, [error]);
+
+  useEffect(() => {
+    if (success) toast.success(success);
+  }, [success]);
 
   // Función para preparar datos del formulario para el submit
   const handleFormSubmit = (formData) => {
@@ -145,24 +150,22 @@ const InventoryPage = () => {
         onSort={handleSort}
         showAddButton={true}
       />
-      
-      
-      
-      {/* Mostrar mensajes de error */}
+
+      {/* Elimina los mensajes visuales de error y éxito */}
+      {/* 
       {error && (
         <div className="error-message">
           <span>{error}</span>
           <button onClick={handleCloseError} className="close-btn">×</button>
         </div>
       )}
-      
-      {/* Mostrar mensajes de éxito */}
       {success && (
         <div className="success-message">
           {success}
         </div>
       )}
-      
+      */}
+
       {/* Mostrar indicador de carga */}
       {isLoading && (
         <div className="loading-indicator">
@@ -290,6 +293,8 @@ const InventoryPage = () => {
           isLoading={isLoading}
         />
       )}
+
+      <Toaster position="top-right" />
     </div>
   );
 };

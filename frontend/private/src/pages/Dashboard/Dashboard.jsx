@@ -156,62 +156,48 @@ const Dashboard = () => {
   // Función para procesar datos de ventas por mes
   const processVentasData = (salesData) => {
     const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
-                       'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-    
+                        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
     const ventasPorMes = {};
-    
+
     salesData.forEach(sale => {
-      const fecha = new Date(sale.sale_date || sale.fecha);
+      const fecha = new Date(sale.createdAt);
       const mes = fecha.getMonth();
       const mesNombre = monthNames[mes];
-      
-      if (!ventasPorMes[mesNombre]) {
-        ventasPorMes[mesNombre] = 0;
-      }
-      ventasPorMes[mesNombre] += parseFloat(sale.total_amount || sale.total || 0);
+      if (!ventasPorMes[mesNombre]) ventasPorMes[mesNombre] = 0;
+      ventasPorMes[mesNombre] += sale.total || 0;
     });
 
-    const labels = Object.keys(ventasPorMes);
-    const data = Object.values(ventasPorMes);
-
     return {
-      labels,
+      labels: Object.keys(ventasPorMes),
       datasets: [{
         label: 'Ventas',
-        data,
+        data: Object.values(ventasPorMes),
         backgroundColor: '#e6c068',
         borderRadius: 8,
         maxBarThickness: 40,
-      }],
+      }]
     };
   };
 
   // Función para procesar datos de clientes nuevos por mes
   const processClientesData = (customersData) => {
     const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
-                       'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-    
+                        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
     const clientesPorMes = {};
-    
-    customersData.forEach(customer => {
-      const fecha = new Date(customer.created_at || customer.fecha_registro);
+
+    customersData.forEach(c => {
+      const fecha = new Date(c.createdAt);
       const mes = fecha.getMonth();
       const mesNombre = monthNames[mes];
-      
-      if (!clientesPorMes[mesNombre]) {
-        clientesPorMes[mesNombre] = 0;
-      }
+      if (!clientesPorMes[mesNombre]) clientesPorMes[mesNombre] = 0;
       clientesPorMes[mesNombre]++;
     });
 
-    const labels = Object.keys(clientesPorMes);
-    const data = Object.values(clientesPorMes);
-
     return {
-      labels,
+      labels: Object.keys(clientesPorMes),
       datasets: [{
         label: 'Clientes nuevos',
-        data,
+        data: Object.values(clientesPorMes),
         fill: false,
         borderColor: '#ffd98a',
         backgroundColor: '#e6c068',
@@ -220,89 +206,107 @@ const Dashboard = () => {
         pointBorderColor: '#232323',
         pointRadius: 6,
         pointHoverRadius: 8,
-      }],
+      }]
     };
   };
 
   // Función para procesar inventario por sucursal
   const processInventarioData = (inventoryData, branchesData) => {
     const inventarioPorSucursal = {};
-    
+
     inventoryData.forEach(item => {
-      const branchId = item.branch_id || item.sucursal_id;
-      const branch = branchesData.find(b => b.branch_id === branchId || b.id === branchId);
-      const branchName = branch ? (branch.branch_name || branch.nombre) : `Sucursal ${branchId}`;
-      
-      if (!inventarioPorSucursal[branchName]) {
-        inventarioPorSucursal[branchName] = 0;
-      }
-      inventarioPorSucursal[branchName] += parseInt(item.quantity || item.cantidad || 0);
+      // Si branchId es objeto, usa _id, si es string, úsalo directo
+      const branchId = typeof item.branchId === 'object' ? item.branchId._id : item.branchId;
+      if (!inventarioPorSucursal[branchId]) inventarioPorSucursal[branchId] = 0;
+      inventarioPorSucursal[branchId] += item.stock || 0;
     });
 
-    const labels = Object.keys(inventarioPorSucursal);
-    const data = Object.values(inventarioPorSucursal);
-    const colors = ['#e6c068', '#ffd98a', '#232323', '#bfa14a', '#d4a548'];
+    const labels = Object.keys(inventarioPorSucursal).map(branchId => {
+      const branch = branchesData.find(b => b._id === branchId || (b._id && b._id.$oid === branchId));
+      return branch ? branch.branch_name : branchId;
+    });
 
     return {
       labels,
       datasets: [{
         label: 'Inventario',
-        data,
-        backgroundColor: colors.slice(0, labels.length),
+        data: Object.values(inventarioPorSucursal),
+        backgroundColor: ['#e6c068', '#ffd98a', '#232323', '#bfa14a'],
         borderWidth: 2,
         borderColor: '#13100f',
-      }],
+      }]
     };
   };
 
   // Función para procesar ventas por empleado
-  const processVentasPorEmpleadoData = (salesData, employeesData) => {
+  const processVentasPorEmpleadoData = (salesData) => {
     const ventasPorEmpleado = {};
-    
+
     salesData.forEach(sale => {
-      const employeeId = sale.employee_id || sale.empleado_id;
-      const employee = employeesData.find(e => e.employee_id === employeeId || e.id === employeeId);
-      const employeeName = employee ? 
-        `${employee.first_name || employee.nombre} ${employee.last_name || employee.apellido || ''}`.trim() : 
-        `Empleado ${employeeId}`;
-      
-      if (!ventasPorEmpleado[employeeName]) {
-        ventasPorEmpleado[employeeName] = 0;
-      }
-      ventasPorEmpleado[employeeName] += parseFloat(sale.total_amount || sale.total || 0);
+      if (!sale.employeeId) return;
+      const empId = sale.employeeId._id;
+      const empName = sale.employeeId.name || 'Empleado';
+      if (!ventasPorEmpleado[empId]) ventasPorEmpleado[empId] = { total: 0, name: empName };
+      ventasPorEmpleado[empId].total += sale.total || 0;
     });
 
-    const labels = Object.keys(ventasPorEmpleado);
-    const data = Object.values(ventasPorEmpleado);
-    const colors = ['#e6c068', '#ffd98a', '#232323', '#bfa14a', '#d4a548'];
+    const labels = Object.values(ventasPorEmpleado).map(e => e.name);
+    const data = Object.values(ventasPorEmpleado).map(e => e.total);
 
     return {
       labels,
       datasets: [{
         label: 'Ventas por Empleado',
         data,
-        backgroundColor: colors.slice(0, labels.length),
+        backgroundColor: ['#e6c068', '#ffd98a', '#232323', '#bfa14a', '#d4a548'],
         borderWidth: 2,
         borderColor: '#13100f',
-      }],
+      }]
     };
   };
 
   // Función para procesar distribución de productos
-  const processProductosData = (watchesData, membershipsData) => {
-    const relojesCount = watchesData.length;
-    const membresiasCount = membershipsData.length;
-    
-    // Aquí podrías agregar más categorías si tienes otros productos
+  const processProductosData = (watchesData, customersData) => {
+    const relojes = watchesData.length;
+    const clientesConMembresia = customersData.filter(
+      c => c.membership && c.membership.membershipId
+    ).length;
+
     return {
-      labels: ['Relojes', 'Membresías'],
+      labels: ['Relojes', 'Clientes con Membresía'],
       datasets: [{
         label: 'Productos',
-        data: [relojesCount, membresiasCount],
-        backgroundColor: ['#e6c068', '#ffd98a'],
+        data: [relojes, clientesConMembresia],
+        backgroundColor: ['#e6c068', '#232323'],
         borderWidth: 2,
         borderColor: '#13100f',
-      }],
+      }]
+    };
+  };
+
+  // Función para procesar ventas por categoría de reloj
+  const processVentasPorCategoria = (salesData) => {
+    const ventasPorCategoria = {};
+
+    salesData.forEach(sale => {
+      if (!sale.selectedProducts) return;
+      sale.selectedProducts.forEach(product => {
+        const categoria = product.watchId && product.watchId.category ? product.watchId.category : 'Sin categoría';
+        const cantidad = product.quantity || 0;
+        if (!ventasPorCategoria[categoria]) ventasPorCategoria[categoria] = 0;
+        ventasPorCategoria[categoria] += cantidad;
+      });
+    });
+
+    return {
+      labels: Object.keys(ventasPorCategoria),
+      datasets: [{
+        label: 'Unidades Vendidas',
+        data: Object.values(ventasPorCategoria),
+        backgroundColor: ['#e6c068', '#ffd98a', '#232323', '#bfa14a', '#d4a548', '#a3a3a3'],
+        borderWidth: 2,
+        borderColor: '#13100f',
+      }]
     };
   };
 
@@ -351,8 +355,7 @@ const Dashboard = () => {
             processInventarioData(inventoryData, branchesData) : fallbackData.inventarioData,
           ventasPorEmpleadoData: salesData.length > 0 && employeesData.length > 0 ? 
             processVentasPorEmpleadoData(salesData, employeesData) : fallbackData.ventasPorEmpleadoData,
-          productosData: watchesData.length > 0 || membershipsData.length > 0 ? 
-            processProductosData(watchesData, membershipsData) : fallbackData.productosData,
+          ventasPorCategoriaData: salesData.length > 0 ? processVentasPorCategoria(salesData) : { labels: [], datasets: [] },
         };
 
         setDashboardData(newDashboardData);
@@ -516,7 +519,7 @@ const Dashboard = () => {
         maxWidth: '800px',
         margin: '0 auto'
       }}>
-        {/* Distribución de Productos */}
+        {/* Ventas por Categoría de Reloj */}
         <div style={{
           background: '#232323',
           borderRadius: '16px',
@@ -532,10 +535,10 @@ const Dashboard = () => {
             textAlign: 'center',
             margin: '0 0 1rem 0'
           }}>
-            Distribución de Productos
+            Ventas por Categoría de Reloj
           </h2>
           <div style={{ height: '250px' }}>
-            <Doughnut data={dashboardData.productosData} options={pieChartOptions} />
+            <Bar data={dashboardData.ventasPorCategoriaData} options={chartOptions} />
           </div>
         </div>
 
