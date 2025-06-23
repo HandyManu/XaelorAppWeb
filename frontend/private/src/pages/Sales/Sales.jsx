@@ -138,7 +138,7 @@ const SalesPage = () => {
         title="Ventas" 
         onAddNew={handleAddNew} 
         onRefresh={handleRefresh}
-        showSearch={true}
+        showSearch={false}
         onSearch={handleSearch}
         searchPlaceholder="Buscar por cliente, empleado, ID de venta..."
         sortOptions={[
