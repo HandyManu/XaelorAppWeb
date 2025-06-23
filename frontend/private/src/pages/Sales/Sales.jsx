@@ -1,368 +1,302 @@
-// Sales.jsx
-import React, { useState, useEffect } from 'react';
+// Sales.jsx - Actualizado para usar el hook real
+import React, { useEffect, useState } from 'react';
+import { useSalesManager } from '../../hooks/SalesHooks/useSales';
 import Header from '../../components/Header/header';
 import SalesCard from '../../components/Cards/SalesCard/SalesCard';
 import Pagination from '../../components/Pagination/Pagination';
 import SalesEditModal from '../../components/Modals/SalesModals/SalesEditModal';
+import DeleteConfirmationModal from '../../components/Modals/DeleteConfirmationModal/DeleteConfirmationModal';
 import './Sales.css';
 
 const SalesPage = () => {
-  const [sales, setSales] = useState([]);
-  const [customers, setCustomers] = useState([]);
-  const [employees, setEmployees] = useState([]);
-  const [products, setProducts] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(9);
-  const [selectedSale, setSelectedSale] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [sortBy, setSortBy] = useState('');
+  const {
+    // Estados principales
+    sales,
+    customers,
+    employees,
+    products,
+    showModal,
+    setShowModal,
+    showDeleteModal,
+    saleToDelete,
+    isLoading,
+    error,
+    setError,
+    success,
+    isEditing,
+    currentSaleId,
+    
+    // Estados de paginación
+    currentPage,
+    setCurrentPage,
+    itemsPerPage,
+    setItemsPerPage,
+    
+    // Estados del formulario
+    customerId,
+    setCustomerId,
+    employeeId,
+    setEmployeeId,
+    address,
+    setAddress,
+    reference,
+    setReference,
+    status,
+    setStatus,
+    selectedPaymentMethod,
+    setSelectedPaymentMethod,
+    selectedProducts,
+    setSelectedProducts,
+    total,
+    setTotal,
+    
+    // Funciones
+    loadInitialData,
+    fetchSales,
+    handleSubmit,
+    handleDeleteSale,
+    confirmDeleteSale,
+    cancelDeleteSale,
+    handleEditSale,
+    handleAddNew,
+    handleRefresh,
+    getCustomerInfo,
+    getEmployeeInfo,
+    getProductsInfo,
+    getFilteredSales,
+    getTotalSales,
+    getTotalRevenue,
+    getAverageTicket,
+    getSalesByStatus,
+  } = useSalesManager();
+
+  // Estados locales para filtros y búsqueda
+  const [sortBy, setSortBy] = useState('date-new');
+  const [searchTerm, setSearchTerm] = useState('');
   
-  // Simulated data fetch
+  // Cargar todos los datos al montar el componente
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Datos simulados de ventas
-        const mockSalesData = [
-          {
-            "_id": "67acd45e3bd247ca51cec559",
-            "customerId": { "$oid": "67ab85c1222df07400b382bb" },
-            "employeeId": { "$oid": "67acd0e50a6d1c53a6669ec1" },
-            "address": "Fake Street 456, San Salvador",
-            "reference": "Home delivery",
-            "status": "Shipped",
-            "selectedPaymentMethod": "Credit Card",
-            "total": 19100,
-            "selectedProducts": [
-              {
-                "watchId": { "$oid": "67ab8499398487f1caccc64f" },
-                "quantity": 2,
-                "subtotal": 8500
-              },
-              {
-                "watchId": { "$oid": "67ab853f398487f1caccc650" },
-                "quantity": 1,
-                "subtotal": 2100
-              }
-            ],
-            "createdAt": { "$date": "2024-12-15T10:30:00.000Z" }
-          },
-          {
-            "_id": "67acd45e3bd247ca51cec55d",
-            "customerId": { "$oid": "67ab82e5222df07400b382b5" },
-            "employeeId": { "$oid": "67acd0e50a6d1c53a6669ec5" },
-            "address": "Sunset Blvd 321, Los Angeles",
-            "reference": "Home delivery",
-            "status": "Shipped",
-            "selectedPaymentMethod": "Credit Card",
-            "total": 6300,
-            "selectedProducts": [
-              {
-                "watchId": { "$oid": "67ab853f398487f1caccc650" },
-                "quantity": 1,
-                "subtotal": 2100
-              },
-              {
-                "watchId": { "$oid": "67ab8499398487f1caccc64f" },
-                "quantity": 2,
-                "subtotal": 8500
-              }
-            ],
-            "createdAt": { "$date": "2024-12-14T15:45:00.000Z" }
-          },
-          {
-            "_id": "67acd45e3bd247ca51cec55e",
-            "customerId": { "$oid": "67ab82e5222df07400b382b6" },
-            "employeeId": { "$oid": "67acd0e50a6d1c53a6669ec6" },
-            "address": "Avenida Reforma 555, CDMX",
-            "reference": "Pickup at store",
-            "status": "Delivered",
-            "selectedPaymentMethod": "PayPal",
-            "total": 25500,
-            "selectedProducts": [
-              {
-                "watchId": { "$oid": "67ab8499398487f1caccc64f" },
-                "quantity": 2,
-                "subtotal": 8500
-              },
-              {
-                "watchId": { "$oid": "67ab853f398487f1caccc650" },
-                "quantity": 1,
-                "subtotal": 2100
-              }
-            ],
-            "createdAt": { "$date": "2024-12-13T09:20:00.000Z" }
-          }
-        ];
-        
-        // Datos simulados de clientes
-        const mockCustomerData = [
-          {
-            "_id": "67ab85c1222df07400b382bb",
-            "name": "Manuel Rockefeller",
-            "email": "20220416@ricaldone.edu.sv"
-          },
-          {
-            "_id": "67ab82e5222df07400b382b5",
-            "name": "William Fairfax",
-            "email": "william.fairfax@gmail.com"
-          },
-          {
-            "_id": "67ab82e5222df07400b382b6",
-            "name": "Penelope Windsor",
-            "email": "penelope.windsor@gmail.com"
-          }
-        ];
-        
-        // Datos simulados de empleados
-        const mockEmployeeData = [
-          {
-            "_id": "67acd0e50a6d1c53a6669ec1",
-            "name": "Gabriela Méndez",
-            "position": "Coordinadora de operaciones"
-          },
-          {
-            "_id": "67acd0e50a6d1c53a6669ec5",
-            "name": "Lucía Fernández",
-            "position": "Especialista en recursos humanos"
-          },
-          {
-            "_id": "67acd0e50a6d1c53a6669ec6",
-            "name": "Daniel Rojas",
-            "position": "Coordinador de logística"
-          }
-        ];
-        
-        // Datos simulados de productos
-        const mockProductData = [
-          {
-            "_id": "67ab8499398487f1caccc64f",
-            "model": "Xælör noir deluxe",
-            "price": 8500
-          },
-          {
-            "_id": "67ab853f398487f1caccc650",
-            "model": "Xælör Classic",
-            "price": 2100
-          },
-          {
-            "_id": "67ab844d398487f1caccc64e",
-            "model": "Xælör Submariner",
-            "price": 4200
-          }
-        ];
-        
-        setSales(mockSalesData);
-        setCustomers(mockCustomerData);
-        setEmployees(mockEmployeeData);
-        setProducts(mockProductData);
-      } catch (error) {
-        console.error('Error fetching sales:', error);
-      }
-    };
-    
-    fetchData();
+    loadInitialData();
   }, []);
-  
-  // Función para añadir una nueva venta
-  const handleAddNew = () => {
-    setSelectedSale(null);
-    setIsModalOpen(true);
+
+  // Función para manejar búsqueda desde el Header
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+    setCurrentPage(1); // Resetear a la primera página al buscar
   };
-  
-  // Función para refrescar los datos
-  const handleRefresh = () => {
-    console.log('Refreshing sales data...');
+
+  // Función para manejar ordenamiento desde el Header
+  const handleSort = (sortOption) => {
+    setSortBy(sortOption);
+    setCurrentPage(1); // Resetear a la primera página al ordenar
   };
-  
-  // Función para editar una venta
-  const handleEditSale = (sale) => {
-    setSelectedSale(sale);
-    setIsModalOpen(true);
-  };
-  
-  // Función para eliminar una venta
-  const handleDeleteSale = (saleId) => {
-    if (window.confirm('¿Estás seguro de que deseas eliminar esta venta?')) {
-      console.log(`Deleting sale ${saleId}`);
-      setSales(sales.filter(s => s._id !== saleId));
-    }
-  };
-  
-  // Función para guardar cambios de venta
-  const handleSaveSale = (updatedSale) => {
-    if (updatedSale._id) {
-      // Actualizar venta existente
-      setSales(sales.map(s => 
-        s._id === updatedSale._id ? updatedSale : s
-      ));
-    } else {
-      // Añadir nueva venta con un ID temporal
-      const newSale = {
-        ...updatedSale,
-        _id: Date.now().toString(),
-        createdAt: { $date: new Date().toISOString() }
-      };
-      setSales([...sales, newSale]);
-    }
-    
-    setIsModalOpen(false);
-  };
-  
-  // Función para obtener información del cliente
-  const getCustomerInfo = (customerId) => {
-    const id = customerId?.$oid || customerId;
-    return customers.find(c => c._id === id);
-  };
-  
-  // Función para obtener información del empleado
-  const getEmployeeInfo = (employeeId) => {
-    const id = employeeId?.$oid || employeeId;
-    return employees.find(e => e._id === id);
-  };
-  
-  // Función para obtener información de productos
-  const getProductsInfo = () => products;
-  
-  // Función para obtener ventas procesadas/ordenadas
-  const getProcessedSales = () => {
-    let processedSales = [...sales];
-    
-    switch (sortBy) {
-      case 'date-new':
-        processedSales.sort((a, b) => 
-          new Date(b.createdAt?.$date) - new Date(a.createdAt?.$date)
-        );
-        break;
-      case 'date-old':
-        processedSales.sort((a, b) => 
-          new Date(a.createdAt?.$date) - new Date(b.createdAt?.$date)
-        );
-        break;
-      case 'amount-high':
-        processedSales.sort((a, b) => b.total - a.total);
-        break;
-      case 'amount-low':
-        processedSales.sort((a, b) => a.total - b.total);
-        break;
-      case 'status':
-        processedSales.sort((a, b) => a.status.localeCompare(b.status));
-        break;
-      default:
-        // Por defecto, ordenar por fecha más reciente
-        processedSales.sort((a, b) => 
-          new Date(b.createdAt?.$date) - new Date(a.createdAt?.$date)
-        );
-    }
-    
-    return processedSales;
-  };
-  
-  const processedSales = getProcessedSales();
-  
-  // Obtener ventas para la página actual
+
+  // Obtener ventas procesadas (filtradas y ordenadas)
+  const processedSales = getFilteredSales(sortBy, searchTerm);
+
+  // Calcular paginación con las ventas procesadas
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentSales = processedSales.slice(indexOfFirstItem, indexOfLastItem);
-  
-  // Calcular estadísticas
-  const getTotalSales = () => sales.length;
-  
-  const getTotalRevenue = () => {
-    return sales.reduce((total, sale) => total + sale.total, 0);
+  const calculatedTotalPages = Math.ceil(processedSales.length / itemsPerPage);
+
+  // Resetear página al cambiar filtros o items per page
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, sortBy, itemsPerPage]);
+
+  // Función para cerrar mensajes de error
+  const handleCloseError = () => {
+    setError('');
   };
-  
-  const getAverageTicket = () => {
-    if (sales.length === 0) return 0;
-    return getTotalRevenue() / sales.length;
+
+  // Función para preparar datos del formulario para el submit
+  const handleFormSubmit = (formData) => {
+    const saleData = {
+      _id: isEditing ? currentSaleId : null,
+      customerId: formData.customerId,
+      employeeId: formData.employeeId,
+      address: formData.address,
+      reference: formData.reference,
+      status: formData.status,
+      selectedPaymentMethod: formData.selectedPaymentMethod,
+      selectedProducts: formData.selectedProducts,
+      total: formData.total
+    };
+    
+    handleSubmit(saleData);
   };
-  
-  const getSalesByStatus = (status) => {
-    return sales.filter(s => s.status === status).length;
-  };
-  
+
   return (
     <div className="sales-page">
       <Header 
         title="Ventas" 
         onAddNew={handleAddNew} 
         onRefresh={handleRefresh}
+        showSearch={true}
+        onSearch={handleSearch}
+        searchPlaceholder="Buscar por cliente, empleado, ID de venta..."
         sortOptions={[
           { label: 'Fecha (Más reciente)', value: 'date-new' },
           { label: 'Fecha (Más antigua)', value: 'date-old' },
           { label: 'Monto (Mayor a Menor)', value: 'amount-high' },
           { label: 'Monto (Menor a Mayor)', value: 'amount-low' },
-          { label: 'Estado', value: 'status' }
+          { label: 'Estado', value: 'status' },
+          { label: 'Cliente', value: 'customer' }
         ]}
-        onSort={setSortBy}
-        showSearch={false}
+        onSort={handleSort}
+        showAddButton={true}
       />
       
-      <div className="sales-stats">
-        <div className="stat-card">
-          <div className="stat-label">Total Ventas</div>
-          <div className="stat-value">{getTotalSales()}</div>
+      {/* Mostrar mensajes de error */}
+      {error && (
+        <div className="error-message">
+          <span>{error}</span>
+          <button onClick={handleCloseError} className="close-btn">×</button>
         </div>
-        <div className="stat-card">
-          <div className="stat-label">Ingresos Totales</div>
-          <div className="stat-value">${getTotalRevenue().toLocaleString()}</div>
+      )}
+      
+      {/* Mostrar mensajes de éxito */}
+      {success && (
+        <div className="success-message">
+          {success}
         </div>
-        <div className="stat-card">
-          <div className="stat-label">Ticket Promedio</div>
-          <div className="stat-value">${Math.round(getAverageTicket()).toLocaleString()}</div>
+      )}
+      
+      {/* Mostrar indicador de carga */}
+      {isLoading && (
+        <div className="loading-indicator">
+          <div className="spinner"></div>
+          <span>Cargando...</span>
         </div>
-        <div className="stat-card">
-          <div className="stat-label">En Proceso</div>
-          <div className="stat-value">{getSalesByStatus('Processing')}</div>
+      )}
+
+      {/* Estadísticas de ventas */}
+      {!isLoading && (
+        <div className="sales-stats">
+          <div className="stat-card">
+            <div className="stat-label">Total Ventas</div>
+            <div className="stat-value">{getTotalSales()}</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Ingresos Totales</div>
+            <div className="stat-value">${getTotalRevenue().toLocaleString()}</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Ticket Promedio</div>
+            <div className="stat-value">${Math.round(getAverageTicket()).toLocaleString()}</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">En Proceso</div>
+            <div className="stat-value">{getSalesByStatus('Processing')}</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Enviadas</div>
+            <div className="stat-value">{getSalesByStatus('Shipped')}</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Entregadas</div>
+            <div className="stat-value">{getSalesByStatus('Delivered')}</div>
+          </div>
         </div>
-        <div className="stat-card">
-          <div className="stat-label">Enviadas</div>
-          <div className="stat-value">{getSalesByStatus('Shipped')}</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-label">Entregadas</div>
-          <div className="stat-value">{getSalesByStatus('Delivered')}</div>
+      )}
+      
+      <div className="sales-content-scrollable">
+        <div className="sales-grid-container">
+          <div className="sales-grid">
+            {currentSales.length > 0 ? (
+              currentSales.map(sale => (
+                  <SalesCard 
+                    key={sale._id} 
+                    data={sale}
+                    customerInfo={getCustomerInfo(sale.customerId)}
+                    employeeInfo={getEmployeeInfo(sale.employeeId)}
+                    productsInfo={getProductsInfo()}
+                    onEdit={() => handleEditSale(sale)}
+                    onDelete={() => handleDeleteSale(sale._id)}
+                    isLoading={isLoading}
+                  />
+              ))
+            ) : (
+              !isLoading && (
+                <div className="no-sales">
+                  {searchTerm ? (
+                    <>
+                      <p>No se encontraron ventas que coincidan con los filtros aplicados</p>
+                      <button onClick={() => setSearchTerm('')} className="btn btn-secondary">
+                        Limpiar filtros
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <p>No hay ventas registradas, revisa tu conexión a internet o agrega una.</p>
+                    </>
+                  )}
+                </div>
+              )
+            )}
+          </div>
         </div>
       </div>
       
-      <div className="sales-grid-container">
-        <div className="sales-grid">
-          {currentSales.length > 0 ? (
-            currentSales.map(sale => (
-              <SalesCard 
-                key={sale._id} 
-                data={sale}
-                customerInfo={getCustomerInfo(sale.customerId)}
-                employeeInfo={getEmployeeInfo(sale.employeeId)}
-                productsInfo={getProductsInfo()}
-                onEdit={handleEditSale}
-                onDelete={handleDeleteSale}
-              />
-            ))
-          ) : (
-            <div className="no-sales">
-              <p>No se encontraron ventas</p>
-            </div>
-          )}
-        </div>
-      </div>
+      {/* Paginación - Solo mostrar si hay elementos */}
+      {processedSales.length > 0 && (
+        <Pagination 
+          totalItems={processedSales.length}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+          onItemsPerPageChange={setItemsPerPage}
+          totalPages={calculatedTotalPages}
+          showItemsPerPage={true}
+          itemsPerPageOptions={[6, 9, 12, 18]}
+        />
+      )}
       
-      <Pagination 
-        totalItems={processedSales.length}
-        itemsPerPage={itemsPerPage}
-        currentPage={currentPage}
-        onPageChange={setCurrentPage}
-        onItemsPerPageChange={setItemsPerPage}
-      />
-      
-      {isModalOpen && (
+      {/* Modal de edición/creación */}
+      {showModal && (
         <SalesEditModal 
-          sale={selectedSale}
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          onSave={handleSaveSale}
+          // Estados del formulario
+          customerId={customerId}
+          setCustomerId={setCustomerId}
+          employeeId={employeeId}
+          setEmployeeId={setEmployeeId}
+          address={address}
+          setAddress={setAddress}
+          reference={reference}
+          setReference={setReference}
+          status={status}
+          setStatus={setStatus}
+          selectedPaymentMethod={selectedPaymentMethod}
+          setSelectedPaymentMethod={setSelectedPaymentMethod}
+          selectedProducts={selectedProducts}
+          setSelectedProducts={setSelectedProducts}
+          total={total}
+          setTotal={setTotal}
           customers={customers}
           employees={employees}
           products={products}
+          
+          // Funciones y estados
+          handleSubmit={handleFormSubmit}
+          isLoading={isLoading}
+          isEditing={isEditing}
+          onClose={() => {
+            setShowModal(false);
+          }}
+        />
+      )}
+      
+      {/* Modal de confirmación de eliminación */}
+      {showDeleteModal && (
+        <DeleteConfirmationModal
+          isOpen={showDeleteModal}
+          onClose={cancelDeleteSale}
+          onConfirm={confirmDeleteSale}
+          title="Eliminar Venta"
+          message="¿Estás seguro de que deseas eliminar esta venta?"
+          itemName={`Venta #${saleToDelete?._id?.slice(-6) || '000000'} - ${getCustomerInfo(saleToDelete?.customerId)?.name || 'Cliente'}`}
+          isLoading={isLoading}
         />
       )}
     </div>

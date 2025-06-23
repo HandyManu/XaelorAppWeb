@@ -56,9 +56,11 @@ function AppContent() {
 
 function App() {
   return (
-    <Router>
-      <AppContent />
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Navegation />
+      </Router>
+    </AuthProvider>
   );
 }
 

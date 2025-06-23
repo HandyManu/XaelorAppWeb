@@ -1,116 +1,157 @@
-// ProductsPage.jsx
-import React, { useState, useEffect } from 'react';
+// ProductsPage.jsx - Actualizado con hook
+import React, { useEffect, useState } from 'react';
+import { useWatchesManager } from '../../hooks/WatchesHooks/useWatches';
 import Header from '../../components/Header/header';
 import ProductCard from '../../components/Cards/ProductCard/ProductCard';
 import Pagination from '../../components/Pagination/Pagination';
 import EditModal from '../../components/Modals/WatchesModals/EditModal';
+import DeleteConfirmationModal from '../../components/Modals/DeleteConfirmationModal/DeleteConfirmationModal';
 import './Products.css';
 
 const ProductsPage = () => {
-  const [products, setProducts] = useState([]);
+  const {
+    // Estados principales
+    watches,
+    brands, // Agregar brands
+    showModal,
+    setShowModal,
+    showDeleteModal,
+    watchToDelete,
+    isLoading,
+    error,
+    setError,
+    success,
+    isEditing,
+    currentWatchId,
+    
+    // Estados del formulario
+    model,
+    setModel,
+    brandId,
+    setBrandId,
+    price,
+    setPrice,
+    category,
+    setCategory,
+    description,
+    setDescription,
+    availability,
+    setAvailability,
+    photos,
+    setPhotos,
+    activePhotoIndex,
+    setActivePhotoIndex,
+    fileInputRef,
+    
+    // Funciones
+    fetchWatches,
+    handleSubmit,
+    startDeleteWatch,
+    confirmDeleteWatch,
+    cancelDeleteWatch,
+    handleFileSelect,
+    handleDeletePhoto,
+    handleSelectImage,
+    resetForm,
+    handleEditWatch,
+    handleAddNew,
+    handleRefresh,
+  } = useWatchesManager();
+
+  // Estados locales para paginación y filtros
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [sortBy, setSortBy] = useState('model-asc');
+  const [searchTerm, setSearchTerm] = useState('');
   
-  // Simulated data fetch
+  // Cargar relojes al montar el componente
   useEffect(() => {
-    // En una aplicación real, aquí harías una llamada a tu API
-    const fetchData = async () => {
-      try {
-        // Simulamos la obtención de datos
-        const mockData = [
-          {
-            "_id": "67ab844d398487f1caccc64e",
-            "model": "Xælör Submariner",
-            "brandId": "67ab80b71b4e14213d6a9baa",
-            "price": 8500,
-            "category": "Nautilus",
-            "description": "Diseñado para resistir las profundidades, el Submariner es tu compañero confiable en cada inmersión.",
-            "photos": [
-              { "url": "https://www.elrubi.es/wp-content/uploads/2019/07/relojes-sumergibles-1-scaled.jpg" },
-              { "url": "https://www.larrabe.com/Blog/wp-content/uploads/2024/07/Aquaracer300-700x450.jpg" },
-              { "url": "https://s2.abcstatics.com/media/summum/2021/06/28/0_portada1-kzCB--1248x698@abc.jpg" }
-            ],
-            "availability": true
-          },
-          {
-            "_id": "67ab8499398487f1caccc64f",
-            "model": "Xælör noir deluxe",
-            "brandId": "67ab80b71b4e14213d6a9baa",
-            "price": 8500,
-            "category": "Ett Med Naturen",
-            "description": "Fabricada con materiales orgánicos a base de frutas, suave al tacto y respetuosa con el planeta.",
-            "photos": [
-              { "url": "https://ibizaloe.com/wp-content/uploads/2020/12/reloj-aloe.jpg" },
-              { "url": "https://www.woodensonusa.com/wp-content/uploads/sites/14/2019/01/DSC_0383-600x600.jpg" },
-              { "url": "https://www.woodenson.cl/wp-content/uploads/sites/2/2019/01/DSC_0476-600x600.jpg" }
-            ],
-            "availability": true
-          },
-          // Aquí irían más productos del JSON proporcionado
-        ];
-        
-        setProducts(mockData);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    
-    fetchData();
+    fetchWatches();
   }, []);
-  
-  const handleAddNew = () => {
-    setSelectedProduct({
-      model: '',
-      price: 0,
-      category: '',
-      description: '',
-      photos: [],
-      availability: true
-    });
-    setIsModalOpen(true);
-  };
-  
-  const handleRefresh = () => {
-    // En una aplicación real, aquí recargarías los datos
-    console.log('Refreshing data...');
-  };
-  
-  const handleEditProduct = (product) => {
-    setSelectedProduct(product);
-    setIsModalOpen(true);
-  };
-  
-  const handleDeleteProduct = (productId) => {
-    // En una aplicación real, aquí harías una llamada a tu API para eliminar
-    console.log(`Deleting product ${productId}`);
-    setProducts(products.filter(p => p._id !== productId));
-  };
-  
-  const handleSaveProduct = (updatedProduct) => {
-    // En una aplicación real, aquí harías una llamada a tu API para actualizar
-    if (updatedProduct._id) {
-      // Actualizar producto existente
-      setProducts(products.map(p => 
-        p._id === updatedProduct._id ? updatedProduct : p
-      ));
-    } else {
-      // Añadir nuevo producto con un ID temporal
-      const newProduct = {
-        ...updatedProduct,
-        _id: Date.now().toString() // ID temporal
-      };
-      setProducts([...products, newProduct]);
-    }
+
+  // Función para filtrar relojes por búsqueda
+  const getFilteredWatches = () => {
+    if (!searchTerm.trim()) return watches;
     
-    setIsModalOpen(false);
+    return watches.filter(watch => 
+      watch.model?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      watch.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      watch.description?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   };
-  
-  // Obtener productos para la página actual
+
+  // Función para ordenar relojes
+  const getSortedWatches = (watchesToSort) => {
+    const sorted = [...watchesToSort];
+    
+    switch (sortBy) {
+      case 'model-asc':
+        return sorted.sort((a, b) => 
+          (a.model || '').localeCompare(b.model || '')
+        );
+      case 'model-desc':
+        return sorted.sort((a, b) => 
+          (b.model || '').localeCompare(a.model || '')
+        );
+      case 'price-asc':
+        return sorted.sort((a, b) => (a.price || 0) - (b.price || 0));
+      case 'price-desc':
+        return sorted.sort((a, b) => (b.price || 0) - (a.price || 0));
+      case 'category-asc':
+        return sorted.sort((a, b) => 
+          (a.category || '').localeCompare(b.category || '')
+        );
+      case 'newest':
+        return sorted.sort((a, b) => 
+          new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
+        );
+      case 'oldest':
+        return sorted.sort((a, b) => 
+          new Date(a.createdAt || 0) - new Date(b.createdAt || 0)
+        );
+      default:
+        return sorted;
+    }
+  };
+
+  // Obtener relojes procesados (filtrados y ordenados)
+  const getProcessedWatches = () => {
+    const filtered = getFilteredWatches();
+    return getSortedWatches(filtered);
+  };
+
+  const processedWatches = getProcessedWatches();
+
+  // Calcular paginación
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentProducts = products.slice(indexOfFirstItem, indexOfLastItem);
+  const currentWatches = processedWatches.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(processedWatches.length / itemsPerPage);
+
+  // Resetear página al cambiar filtros o items per page
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, sortBy, itemsPerPage]);
+  
+  // Función para cerrar mensajes de error
+  const handleCloseError = () => {
+    setError('');
+  };
+
+  // Manejar búsqueda desde el Header
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+  };
+
+  // Manejar ordenamiento desde el Header
+  const handleSort = (sortOption) => {
+    setSortBy(sortOption);
+  };
+
+  // Manejar cambio de items per page
+  const handleItemsPerPageChange = (newItemsPerPage) => {
+    setItemsPerPage(newItemsPerPage);
+  };
   
   return (
     <div className="products-page">
@@ -118,32 +159,150 @@ const ProductsPage = () => {
         title="Relojes" 
         onAddNew={handleAddNew} 
         onRefresh={handleRefresh}
+        showSearch={false}
+        onSearch={handleSearch}
+        searchPlaceholder="Buscar relojes por modelo, categoría..."
+        sortOptions={[
+          { label: 'Modelo (A-Z)', value: 'model-asc' },
+          { label: 'Modelo (Z-A)', value: 'model-desc' },
+          { label: 'Precio (Menor a Mayor)', value: 'price-asc' },
+          { label: 'Precio (Mayor a Menor)', value: 'price-desc' },
+          { label: 'Categoría (A-Z)', value: 'category-asc' },
+          { label: 'Más recientes', value: 'newest' },
+          { label: 'Más antiguos', value: 'oldest' }
+        ]}
+        onSort={handleSort}
+        showAddButton={true}
       />
       
+      {/* Mostrar mensajes de error */}
+      {error && (
+        <div className="error-message">
+          <span>{error}</span>
+          <button onClick={handleCloseError} className="close-btn">×</button>
+        </div>
+      )}
+      
+      {/* Mostrar mensajes de éxito */}
+      {success && (
+        <div className="success-message">
+          {success}
+        </div>
+      )}
+      
+      {/* Mostrar indicador de carga */}
+      {isLoading && (
+        <div className="loading-indicator">
+          <div className="spinner"></div>
+          <span>Cargando...</span>
+        </div>
+      )}
+
+      {/* Información de resultados */}
+      {!isLoading && (
+        <div className="results-info">
+          <span>
+            {searchTerm && ` (filtrados de ${watches.length} total)`}
+          </span>
+        </div>
+      )}
+      
+      {/* Grid de relojes */}
       <div className="product-grid">
-        {currentProducts.map(product => (
-          <ProductCard 
-            key={product._id} 
-            data={product}
-            onEdit={handleEditProduct}
-            onDelete={handleDeleteProduct}
-          />
-        ))}
+        {currentWatches.length > 0 ? (
+          currentWatches.map(watch => (
+            <ProductCard 
+              key={watch._id} 
+              data={watch}
+              onEdit={() => handleEditWatch(watch)}
+              onDelete={() => startDeleteWatch(watch._id)}
+              isLoading={isLoading}
+            />
+          ))
+        ) : (
+          !isLoading && (
+            <div className="no-data-message">
+              {searchTerm ? (
+                <>
+                  <p>No se encontraron relojes que coincidan con "{searchTerm}"</p>
+                  <button onClick={() => setSearchTerm('')} className="btn btn-secondary">
+                    Limpiar búsqueda
+                  </button>
+                </>
+              ) : (
+                <>
+                  <p>No hay relojes registrados, revisa tu conexión a internet o agrega uno.</p>
+                  
+                </>
+              )}
+            </div>
+          )
+        )}
       </div>
       
-      <Pagination 
-        totalItems={products.length}
-        itemsPerPage={itemsPerPage}
-        currentPage={currentPage}
-        onPageChange={setCurrentPage}
-      />
+      {/* Paginación - Solo mostrar si hay elementos */}
+      {processedWatches.length > 0 && (
+        <Pagination 
+          totalItems={processedWatches.length}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+          onItemsPerPageChange={handleItemsPerPageChange}
+          totalPages={totalPages}
+          showItemsPerPage={true}
+          itemsPerPageOptions={[8, 10, 16, 24]}
+        />
+      )}
       
-      <EditModal 
-        product={selectedProduct}
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSave={handleSaveProduct}
-      />
+      {/* Modal de edición/creación */}
+      {showModal && (
+        <EditModal 
+          // Estados del formulario
+          model={model}
+          setModel={setModel}
+          brandId={brandId}
+          setBrandId={setBrandId}
+          brands={brands} // Pasar brands al modal
+          price={price}
+          setPrice={setPrice}
+          category={category}
+          setCategory={setCategory}
+          description={description}
+          setDescription={setDescription}
+          availability={availability}
+          setAvailability={setAvailability}
+          photos={photos}
+          setPhotos={setPhotos}
+          activePhotoIndex={activePhotoIndex}
+          setActivePhotoIndex={setActivePhotoIndex}
+          fileInputRef={fileInputRef}
+          
+          // Funciones
+          handleSubmit={handleSubmit}
+          handleFileSelect={handleFileSelect}
+          handleDeletePhoto={handleDeletePhoto}
+          handleSelectImage={handleSelectImage}
+          isLoading={isLoading}
+          isEditing={isEditing}
+          onClose={() => {
+            setShowModal(false);
+            resetForm();
+          }}
+        />
+      )}
+      
+      {/* Modal de confirmación de eliminación */}
+      {showDeleteModal && (
+        <DeleteConfirmationModal
+          isOpen={showDeleteModal}
+          onClose={cancelDeleteWatch}
+          onConfirm={confirmDeleteWatch}
+          title="Eliminar Reloj"
+          message="¿Estás seguro de que deseas eliminar este reloj?"
+          itemName={watchToDelete?.model || ""}
+          isLoading={isLoading}
+        />
+      )}
     </div>
   );
 };

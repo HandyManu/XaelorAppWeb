@@ -1,146 +1,142 @@
-// Branches.jsx
-import React, { useState, useEffect } from 'react';
+// Branch.jsx
+import React, { useEffect, useState } from 'react';
+import { useBranchesManager } from '../../hooks/BranchesHooks/useBranches';
 import Header from '../../components/Header/header';
 import BranchCard from '../../components/Cards/BranchCard/BranchCard';
 import Pagination from '../../components/Pagination/Pagination';
 import BranchEditModal from '../../components/Modals/BranchesModals/BranchEditModal';
+import DeleteConfirmationModal from '../../components/Modals/DeleteConfirmationModal/DeleteConfirmationModal';
 import './Branch.css';
 
 const BranchesPage = () => {
-  const [branches, setBranches] = useState([]);
+  const {
+    // Estados principales
+    branches,
+    showModal,
+    setShowModal,
+    showDeleteModal,
+    branchToDelete,
+    isLoading,
+    error,
+    setError,
+    success,
+    isEditing,
+    currentBranchId,
+    
+    // Estados del formulario (para pasar al modal)
+    branch_name,
+    country,
+    address,
+    phone_number,
+    business_hours,
+    
+    // Funciones
+    fetchBranches,
+    handleSubmit,
+    handleDeleteBranch,
+    confirmDeleteBranch,
+    cancelDeleteBranch,
+    resetForm,
+    handleEditBranch,
+    handleAddNew,
+    handleRefresh
+  } = useBranchesManager();
+
+  // Estados locales para paginación y filtros
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
-  const [selectedBranch, setSelectedBranch] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [itemsPerPage, setItemsPerPage] = useState(6); // Permitir cambio
+  const [sortBy, setSortBy] = useState('name-asc');
+  const [searchTerm, setSearchTerm] = useState('');
   
-  // Simulated data fetch
+  // Cargar sucursales al montar el componente
   useEffect(() => {
-    // En una aplicación real, aquí harías una llamada a tu API
-    const fetchData = async () => {
-      try {
-        // Simulamos la obtención de datos
-        const mockData = [
-          {
-            "_id": "67ab842f0dcf66e92c78842a",
-            "branch_name": "Sucursal San Salvador",
-            "country": "El Salvador",
-            "address": "San Salvador, Calle Principal 123",
-            "phone_number": "1234-5678",
-            "business_hours": [
-              {
-                "day": "Lunes",
-                "open": "08:00",
-                "close": "18:00"
-              },
-              {
-                "day": "Martes",
-                "open": "08:00",
-                "close": "18:00"
-              }
-            ]
-          },
-          {
-            "_id": "67ab842f0dcf66e92c78842b",
-            "branch_name": "Sucursal Ciudad de Guatemala",
-            "country": "Guatemala",
-            "address": "Zona 1, Avenida Reforma, Ciudad de Guatemala",
-            "phone_number": "5678-1234",
-            "business_hours": [
-              {
-                "day": "Lunes-Sábado",
-                "open": "08:00",
-                "close": "19:00"
-              },
-              {
-                "day": "Domingo",
-                "open": "10:00",
-                "close": "15:00"
-              }
-            ]
-          },
-          {
-            "_id": "67ab842f0dcf66e92c78842c",
-            "branch_name": "Sucursal Ciudad de México",
-            "country": "México",
-            "address": "Paseo de la Reforma 456, Ciudad de México",
-            "phone_number": "9876-5432",
-            "business_hours": [
-              {
-                "day": "Lunes",
-                "open": "07:30",
-                "close": "17:30"
-              },
-              {
-                "day": "Martes",
-                "open": "07:30",
-                "close": "17:30"
-              }
-            ]
-          },
-          // Aquí irían más sucursales
-        ];
-        
-        setBranches(mockData);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    
-    fetchData();
+    fetchBranches();
   }, []);
-  
-  const handleAddNew = () => {
-    setSelectedBranch({
-      branch_name: '',
-      country: '',
-      address: '',
-      phone_number: '',
-      business_hours: [
-        { day: 'Lunes', open: '08:00', close: '18:00' }
-      ]
-    });
-    setIsModalOpen(true);
-  };
-  
-  const handleRefresh = () => {
-    // En una aplicación real, aquí recargarías los datos
-    console.log('Refreshing data...');
-  };
-  
-  const handleEditBranch = (branch) => {
-    setSelectedBranch(branch);
-    setIsModalOpen(true);
-  };
-  
-  const handleDeleteBranch = (branchId) => {
-    // En una aplicación real, aquí harías una llamada a tu API para eliminar
-    console.log(`Deleting branch ${branchId}`);
-    setBranches(branches.filter(b => b._id !== branchId));
-  };
-  
-  const handleSaveBranch = (updatedBranch) => {
-    // En una aplicación real, aquí harías una llamada a tu API para actualizar
-    if (updatedBranch._id) {
-      // Actualizar sucursal existente
-      setBranches(branches.map(b => 
-        b._id === updatedBranch._id ? updatedBranch : b
-      ));
-    } else {
-      // Añadir nueva sucursal con un ID temporal
-      const newBranch = {
-        ...updatedBranch,
-        _id: Date.now().toString() // ID temporal
-      };
-      setBranches([...branches, newBranch]);
-    }
+
+  // Función para filtrar sucursales por búsqueda
+  const getFilteredBranches = () => {
+    if (!searchTerm.trim()) return branches;
     
-    setIsModalOpen(false);
+    return branches.filter(branch => 
+      branch.branch_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      branch.country?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      branch.address?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      branch.phone_number?.includes(searchTerm)
+    );
   };
-  
-  // Obtener sucursales para la página actual
+
+  // Función para ordenar sucursales
+  const getSortedBranches = (branchesToSort) => {
+    const sorted = [...branchesToSort];
+    
+    switch (sortBy) {
+      case 'name-asc':
+        return sorted.sort((a, b) => 
+          (a.branch_name || '').localeCompare(b.branch_name || '')
+        );
+      case 'name-desc':
+        return sorted.sort((a, b) => 
+          (b.branch_name || '').localeCompare(a.branch_name || '')
+        );
+      case 'country-asc':
+        return sorted.sort((a, b) => 
+          (a.country || '').localeCompare(b.country || '')
+        );
+      case 'country-desc':
+        return sorted.sort((a, b) => 
+          (b.country || '').localeCompare(a.country || '')
+        );
+      case 'phone-asc':
+        return sorted.sort((a, b) => 
+          (a.phone_number || '').localeCompare(b.phone_number || '')
+        );
+      case 'phone-desc':
+        return sorted.sort((a, b) => 
+          (b.phone_number || '').localeCompare(a.phone_number || '')
+        );
+      default:
+        return sorted;
+    }
+  };
+
+  // Obtener sucursales procesadas (filtradas y ordenadas)
+  const getProcessedBranches = () => {
+    const filtered = getFilteredBranches();
+    return getSortedBranches(filtered);
+  };
+
+  const processedBranches = getProcessedBranches();
+
+  // Calcular paginación
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentBranches = branches.slice(indexOfFirstItem, indexOfLastItem);
+  const currentBranches = processedBranches.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(processedBranches.length / itemsPerPage);
+
+  // Resetear página al cambiar filtros o items per page
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, sortBy, itemsPerPage]);
+  
+  // Función para cerrar mensajes de error
+  const handleCloseError = () => {
+    setError('');
+  };
+
+  // Manejar búsqueda desde el Header
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+  };
+
+  // Manejar ordenamiento desde el Header
+  const handleSort = (sortOption) => {
+    setSortBy(sortOption);
+  };
+
+  // Manejar cambio de items per page
+  const handleItemsPerPageChange = (newItemsPerPage) => {
+    setItemsPerPage(newItemsPerPage);
+  };
   
   return (
     <div className="branches-page">
@@ -148,31 +144,132 @@ const BranchesPage = () => {
         title="Sucursales" 
         onAddNew={handleAddNew} 
         onRefresh={handleRefresh}
+        showSearch={false}
+        onSearch={handleSearch}
+        searchPlaceholder="Buscar por nombre, país, dirección o teléfono..."
+        sortOptions={[
+          { label: 'Nombre (A-Z)', value: 'name-asc' },
+          { label: 'Nombre (Z-A)', value: 'name-desc' },
+          { label: 'País (A-Z)', value: 'country-asc' },
+          { label: 'País (Z-A)', value: 'country-desc' },
+          { label: 'Teléfono (1-9)', value: 'phone-asc' },
+          { label: 'Teléfono (9-1)', value: 'phone-desc' }
+        ]}
+        onSort={handleSort}
+        showAddButton={true}
       />
       
+      {/* Mostrar mensajes de error */}
+      {error && (
+        <div className="error-message">
+          <span>{error}</span>
+          <button onClick={handleCloseError} className="close-btn">×</button>
+        </div>
+      )}
+      
+      {/* Mostrar mensajes de éxito */}
+      {success && (
+        <div className="success-message">
+          {success}
+        </div>
+      )}
+      
+      {/* Mostrar indicador de carga */}
+      {isLoading && (
+        <div className="loading-indicator">
+          <div className="spinner"></div>
+          <span>Cargando...</span>
+        </div>
+      )}
+
+      {/* Información de resultados */}
+      {!isLoading && (
+        <div className="results-info">
+          <span>
+            {searchTerm && ` (filtradas de ${branches.length} total)`}
+          </span>
+        </div>
+      )}
+      
+      {/* Grid de sucursales */}
       <div className="branch-grid">
-        {currentBranches.map(branch => (
-          <BranchCard 
-            key={branch._id} 
-            data={branch}
-            onEdit={handleEditBranch}
-            onDelete={handleDeleteBranch}
-          />
-        ))}
+        {currentBranches.length > 0 ? (
+          currentBranches.map(branch => (
+            <BranchCard 
+              key={branch._id} 
+              data={branch}
+              onEdit={() => handleEditBranch(branch)}
+              onDelete={() => handleDeleteBranch(branch._id)}
+              isLoading={isLoading}
+            />
+          ))
+        ) : (
+          !isLoading && (
+            <div className="no-data-message">
+              {searchTerm ? (
+                <>
+                  <p>No se encontraron sucursales que coincidan con "{searchTerm}"</p>
+                  <button onClick={() => setSearchTerm('')} className="btn btn-secondary">
+                    Limpiar búsqueda
+                  </button>
+                </>
+              ) : (
+                <>
+                  <p>No hay sucursales registradas, revisa tu conexión a internet o agrega una.</p>
+                </>
+              )}
+            </div>
+          )
+        )}
       </div>
       
-      <Pagination 
-        totalItems={branches.length}
-        itemsPerPage={itemsPerPage}
-        currentPage={currentPage}
-        onPageChange={setCurrentPage}
+      {/* Paginación - Solo mostrar si hay más elementos que itemsPerPage */}
+      {processedBranches.length > 0 && (
+        <Pagination 
+          totalItems={processedBranches.length}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+          onItemsPerPageChange={handleItemsPerPageChange}
+          totalPages={totalPages}
+          showItemsPerPage={true}
+          itemsPerPageOptions={[6, 10, 25, 50]}
+        />
+      )}
+      
+      {/* Modal de edición/creación - Usar tu modal original */}
+      <BranchEditModal 
+        branch={isEditing ? {
+          _id: currentBranchId,
+          branch_name: branch_name,
+          country: country,
+          address: address,
+          phone_number: phone_number,
+          business_hours: business_hours
+        } : {
+          branch_name: '',
+          country: '',
+          address: '',
+          phone_number: '',
+          business_hours: [{ day: 'Lunes', open: '08:00', close: '18:00' }]
+        }}
+        isOpen={showModal}
+        onClose={() => {
+          setShowModal(false);
+          resetForm();
+        }}
+        onSave={handleSubmit}
       />
       
-      <BranchEditModal 
-        branch={selectedBranch}
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSave={handleSaveBranch}
+      {/* Modal de confirmación de eliminación */}
+      <DeleteConfirmationModal
+        isOpen={showDeleteModal}
+        onClose={cancelDeleteBranch}
+        onConfirm={confirmDeleteBranch}
+        title="Eliminar Sucursal"
+        message="¿Estás seguro de que deseas eliminar esta sucursal?"
+        itemName={branchToDelete?.branch_name || ""}
+        isLoading={isLoading}
       />
     </div>
   );

@@ -1,19 +1,43 @@
-// InventoryCard.jsx
+// InventoryCard.jsx - Actualizado para manejar imágenes de Cloudinary
 import React, { useState } from 'react';
 import './InventoryCard.css';
 
-const InventoryCard = ({ data, watchInfo, branchInfo, onEdit, onDelete }) => {
+const InventoryCard = ({ data, watchInfo, branchInfo, onEdit, onDelete, isLoading }) => {
   const [showDeleteIcon, setShowDeleteIcon] = useState(false);
+  const [imageError, setImageError] = useState(false);
+  
+  // Función para procesar URL de Cloudinary
+  const getCloudinaryUrl = (photo) => {
+    if (!photo) return null;
+    
+    // Si ya es una URL completa, la devolvemos
+    if (typeof photo === 'string' && photo.includes('res.cloudinary.com')) {
+      return photo;
+    }
+    
+    // Si es un objeto con url
+    if (typeof photo === 'object' && photo.url) {
+      if (photo.url.includes('res.cloudinary.com')) {
+        return photo.url;
+      }
+    }
+    
+    // Si es solo el public_id, construir la URL
+    const CLOUD_NAME = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME || 'demo';
+    const publicId = typeof photo === 'string' ? photo : (photo.url || photo);
+    
+    return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_400,h_300,c_fill,f_auto,q_auto/${publicId}`;
+  };
   
   const handleClick = () => {
-    if (onEdit) {
+    if (onEdit && !isLoading) {
       onEdit(data);
     }
   };
   
   const handleDelete = (e) => {
     e.stopPropagation();
-    if (onDelete) {
+    if (onDelete && !isLoading) {
       onDelete(data._id);
     }
   };
@@ -27,18 +51,40 @@ const InventoryCard = ({ data, watchInfo, branchInfo, onEdit, onDelete }) => {
   
   const stockStatus = getStockStatus(data.stock);
   
+  // Obtener la URL de la primera imagen del reloj
+  const getWatchImageUrl = () => {
+    if (!watchInfo?.photos || watchInfo.photos.length === 0) {
+      return null;
+    }
+    
+    return getCloudinaryUrl(watchInfo.photos[0]);
+  };
+  
+  const watchImageUrl = getWatchImageUrl();
+  
+  const handleImageError = () => {
+    console.error('Error cargando imagen de inventario:', watchImageUrl);
+    setImageError(true);
+  };
+  
   return (
     <div 
-      className="inventory-card"
+      className={`inventory-card ${isLoading ? 'loading' : ''}`}
       onClick={handleClick}
       onMouseEnter={() => setShowDeleteIcon(true)}
       onMouseLeave={() => setShowDeleteIcon(false)}
     >
       <div className="inventory-watch-image">
-        {watchInfo?.photos && watchInfo.photos.length > 0 ? (
-          <img src={watchInfo.photos[0].url} alt={watchInfo.model} />
+        {watchImageUrl && !imageError ? (
+          <img 
+            src={watchImageUrl} 
+            alt={watchInfo?.model || 'Reloj'} 
+            onError={handleImageError}
+          />
         ) : (
-          <div className="no-image">Sin imagen</div>
+          <div className="no-image">
+            {imageError ? 'Error al cargar imagen' : 'Sin imagen'}
+          </div>
         )}
       </div>
       
@@ -46,7 +92,8 @@ const InventoryCard = ({ data, watchInfo, branchInfo, onEdit, onDelete }) => {
         <div className="watch-model">{watchInfo?.model || 'Modelo desconocido'}</div>
         
         <div className="branch-name">
-          <i className="branch-icon">📍</i> {branchInfo?.address || 'Sucursal desconocida'}
+          <i className="branch-icon">📍</i> 
+          {branchInfo?.branch_name || branchInfo?.address || 'Sucursal desconocida'}
         </div>
         
         <div className="stock-info">
@@ -73,9 +120,9 @@ const InventoryCard = ({ data, watchInfo, branchInfo, onEdit, onDelete }) => {
         )}
       </div>
       
-      {showDeleteIcon && (
+      {showDeleteIcon && !isLoading && (
         <div className="delete-icon" onClick={handleDelete}>
-          🗑️
+          <img src="/basura.svg" alt="Delete Icon" className="delete-icon-img" />
         </div>
       )}
     </div>

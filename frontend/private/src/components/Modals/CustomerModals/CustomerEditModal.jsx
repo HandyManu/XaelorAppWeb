@@ -1,143 +1,101 @@
-// CustomerEditModal.jsx
-import React, { useState, useEffect } from 'react';
+// CustomerEditModal.jsx - Actualizado para trabajar con el hook
+import React from 'react';
 import './CustomerEditModal.css';
 
-const CustomerEditModal = ({ customer, isOpen, onClose, onSave }) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    phone: '',
-    membership: {
-      membershipId: { $oid: '' },
-      startDate: { $date: new Date().toISOString() }
-    }
-  });
+const CustomerEditModal = ({
+  // Estados del formulario
+  name,
+  setName,
+  email,
+  setEmail,
+  password,
+  setPassword,
+  phone,
+  setPhone,
+  membershipId,
+  setMembershipId,
+  startDate,
+  setStartDate,
+  memberships,
   
-  // Opciones de membresía para el select
-  const membershipOptions = [
-    { id: '67acd69ae1fa12d45243dc76', name: 'Bronze' },
-    { id: '67acd69ae1fa12d45243dc77', name: 'Silver' },
-    { id: '67acd69ae1fa12d45243dc78', name: 'Gold' }
-  ];
+  // Funciones
+  handleSubmit,
+  isLoading,
+  isEditing,
+  onClose
+}) => {
 
-  useEffect(() => {
-    if (customer) {
-      // Si se está editando un cliente existente, cargar sus datos
-      setFormData({
-        name: customer.name || '',
-        email: customer.email || '',
-        // Por seguridad, no incluimos la contraseña actual al editar
-        password: '',
-        phone: customer.phone || '',
-        membership: {
-          membershipId: customer.membership?.membershipId || { $oid: '67acd69ae1fa12d45243dc76' },
-          startDate: customer.membership?.startDate || { $date: new Date().toISOString() }
-        }
-      });
-    } else {
-      // Si es un nuevo cliente, inicializar con valores por defecto
-      setFormData({
-        name: '',
-        email: '',
-        password: '',
-        phone: '',
-        membership: {
-          membershipId: { $oid: '67acd69ae1fa12d45243dc76' }, // Bronze por defecto
-          startDate: { $date: new Date().toISOString() }
-        }
-      });
-    }
-  }, [customer]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    
-    // Para los campos anidados en membership
-    if (name === 'membershipId') {
-      setFormData({
-        ...formData,
-        membership: {
-          ...formData.membership,
-          membershipId: { $oid: value }
-        }
-      });
-    } else if (name === 'startDate') {
-      setFormData({
-        ...formData,
-        membership: {
-          ...formData.membership,
-          startDate: { $date: new Date(value).toISOString() }
-        }
-      });
-    } else {
-      // Para los campos de nivel superior
-      setFormData({
-        ...formData,
-        [name]: value
-      });
-    }
+  // Función para mostrar el nombre de la membresía en el dropdown
+  const getMembershipDisplayName = (membership) => {
+    // Usar membershipTier que es el campo correcto en el modelo
+    return membership.membershipTier || `Membresía ${membership._id.slice(-4)}`;
   };
 
-  const handleSubmit = (e) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
     
     // Validaciones básicas
-    if (!formData.name.trim()) {
+    if (!name.trim()) {
       alert('El nombre es obligatorio');
       return;
     }
     
-    if (!formData.email.trim() || !formData.email.includes('@')) {
+    if (!email.trim() || !email.includes('@')) {
       alert('Por favor, ingrese un email válido');
       return;
     }
     
     // Si es un cliente nuevo, la contraseña es obligatoria
-    if (!customer?._id && !formData.password) {
+    if (!isEditing && !password.trim()) {
       alert('La contraseña es obligatoria para nuevos clientes');
       return;
     }
+
+    // Si se proporciona contraseña, validar longitud
+    if (password.trim() && password.trim().length < 6) {
+      alert('La contraseña debe tener al menos 6 caracteres');
+      return;
+    }
+
+    if (!phone.trim()) {
+      alert('El teléfono es obligatorio');
+      return;
+    }
+
+    // La membresía ya no es obligatoria
     
-    // Preparar los datos para el guardado
-    const customerData = {
-      ...customer, // Mantener el _id si existe
-      ...formData,
-      // Si la contraseña está vacía y estamos editando, no la actualizamos
-      password: formData.password || (customer ? customer.password : '')
+    // Preparar los datos para el submit
+    const formData = {
+      name: name.trim(),
+      email: email.trim(),
+      password: password.trim(),
+      phone: phone.trim(),
+      membershipId: membershipId === 'none' ? null : membershipId,
+      startDate
     };
     
-    onSave(customerData);
+    handleSubmit(formData);
   };
-
-  // Formateamos la fecha para el campo input de tipo date
-  const formatDateForInput = (dateString) => {
-    if (!dateString) return '';
-    
-    const date = new Date(dateString);
-    return date.toISOString().split('T')[0];
-  };
-
-  if (!isOpen) return null;
 
   return (
     <div className="modal-overlay">
       <div className="modal-container">
         <div className="modal-header">
-          <h2>{customer && customer._id ? 'Editar Cliente' : 'Nuevo Cliente'}</h2>
+          <h2>{isEditing ? 'Editar Cliente' : 'Nuevo Cliente'}</h2>
           <button className="close-button" onClick={onClose}>×</button>
         </div>
         
-        <form onSubmit={handleSubmit} className="edit-form">
+        <form onSubmit={handleFormSubmit} className="edit-form">
           <div className="form-group">
             <label htmlFor="name">Nombre Completo</label>
             <input
               type="text"
               id="name"
               name="name"
-              value={formData.name}
-              onChange={handleChange}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               placeholder="Nombre del cliente"
+              disabled={isLoading}
               required
             />
           </div>
@@ -148,25 +106,27 @@ const CustomerEditModal = ({ customer, isOpen, onClose, onSave }) => {
               type="email"
               id="email"
               name="email"
-              value={formData.email}
-              onChange={handleChange}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="correo@ejemplo.com"
+              disabled={isLoading}
               required
             />
           </div>
           
           <div className="form-group">
             <label htmlFor="password">
-              {customer && customer._id ? 'Contraseña (dejar en blanco para mantener la actual)' : 'Contraseña'}
+              {isEditing ? 'Nueva Contraseña (dejar en blanco para mantener la actual)' : 'Contraseña'}
             </label>
             <input
               type="password"
               id="password"
               name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder={customer && customer._id ? '••••••••' : 'Nueva contraseña'}
-              required={!customer || !customer._id}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder={isEditing ? 'Nueva contraseña (opcional)' : 'Contraseña'}
+              disabled={isLoading}
+              required={!isEditing}
             />
           </div>
           
@@ -176,9 +136,11 @@ const CustomerEditModal = ({ customer, isOpen, onClose, onSave }) => {
               type="text"
               id="phone"
               name="phone"
-              value={formData.phone}
-              onChange={handleChange}
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
               placeholder="0000-0000"
+              disabled={isLoading}
+              required
             />
           </div>
           
@@ -187,36 +149,60 @@ const CustomerEditModal = ({ customer, isOpen, onClose, onSave }) => {
             <select
               id="membershipId"
               name="membershipId"
-              value={formData.membership.membershipId.$oid}
-              onChange={handleChange}
-              required
+              value={membershipId}
+              onChange={(e) => setMembershipId(e.target.value)}
+              disabled={isLoading}
             >
-              {membershipOptions.map((option) => (
-                <option key={option.id} value={option.id}>
-                  {option.name}
-                </option>
-              ))}
+              <option value="none">Sin membresía</option>
+              {memberships && memberships.length > 0 ? (
+                memberships.map((membership) => (
+                  <option key={membership._id} value={membership._id}>
+                    {getMembershipDisplayName(membership)}
+                  </option>
+                ))
+              ) : (
+                <option value="" disabled>Cargando membresías...</option>
+              )}
             </select>
+            {/* Debug: Mostrar cuántas membresías se cargaron */}
+            {process.env.NODE_ENV === 'development' && (
+              <small style={{color: '#666', fontSize: '0.75rem'}}>
+                {memberships ? `${memberships.length} membresías cargadas` : 'No hay membresías'}
+              </small>
+            )}
           </div>
           
-          <div className="form-group">
-            <label htmlFor="startDate">Fecha de Inicio de Membresía</label>
-            <input
-              type="date"
-              id="startDate"
-              name="startDate"
-              value={formatDateForInput(formData.membership.startDate.$date)}
-              onChange={handleChange}
-              required
-            />
-          </div>
+          {/* Solo mostrar fecha de inicio si hay membresía seleccionada */}
+          {membershipId && membershipId !== 'none' && (
+            <div className="form-group">
+              <label htmlFor="startDate">Fecha de Inicio de Membresía</label>
+              <input
+                type="date"
+                id="startDate"
+                name="startDate"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                disabled={isLoading}
+                required
+              />
+            </div>
+          )}
           
           <div className="form-actions">
-            <button type="button" className="cancel-button" onClick={onClose}>
+            <button 
+              type="button" 
+              className="cancel-button" 
+              onClick={onClose}
+              disabled={isLoading}
+            >
               Cancelar
             </button>
-            <button type="submit" className="save-button">
-              {customer && customer._id ? 'Actualizar Cliente' : 'Crear Cliente'}
+            <button 
+              type="submit" 
+              className="save-button"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Guardando...' : isEditing ? 'Actualizar Cliente' : 'Crear Cliente'}
             </button>
           </div>
         </form>

@@ -2,6 +2,7 @@
 
 const customersCtrl = {};
 import customersMdl from "../models/customersMdl.js"
+import bcryptjs from "bcryptjs";
 
 //* GET
 customersCtrl.getCustomers = async (req, res) => {
@@ -15,8 +16,13 @@ customersCtrl.getCustomers = async (req, res) => {
 
 //* POST
 customersCtrl.postCustomer = async (req, res) => {
-   const customer = new customersMdl(req.body);
    try {
+      // Encriptar la contraseña antes de guardar
+      if (req.body.password) {
+         const passwordHash = await bcryptjs.hash(req.body.password, 10);
+         req.body.password = passwordHash;
+      }
+      const customer = new customersMdl(req.body);
       const newCustomer = await customer.save();
       res.status(201).json(newCustomer);
    } catch (error) {
@@ -27,6 +33,11 @@ customersCtrl.postCustomer = async (req, res) => {
 //* PUT
 customersCtrl.putCustomer = async (req, res) => {
    try {
+      // Si se envía una nueva contraseña, encriptarla
+      if (req.body.password) {
+         const passwordHash = await bcryptjs.hash(req.body.password, 10);
+         req.body.password = passwordHash;
+      }
       const customer = await customersMdl.findByIdAndUpdate(req.params.id, req.body, { new: true });
       if (!customer) return res.status(404).json({ message: "Customer not found" });
       res.json(customer);

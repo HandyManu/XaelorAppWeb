@@ -1,4 +1,4 @@
-// SalesCard.jsx
+// SalesCard.jsx - Actualizado para mostrar fecha del createdAt
 import React, { useState } from 'react';
 import './SalesCard.css';
 
@@ -48,15 +48,39 @@ const SalesCard = ({
     }).format(price);
   };
   
-  // Formatear fecha
+  // Formatear fecha - Actualizado para manejar createdAt del backend
   const formatDate = (dateString) => {
     if (!dateString) return 'Sin fecha';
-    const date = new Date(dateString);
-    return date.toLocaleDateString('es-ES', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
+    
+    try {
+      // Manejar diferentes formatos de fecha que pueden venir del backend
+      let date;
+      
+      if (typeof dateString === 'object' && dateString.$date) {
+        // Formato MongoDB: { $date: "2024-01-15T10:30:00.000Z" }
+        date = new Date(dateString.$date);
+      } else if (typeof dateString === 'string') {
+        // Formato ISO string: "2024-01-15T10:30:00.000Z"
+        date = new Date(dateString);
+      } else {
+        return 'Sin fecha';
+      }
+      
+      // Verificar si la fecha es válida
+      if (isNaN(date.getTime())) {
+        return 'Sin fecha';
+      }
+      
+      // Formatear la fecha en español con formato corto
+      return date.toLocaleDateString('es-ES', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
+    } catch (error) {
+      console.error('Error al formatear fecha:', error);
+      return 'Sin fecha';
+    }
   };
   
   // Obtener icono del método de pago
@@ -92,7 +116,7 @@ const SalesCard = ({
       <div className="sales-header">
         <div className="order-info">
           <span className="order-number">#{data._id?.slice(-6) || '000000'}</span>
-          <span className="order-date">{formatDate(data.createdAt?.$date)}</span>
+          <span className="order-date">{formatDate(data.createdAt)}</span>
         </div>
         <div 
           className="status-badge"
@@ -169,7 +193,7 @@ const SalesCard = ({
       
       {showDeleteIcon && (
         <div className="delete-icon" onClick={handleDelete}>
-          🗑️
+          <img src="/basura.svg" alt="Delete Icon" className="delete-icon-img" />
         </div>
       )}
     </div>

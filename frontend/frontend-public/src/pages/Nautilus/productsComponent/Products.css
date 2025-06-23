@@ -1,4 +1,5 @@
-.products-page {
+/* Contenedor principal - vista de productos */
+.xaelor-products-page {
   position: relative;
   width: 100%;
   min-height: 100vh;
@@ -14,21 +15,34 @@
   justify-content: center;
 }
 
-.products-container {
+.xaelor-products-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(19, 16, 15, 0.85);
+  z-index: 1;
+}
+
+.xaelor-products-container {
   max-width: 1200px;
   width: 100%;
   position: relative;
   z-index: 2;
 }
 
-.products-container h2 {
-  color: white;
+.xaelor-products-title {
+  color: #F9D56E;
   font-size: 2.5rem;
   margin-bottom: 40px;
   text-align: center;
+  font-family: 'Poltawski Nowy', serif;
+  font-weight: 700;
 }
 
-.products-grid {
+.xaelor-products-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
@@ -36,109 +50,121 @@
   position: relative;
 }
 
-.product-card {
-  background-color: rgba(44, 53, 66, 0.5);
+.xaelor-product-card {
+  background-color: #161616;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
   transition: transform 0.3s ease;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  text-decoration: none;
+  display: block;
 }
 
-.product-card:hover {
+.xaelor-product-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(255, 196, 100, 0.15);
 }
 
-.product-image {
+.xaelor-product-image-container {
   width: 100%;
   aspect-ratio: 1/1;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: #000;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
-  box-sizing: border-box;
+  padding: 0;
+  overflow: hidden;
 }
 
-.product-image img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+.xaelor-product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-.product-details {
-  padding: 15px;
-  background-color: rgba(30, 58, 138, 0.3);
+.xaelor-product-details {
+  padding: 12px;
+  background-color: #161616;
 }
 
-.product-details h3 {
+.xaelor-product-name {
   color: white;
   text-align: center;
-  margin-bottom: 10px;
-  font-size: 1rem;
+  margin: 0 0 8px 0;
+  font-size: 0.95rem;
+  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
 }
 
-.product-info {
+.xaelor-product-info {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 5px;
 }
 
-.product-price {
+.xaelor-product-price {
   color: white;
-  font-size: 0.9rem;
+  font-size: 0.75rem;
+  font-weight: 400;
+  white-space: nowrap;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: -0.02em;
 }
 
-.product-rating {
+.xaelor-product-rating {
   display: flex;
   align-items: center;
-  gap: 5px;
-  background-color: rgba(0,0,0,0.2);
-  padding: 3px 6px;
-  border-radius: 4px;
+  gap: 3px;
 }
 
-.rating-value {
-  color: #B0B8C1;
-  font-size: 0.85rem;
+.xaelor-rating-value {
+  color: #bbb;
+  font-size: 0.75rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
 }
 
-.rating-icon {
-  color: #F9D56E;
-  font-size: 0.85rem;
+.xaelor-rating-icon {
+  color: #ffc464;
+  font-size: 0.75rem;
 }
 
-.view-more {
+.xaelor-view-more {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
 }
 
-.view-more span {
+.xaelor-view-more-text {
   color: white;
   margin-bottom: 10px;
   font-size: 0.9rem;
+  font-family: 'DM Sans', sans-serif;
 }
 
-.view-more-icon {
-  background-color: rgba(255,255,255,0.1);
+.xaelor-view-more-button {
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  border: none;
 }
 
-.view-more-icon:hover {
-  background-color: rgba(249, 213, 110, 0.2);
+.xaelor-view-more-button:hover {
+  background-color: rgba(255, 196, 100, 0.2);
+  transform: translateY(2px);
 }
 
-.coral-background {
+.xaelor-coral-decoration {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -151,20 +177,34 @@
   opacity: 0.7;
 }
 
+/* Media queries para responsive */
 @media (max-width: 1024px) {
-  .products-grid {
+  .xaelor-products-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (max-width: 768px) {
-  .products-grid {
+  .xaelor-products-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .xaelor-products-title {
+    font-size: 2rem;
   }
 }
 
 @media (max-width: 480px) {
-  .products-grid {
+  .xaelor-products-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .xaelor-products-title {
+    font-size: 1.8rem;
+  }
+  
+  .xaelor-product-card {
+    max-width: 280px;
+    margin: 0 auto;
   }
 }

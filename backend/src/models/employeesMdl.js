@@ -39,15 +39,15 @@ const employeesSchema = new Schema({
         trim: true,
         validate: {
             validator: function (v) {
-               // This regex allows for various phone number formats
-               return /^[\d\s\-()]+$/.test(v);
+                // This regex allows for various phone number formats
+                return /^[\d\s\-()]+$/.test(v);
             },
             message: props => `${props.value} is not a valid phone number`
-         }
+        }
     },
     branchId: {
         type: Schema.Types.ObjectId,
-        ref: "Branches",
+        ref: "branches", // Cambiado de "Branches" a "branches" (minúscula)
         required: [true, 'El ID de la sucursal es obligatorio']
     },
     position: {

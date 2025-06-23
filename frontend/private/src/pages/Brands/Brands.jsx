@@ -1,133 +1,135 @@
-// Brands.jsx actualizado para trabajar con logos
-import React, { useState, useEffect } from 'react';
+// Brands.jsx - Versión completa y corregida
+import React, { useEffect, useState } from 'react';
+import { useBrandsManager } from '../../hooks/BrandsHooks/useBrands';
 import Header from '../../components/Header/header';
 import BrandCard from '../../components/Cards/BrandCard/BrandCard';
 import Pagination from '../../components/Pagination/Pagination';
 import BrandEditModal from '../../components/Modals/BrandModals/BrandEditModal';
+import DeleteConfirmationModal from '../../components/Modals/DeleteConfirmationModal/DeleteConfirmationModal';
 import './Brands.css';
 
 const BrandsPage = () => {
-  const [brands, setBrands] = useState([]);
+  const {
+    // Estados principales
+    brands,
+    showModal,
+    setShowModal,
+    showDeleteModal,
+    brandToDelete,
+    isLoading,
+    error,
+    setError,
+    success,
+    isEditing,
+    currentBrandId,
+    
+    // Estados del formulario (nombres correctos del hook)
+    brandName,
+    setBrandName,
+    image,
+    setImage,
+    previewUrl,
+    setPreviewUrl,
+    fileInputRef,
+    
+    // Funciones
+    fetchBrands,
+    handleSubmit,
+    startDeleteBrand,
+    confirmDeleteBrand,
+    cancelDeleteBrand,
+    resetForm,
+    handleEditBrand,
+    handleAddNew,
+    handleRefresh,
+    handleImageChange,
+    handleSelectImage
+  } = useBrandsManager();
+
+  // Estados locales para paginación y filtros
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(16); // Mostramos más marcas por página
-  const [selectedBrand, setSelectedBrand] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [itemsPerPage, setItemsPerPage] = useState(16);
+  const [sortBy, setSortBy] = useState('name-asc');
+  const [searchTerm, setSearchTerm] = useState('');
   
-  // Simulated data fetch
+  // Cargar marcas al montar el componente
   useEffect(() => {
-    // En una aplicación real, aquí harías una llamada a tu API
-    const fetchData = async () => {
-      try {
-        // Simulamos la obtención de datos
-        const mockData = [
-          {
-            "_id": "67ab7f7c1b4e14213d6a9ba3",
-            "brandName": "Casio",
-            "logoUrl": "https://upload.wikimedia.org/wikipedia/commons/4/4d/Casio_logo.svg"
-          },
-          {
-            "_id": "67ab7ff51b4e14213d6a9ba4",
-            "brandName": "Jaeger-LeCoultre",
-            "logoUrl": "https://upload.wikimedia.org/wikipedia/commons/d/df/Jaeger-LeCoultre_Logo.png"
-          },
-          {
-            "_id": "67ab800f1b4e14213d6a9ba5",
-            "brandName": "Renos",
-            "logoUrl": "https://upload.wikimedia.org/wikipedia/commons/6/67/Logo_Reno.svg"
-          },
-          {
-            "_id": "67ab80371b4e14213d6a9ba6",
-            "brandName": "Omega",
-            "logoUrl": "https://upload.wikimedia.org/wikipedia/commons/f/fb/Omega_Logo.svg"
-          },
-          {
-            "_id": "67ab80531b4e14213d6a9ba7",
-            "brandName": "BVLGARI",
-            "logoUrl": "https://upload.wikimedia.org/wikipedia/commons/3/32/Bulgari_logo.svg"
-          },
-          {
-            "_id": "67ab807a1b4e14213d6a9ba8",
-            "brandName": "Atlantic",
-            "logoUrl": "https://upload.wikimedia.org/wikipedia/commons/8/86/The-Atlantic-logo-vector.svg"
-          },
-          {
-            "_id": "67ab80921b4e14213d6a9ba9",
-            "brandName": "Bulgari",
-            "logoUrl": "https://upload.wikimedia.org/wikipedia/commons/3/32/Bulgari_logo.svg"
-          },
-          {
-            "_id": "67ab80b71b4e14213d6a9baa",
-            "brandName": "Xælör",
-            "logoUrl": "https://i.imgur.com/O6Z6GTv_d.webp?maxwidth=760&fidelity=grandhttps://i.imgur.com/O6Z6GTv.png"
-          },
-          {
-            "_id": "67ab80ec1b4e14213d6a9bab",
-            "brandName": "Condor",
-            "logoUrl": "https://upload.wikimedia.org/wikipedia/commons/7/75/Condor_logo.svg"
-          },
-          {
-            "_id": "67ab81191b4e14213d6a9bac",
-            "brandName": "Furlan Marri",
-            "logoUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoaxvXr39OXKrwlD91EihV4_mmh11w8qEyag&s"
-          }
-        ];
-        
-        setBrands(mockData);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    
-    fetchData();
+    fetchBrands();
   }, []);
-  
-  const handleAddNew = () => {
-    setSelectedBrand({
-      brandName: '',
-      logoUrl: ''
-    });
-    setIsModalOpen(true);
-  };
-  
-  const handleRefresh = () => {
-    // En una aplicación real, aquí recargarías los datos
-    console.log('Refreshing data...');
-  };
-  
-  const handleEditBrand = (brand) => {
-    setSelectedBrand(brand);
-    setIsModalOpen(true);
-  };
-  
-  const handleDeleteBrand = (brandId) => {
-    // En una aplicación real, aquí harías una llamada a tu API para eliminar
-    console.log(`Deleting brand ${brandId}`);
-    setBrands(brands.filter(b => b._id !== brandId));
-  };
-  
-  const handleSaveBrand = (updatedBrand) => {
-    // En una aplicación real, aquí harías una llamada a tu API para actualizar
-    if (updatedBrand._id) {
-      // Actualizar marca existente
-      setBrands(brands.map(b => 
-        b._id === updatedBrand._id ? updatedBrand : b
-      ));
-    } else {
-      // Añadir nueva marca con un ID temporal
-      const newBrand = {
-        ...updatedBrand,
-        _id: Date.now().toString() // ID temporal
-      };
-      setBrands([...brands, newBrand]);
-    }
+
+  // Función para filtrar marcas por búsqueda
+  const getFilteredBrands = () => {
+    if (!searchTerm.trim()) return brands;
     
-    setIsModalOpen(false);
+    return brands.filter(brand => 
+      brand.brandName?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   };
-  
-  // Obtener marcas para la página actual
+
+  // Función para ordenar marcas
+  const getSortedBrands = (brandsToSort) => {
+    const sorted = [...brandsToSort];
+    
+    switch (sortBy) {
+      case 'name-asc':
+        return sorted.sort((a, b) => 
+          (a.brandName || '').localeCompare(b.brandName || '')
+        );
+      case 'name-desc':
+        return sorted.sort((a, b) => 
+          (b.brandName || '').localeCompare(a.brandName || '')
+        );
+      case 'newest':
+        return sorted.sort((a, b) => 
+          new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
+        );
+      case 'oldest':
+        return sorted.sort((a, b) => 
+          new Date(a.createdAt || 0) - new Date(b.createdAt || 0)
+        );
+      default:
+        return sorted;
+    }
+  };
+
+  // Obtener marcas procesadas (filtradas y ordenadas)
+  const getProcessedBrands = () => {
+    const filtered = getFilteredBrands();
+    return getSortedBrands(filtered);
+  };
+
+  const processedBrands = getProcessedBrands();
+
+  // Calcular paginación
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentBrands = brands.slice(indexOfFirstItem, indexOfLastItem);
+  const currentBrands = processedBrands.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(processedBrands.length / itemsPerPage);
+
+  // Resetear página al cambiar filtros o items per page
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, sortBy, itemsPerPage]);
+  
+  // Función para cerrar mensajes de error
+  const handleCloseError = () => {
+    setError('');
+  };
+
+  // Manejar búsqueda desde el Header
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+  };
+
+  // Manejar ordenamiento desde el Header
+  const handleSort = (sortOption) => {
+    setSortBy(sortOption);
+  };
+
+  // Manejar cambio de items per page
+  const handleItemsPerPageChange = (newItemsPerPage) => {
+    setItemsPerPage(newItemsPerPage);
+  };
   
   return (
     <div className="brands-page">
@@ -135,32 +137,201 @@ const BrandsPage = () => {
         title="Marcas" 
         onAddNew={handleAddNew} 
         onRefresh={handleRefresh}
+        showSearch={false}
+        onSearch={handleSearch}
+        searchPlaceholder="Buscar marcas por nombre..."
+        sortOptions={[
+          { label: 'Nombre (A-Z)', value: 'name-asc' },
+          { label: 'Nombre (Z-A)', value: 'name-desc' },
+          { label: 'Más recientes', value: 'newest' },
+          { label: 'Más antiguas', value: 'oldest' }
+        ]}
+        onSort={handleSort}
+        showAddButton={true}
       />
       
+      {/* Mostrar mensajes de error */}
+      {error && (
+        <div className="error-message">
+          <span>{error}</span>
+          <button onClick={handleCloseError} className="close-btn">×</button>
+        </div>
+      )}
+      
+      {/* Mostrar mensajes de éxito */}
+      {success && (
+        <div className="success-message">
+          {success}
+        </div>
+      )}
+      
+      {/* Mostrar indicador de carga */}
+      {isLoading && (
+        <div className="loading-indicator">
+          <div className="spinner"></div>
+          <span>Cargando...</span>
+        </div>
+      )}
+
+      {/* Información de resultados */}
+      {!isLoading && (
+        <div className="results-info">
+          <span>
+            {searchTerm && ` (filtradas de ${brands.length} total)`}
+          </span>
+        </div>
+      )}
+      
+      {/* Grid de marcas */}
       <div className="brand-grid">
-        {currentBrands.map(brand => (
-          <BrandCard 
-            key={brand._id} 
-            data={brand}
-            onEdit={handleEditBrand}
-            onDelete={handleDeleteBrand}
-          />
-        ))}
+        {currentBrands.length > 0 ? (
+          currentBrands.map(brand => (
+            <BrandCard 
+              key={brand._id} 
+              data={brand}
+              onEdit={() => handleEditBrand(brand)}
+              onDelete={() => startDeleteBrand(brand._id)}
+              isLoading={isLoading}
+            />
+          ))
+        ) : (
+          !isLoading && (
+            <div className="no-data-message">
+              {searchTerm ? (
+                <>
+                  <p>No se encontraron marcas que coincidan con "{searchTerm}"</p>
+                  <button onClick={() => setSearchTerm('')} className="btn btn-secondary">
+                    Limpiar búsqueda
+                  </button>
+                </>
+              ) : (
+                <>
+                  <p>No hay marcas registradas, revisa tu conexión a internet o agrega una.</p>
+    
+                </>
+              )}
+            </div>
+          )
+        )}
       </div>
       
-      <Pagination 
-        totalItems={brands.length}
-        itemsPerPage={itemsPerPage}
-        currentPage={currentPage}
-        onPageChange={setCurrentPage}
-      />
+      {/* Paginación - Solo mostrar si hay elementos */}
+      {processedBrands.length > 0 && (
+        <Pagination 
+          totalItems={processedBrands.length}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+          onItemsPerPageChange={handleItemsPerPageChange}
+          totalPages={totalPages}
+          showItemsPerPage={true}
+          itemsPerPageOptions={[8, 16, 24, 32]}
+        />
+      )}
       
-      <BrandEditModal 
-        brand={selectedBrand}
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSave={handleSaveBrand}
-      />
+      {/* Modal de edición/creación - Usando TU CSS */}
+      {showModal && (
+        <BrandEditModal 
+          brandName={brandName}
+          setBrandName={setBrandName}
+          previewUrl={previewUrl}
+          setPreviewUrl={setPreviewUrl}
+          setImage={setImage}
+          handleImageChange={handleImageChange}
+          handleSelectImage={handleSelectImage}
+          fileInputRef={fileInputRef}
+          handleSubmit={handleSubmit}
+          isLoading={isLoading}
+          isEditing={isEditing}
+          onClose={() => {
+            setShowModal(false);
+            resetForm();
+          }}
+        >
+          <form onSubmit={handleSubmit} className="edit-form">
+          <div className="form-group">
+            <label htmlFor="brandName">Nombre de la Marca</label>
+            <input
+              type="text"
+              id="brandName"
+              value={brandName}
+              onChange={(e) => setBrandName(e.target.value)}
+              placeholder="Ingresa el nombre de la marca"
+              disabled={isLoading}
+              required
+            />
+          </div>
+          
+          <div className="form-group">
+            <label>Logo de la Marca</label>
+            <div className="logo-upload-container">
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleImageChange}
+                accept="image/jpeg, image/png, image/jpg"
+                style={{ display: 'none' }}
+              />
+              
+              <div className="logo-upload" onClick={handleSelectImage}>
+                {previewUrl ? (
+                  <img src={previewUrl} alt="Vista previa del logo" className="logo-preview" />
+                ) : (
+                  <div className="upload-placeholder">
+                    <div className="upload-icon">📷</div>
+                    <div className="upload-text">Seleccionar logo</div>
+                  </div>
+                )}
+              </div>
+              
+              {previewUrl && (
+                <button
+                  type="button"
+                  className="remove-image-btn"
+                  onClick={() => {
+                    setPreviewUrl('');
+                    setImage(null);
+                  }}
+                >
+                  Cambiar imagen
+                </button>
+              )}
+            </div>
+          </div>
+          
+          <div className="form-actions">
+            <button
+              type="button"
+              className="cancel-button"
+              onClick={onClose}
+              disabled={isLoading}
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              className="save-button"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Guardando...' : isEditing ? 'Actualizar' : 'Guardar'}
+            </button>
+          </div>
+        </form>
+        </BrandEditModal>
+      )}
+      
+      {/* Modal de confirmación de eliminación */}
+      {showDeleteModal && (
+        <DeleteConfirmationModal
+          isOpen={showDeleteModal}
+          onClose={cancelDeleteBrand}
+          onConfirm={confirmDeleteBrand}
+          title="Eliminar Marca"
+          message="¿Estás seguro de que deseas eliminar esta marca?"
+          itemName={brandToDelete?.brandName || ""}
+          isLoading={isLoading}
+        />
+      )}
     </div>
   );
 };

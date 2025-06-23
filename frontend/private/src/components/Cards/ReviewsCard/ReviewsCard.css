@@ -163,6 +163,11 @@
   z-index: 3;
 }
 
+.review-card .delete-icon img {
+  width: 20px; /* Ajusta el ancho de la imagen */
+  height: 20px; /* Ajusta la altura de la imagen */
+}
+
 .review-card .delete-icon:hover {
   opacity: 1;
   background-color: rgba(231, 76, 60, 0.9);

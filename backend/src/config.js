@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 
+// Ejecutar dotenv para acceder al archivo .env
 dotenv.config();
 
 export const config = {
@@ -16,5 +17,10 @@ export const config = {
   emailAdmin: {
     email: process.env.ADMIN_EMAIL,
     password: process.env.ADMIN_PASSWORD
+  },
+  cloudinary: {
+    cloudinary_name: process.env.CLOUDINARY_NAME,
+    cloudinary_api_key: process.env.CLOUDINARY_API_KEY,
+    cloudinary_api_secret: process.env.CLOUDINARY_API_SECRET
   }
 };

@@ -1,158 +1,122 @@
-// Memberships.jsx
-import React, { useState, useEffect } from 'react';
+// Memberships.jsx - Actualizado para usar el hook real
+import React, { useEffect, useState } from 'react';
+import { useMembershipsManager } from '../../hooks/MembershipsHooks/useMemberships';
 import Header from '../../components/Header/header';
 import MembershipCard from '../../components/Cards/MembershipCard/MembershipCard';
+import Pagination from '../../components/Pagination/Pagination';
 import MembershipEditModal from '../../components/Modals/MembershipsModals/MembershipsEditModal';
+import DeleteConfirmationModal from '../../components/Modals/DeleteConfirmationModal/DeleteConfirmationModal';
 import './Memberships.css';
 
 const MembershipsPage = () => {
-  const [memberships, setMemberships] = useState([]);
-  const [selectedMembership, setSelectedMembership] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [sortBy, setSortBy] = useState('');
+  const {
+    // Estados principales
+    memberships,
+    showModal,
+    setShowModal,
+    showDeleteModal,
+    membershipToDelete,
+    isLoading,
+    error,
+    setError,
+    success,
+    isEditing,
+    currentMembershipId,
+    
+    // Estados de paginación
+    currentPage,
+    setCurrentPage,
+    itemsPerPage,
+    setItemsPerPage,
+    
+    // Estados del formulario
+    membershipTier,
+    setMembershipTier,
+    price,
+    setPrice,
+    benefits,
+    setBenefits,
+    discount,
+    setDiscount,
+    
+    // Funciones
+    loadInitialData,
+    handleSubmit,
+    handleDeleteMembership,
+    confirmDeleteMembership,
+    cancelDeleteMembership,
+    handleEditMembership,
+    handleAddNew,
+    handleRefresh,
+    getFilteredMemberships,
+    getTotalMemberships,
+    getAveragePrice,
+    getAverageDiscount,
+    getHighestPrice,
+  } = useMembershipsManager();
+
+  // Estados locales para filtros y búsqueda
+  const [sortBy, setSortBy] = useState('tier');
+  const [searchTerm, setSearchTerm] = useState('');
   
-  // Simulated data fetch
+  // Cargar todos los datos al montar el componente
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Datos simulados de membresías
-        const mockMembershipData = [
-          {
-            "_id": "67acd69ae1fa12d45243dc76",
-            "membershipTier": "Bronze",
-            "price": 50,
-            "benefits": "10% off all purchases",
-            "discount": 0.1
-          },
-          {
-            "_id": "67acd69ae1fa12d45243dc77",
-            "membershipTier": "Silver",
-            "price": 100,
-            "benefits": "15% off all purchases - Free shipping on orders over $100",
-            "discount": 0.15
-          },
-          {
-            "_id": "67acd69ae1fa12d45243dc78",
-            "membershipTier": "Gold",
-            "price": 200,
-            "benefits": "25% off all purchases - Free shipping on all - Exclusive early access to sales",
-            "discount": 0.25
-          }
-        ];
-        
-        setMemberships(mockMembershipData);
-      } catch (error) {
-        console.error('Error fetching memberships:', error);
-      }
+    loadInitialData();
+  }, []);
+
+  // Función para manejar búsqueda desde el Header
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+    setCurrentPage(1); // Resetear a la primera página al buscar
+  };
+
+  // Función para manejar ordenamiento desde el Header
+  const handleSort = (sortOption) => {
+    setSortBy(sortOption);
+    setCurrentPage(1); // Resetear a la primera página al ordenar
+  };
+
+  // Obtener membresías procesadas (filtradas y ordenadas)
+  const processedMemberships = getFilteredMemberships(sortBy, searchTerm);
+
+  // Calcular paginación con las membresías procesadas
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentMemberships = processedMemberships.slice(indexOfFirstItem, indexOfLastItem);
+  const calculatedTotalPages = Math.ceil(processedMemberships.length / itemsPerPage);
+
+  // Resetear página al cambiar filtros o items per page
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, sortBy, itemsPerPage]);
+
+  // Función para cerrar mensajes de error
+  const handleCloseError = () => {
+    setError('');
+  };
+
+  // Función para preparar datos del formulario para el submit
+  const handleFormSubmit = (formData) => {
+    const membershipData = {
+      _id: isEditing ? currentMembershipId : null,
+      membershipTier: formData.membershipTier,
+      price: formData.price,
+      benefits: formData.benefits,
+      discount: formData.discount
     };
     
-    fetchData();
-  }, []);
-  
-  // Función para añadir una nueva membresía
-  const handleAddNew = () => {
-    setSelectedMembership(null);
-    setIsModalOpen(true);
+    handleSubmit(membershipData);
   };
-  
-  // Función para refrescar los datos
-  const handleRefresh = () => {
-    console.log('Refreshing memberships data...');
-  };
-  
-  // Función para editar una membresía
-  const handleEditMembership = (membership) => {
-    setSelectedMembership(membership);
-    setIsModalOpen(true);
-  };
-  
-  // Función para eliminar una membresía
-  const handleDeleteMembership = (membershipId) => {
-    if (window.confirm('¿Estás seguro de que deseas eliminar esta membresía?')) {
-      console.log(`Deleting membership ${membershipId}`);
-      setMemberships(memberships.filter(m => m._id !== membershipId));
-    }
-  };
-  
-  // Función para guardar cambios de membresía
-  const handleSaveMembership = (updatedMembership) => {
-    if (updatedMembership._id) {
-      // Actualizar membresía existente
-      setMemberships(memberships.map(m => 
-        m._id === updatedMembership._id ? updatedMembership : m
-      ));
-    } else {
-      // Añadir nueva membresía con un ID temporal
-      const newMembership = {
-        ...updatedMembership,
-        _id: Date.now().toString()
-      };
-      setMemberships([...memberships, newMembership]);
-    }
-    
-    setIsModalOpen(false);
-  };
-  
-  // Función para obtener membresías procesadas/ordenadas
-  const getProcessedMemberships = () => {
-    let processedMemberships = [...memberships];
-    
-    switch (sortBy) {
-      case 'price-low':
-        processedMemberships.sort((a, b) => a.price - b.price);
-        break;
-      case 'price-high':
-        processedMemberships.sort((a, b) => b.price - a.price);
-        break;
-      case 'discount-low':
-        processedMemberships.sort((a, b) => a.discount - b.discount);
-        break;
-      case 'discount-high':
-        processedMemberships.sort((a, b) => b.discount - a.discount);
-        break;
-      case 'tier':
-        // Ordenar por nivel de tier (Bronze < Silver < Gold)
-        const tierOrder = { 'Bronze': 1, 'Silver': 2, 'Gold': 3 };
-        processedMemberships.sort((a, b) => 
-          (tierOrder[a.membershipTier] || 999) - (tierOrder[b.membershipTier] || 999)
-        );
-        break;
-      default:
-        // Por defecto, ordenar por tier
-        const defaultTierOrder = { 'Bronze': 1, 'Silver': 2, 'Gold': 3 };
-        processedMemberships.sort((a, b) => 
-          (defaultTierOrder[a.membershipTier] || 999) - (defaultTierOrder[b.membershipTier] || 999)
-        );
-    }
-    
-    return processedMemberships;
-  };
-  
-  const processedMemberships = getProcessedMemberships();
-  
-  // Calcular estadísticas
-  const getTotalRevenue = () => {
-    // En una aplicación real, esto se calcularía con el número real de miembros
-    return 0; // Por ahora retornamos 0
-  };
-  
-  const getActiveMembers = () => {
-    // En una aplicación real, esto vendría de la base de datos
-    return 0; // Por ahora retornamos 0
-  };
-  
-  const getAverageDiscount = () => {
-    if (memberships.length === 0) return 0;
-    const totalDiscount = memberships.reduce((sum, m) => sum + m.discount, 0);
-    return (totalDiscount / memberships.length * 100).toFixed(1);
-  };
-  
+
   return (
     <div className="memberships-page">
       <Header 
         title="Membresías" 
         onAddNew={handleAddNew} 
         onRefresh={handleRefresh}
+        showSearch={true}
+        onSearch={handleSearch}
+        searchPlaceholder="Buscar por tier o beneficios..."
         sortOptions={[
           { label: 'Tier', value: 'tier' },
           { label: 'Precio (Menor a Mayor)', value: 'price-low' },
@@ -160,54 +124,137 @@ const MembershipsPage = () => {
           { label: 'Descuento (Menor a Mayor)', value: 'discount-low' },
           { label: 'Descuento (Mayor a Menor)', value: 'discount-high' }
         ]}
-        onSort={setSortBy}
-        showSearch={false}
+        onSort={handleSort}
+        showAddButton={true}
       />
       
-      <div className="memberships-stats">
-        <div className="stat-card">
-          <div className="stat-label">Tipos de Membresía</div>
-          <div className="stat-value">{memberships.length}</div>
+      {/* Mostrar mensajes de error */}
+      {error && (
+        <div className="error-message">
+          <span>{error}</span>
+          <button onClick={handleCloseError} className="close-btn">×</button>
         </div>
-        <div className="stat-card">
-          <div className="stat-label">Miembros Activos</div>
-          <div className="stat-value">{getActiveMembers()}</div>
+      )}
+      
+      {/* Mostrar mensajes de éxito */}
+      {success && (
+        <div className="success-message">
+          {success}
         </div>
-        <div className="stat-card">
-          <div className="stat-label">Descuento Promedio</div>
-          <div className="stat-value">{getAverageDiscount()}%</div>
+      )}
+      
+      {/* Mostrar indicador de carga */}
+      {isLoading && (
+        <div className="loading-indicator">
+          <div className="spinner"></div>
+          <span>Cargando...</span>
         </div>
-        <div className="stat-card">
-          <div className="stat-label">Ingresos Totales</div>
-          <div className="stat-value">${getTotalRevenue().toLocaleString()}</div>
+      )}
+
+      {/* Estadísticas de membresías */}
+      {!isLoading && (
+        <div className="memberships-stats">
+          <div className="stat-card">
+            <div className="stat-label">Tipos de Membresía</div>
+            <div className="stat-value">{getTotalMemberships()}</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Precio Promedio</div>
+            <div className="stat-value">${Math.round(getAveragePrice()).toLocaleString()}</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Descuento Promedio</div>
+            <div className="stat-value">{getAverageDiscount().toFixed(1)}%</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Precio Máximo</div>
+            <div className="stat-value">${getHighestPrice().toLocaleString()}</div>
+          </div>
+        </div>
+      )}
+
+      <div className="memberships-content-scrollable">
+        <div className="memberships-grid-container">
+          <div className="memberships-grid">
+            {currentMemberships.length > 0 ? (
+              currentMemberships.map(membership => (
+                <MembershipCard 
+                  key={membership._id} 
+                  data={membership}
+                  onEdit={() => handleEditMembership(membership)}
+                  onDelete={() => handleDeleteMembership(membership._id)}
+                />
+              ))
+            ) : (
+              !isLoading && (
+                <div className="no-memberships">
+                  {searchTerm ? (
+                    <>
+                      <p>No se encontraron membresías que coincidan con "{searchTerm}"</p>
+                      <button onClick={() => setSearchTerm('')} className="btn btn-secondary">
+                        Limpiar búsqueda
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <p>No hay membresías registradas, revisa tu conexión a internet o agrega una.</p>
+                      
+                    </>
+                  )}
+                </div>
+              )
+            )}
+          </div>
         </div>
       </div>
+
+      {/* Paginación - Solo mostrar si hay elementos */}
+      {processedMemberships.length > 0 && (
+        <Pagination 
+          totalItems={processedMemberships.length}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+          onItemsPerPageChange={setItemsPerPage}
+          totalPages={calculatedTotalPages}
+          showItemsPerPage={true}
+          itemsPerPageOptions={[6, 12, 18, 24]}
+        />
+      )}
       
-      <div className="memberships-grid-container">
-        <div className="memberships-grid">
-          {processedMemberships.length > 0 ? (
-            processedMemberships.map(membership => (
-              <MembershipCard 
-                key={membership._id} 
-                data={membership}
-                onEdit={handleEditMembership}
-                onDelete={handleDeleteMembership}
-              />
-            ))
-          ) : (
-            <div className="no-memberships">
-              <p>No se encontraron membresías</p>
-            </div>
-          )}
-        </div>
-      </div>
-      
-      {isModalOpen && (
+      {/* Modal de edición/creación */}
+      {showModal && (
         <MembershipEditModal 
-          membership={selectedMembership}
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          onSave={handleSaveMembership}
+          // Estados del formulario
+          membershipTier={membershipTier}
+          setMembershipTier={setMembershipTier}
+          price={price}
+          setPrice={setPrice}
+          benefits={benefits}
+          setBenefits={setBenefits}
+          discount={discount}
+          setDiscount={setDiscount}
+          
+          // Funciones y estados
+          handleSubmit={handleFormSubmit}
+          isLoading={isLoading}
+          isEditing={isEditing}
+          onClose={() => {
+            setShowModal(false);
+          }}
+        />
+      )}
+      
+      {/* Modal de confirmación de eliminación */}
+      {showDeleteModal && (
+        <DeleteConfirmationModal
+          isOpen={showDeleteModal}
+          onClose={cancelDeleteMembership}
+          onConfirm={confirmDeleteMembership}
+          title="Eliminar Membresía"
+          message="¿Estás seguro de que deseas eliminar esta membresía?"
+          itemName={`${membershipToDelete?.membershipTier || 'Membresía'} - ${membershipToDelete?.price || '0'}`}
+          isLoading={isLoading}
         />
       )}
     </div>

@@ -1,299 +1,293 @@
-// Inventory.jsx
-import React, { useState, useEffect } from 'react';
+// Inventory.jsx - Actualizado para usar el hook real
+import React, { useEffect, useState } from 'react';
+import { useInventoryManager } from '../../hooks/InventoryHooks/useInventory';
 import Header from '../../components/Header/header';
 import InventoryCard from '../../components/Cards/InventoryCard/InventoryCard';
 import Pagination from '../../components/Pagination/Pagination';
 import InventoryEditModal from '../../components/Modals/InventoryModals/InventoryEditModal';
+import DeleteConfirmationModal from '../../components/Modals/DeleteConfirmationModal/DeleteConfirmationModal';
 import './Inventory.css';
 
 const InventoryPage = () => {
-  const [inventories, setInventories] = useState([]);
-  const [watches, setWatches] = useState([]);
-  const [branches, setBranches] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(6); // Ajustado para mostrar 2 filas de 3
-  const [selectedInventory, setSelectedInventory] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [sortBy, setSortBy] = useState('');
+  const {
+    // Estados principales
+    inventories,
+    watches,
+    branches,
+    showModal,
+    setShowModal,
+    showDeleteModal,
+    inventoryToDelete,
+    isLoading,
+    error,
+    setError,
+    success,
+    isEditing,
+    currentInventoryId,
+    
+    // Estados de paginación
+    currentPage,
+    setCurrentPage,
+    itemsPerPage,
+    setItemsPerPage,
+    
+    // Estados del formulario
+    watchId,
+    setWatchId,
+    branchId,
+    setBranchId,
+    stockChange,
+    setStockChange,
+    operation,
+    setOperation,
+    notes,
+    setNotes,
+    currentStock,
+    setCurrentStock,
+    
+    // Funciones
+    loadInitialData,
+    fetchInventories,
+    handleSubmit,
+    handleDeleteInventory,
+    confirmDeleteInventory,
+    cancelDeleteInventory,
+    handleEditInventory,
+    handleAddNew,
+    handleRefresh,
+    getWatchInfo,
+    getBranchInfo,
+    getFilteredInventories,
+    getTotalStock,
+    getTotalValue,
+    calculateStockFromMovements,
+    getLastMovement,
+  } = useInventoryManager();
+
+  // Estados locales para filtros y búsqueda
+  const [sortBy, setSortBy] = useState('model');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [branchFilter, setBranchFilter] = useState('all');
   
-  // Simulated data fetch
+  // Cargar todos los datos al montar el componente
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Datos simulados de inventario
-        const mockInventoryData = [
-           {
-            "_id": "67acd1f9e1a9ab99ca59601a",
-            "watchId": { "$oid": "67ab8499398487f1caccc64f" },
-            "branchId": { "$oid": "67ab842f0dcf66e92c78842a" },
-            "stock": 30
-          },
-          {
-            "_id": "67acd1f9e1a9ab99ca59601b",
-            "watchId": { "$oid": "67ab8581398487f1caccc651" },
-            "branchId": { "$oid": "67ab842f0dcf66e92c78842a" },
-            "stock": 75
-          },
-          {
-            "_id": "67acd1f9e1a9ab99ca59601c",
-            "watchId": { "$oid": "67ab85c7398487f1caccc652" },
-            "branchId": { "$oid": "67ab842f0dcf66e92c78842a" },
-            "stock": 20
-          }
-        ];
-        
-        // Datos simulados de relojes
-        const mockWatchData = [
-          {
-            "_id": { "$oid": "67ab844d398487f1caccc64e" },
-            "model": "Xælör Submariner",
-            "price": 8500,
-            "category": "Nautilus",
-            "photos": [
-              { "url": "https://www.elrubi.es/wp-content/uploads/2019/07/relojes-sumergibles-1-scaled.jpg" }
-            ]
-          },
-          {
-            "_id": { "$oid": "67ab8499398487f1caccc64f" },
-            "model": "Xælör noir deluxe",
-            "price": 8500,
-            "category": "Ett Med Naturen",
-            "photos": [
-              { "url": "https://ibizaloe.com/wp-content/uploads/2020/12/reloj-aloe.jpg" }
-            ]
-          },
-          {
-            "_id": { "$oid": "67ab8581398487f1caccc651" },
-            "model": "Xælör Explorer",
-            "price": 12000,
-            "category": "Nautilus",
-            "photos": [
-              { "url": "https://joyeriainter.com/wp-content/uploads/2022/08/07.Two_Column_M226570-0001_2103jva_002_XL_desktop.jpg" }
-            ]
-          },
-          {
-            "_id": { "$oid": "67ab85c7398487f1caccc652" },
-            "model": "Xælör Classic",
-            "price": 5000,
-            "category": "Ett Med Naturen",
-            "photos": [
-              { "url": "https://kapile.pe/wp-content/uploads/2023/06/reloj-fondo-negro.jpg" }
-            ]
-          }
-        ];
-        
-        // Datos simulados de sucursales
-        const mockBranchData = [
-          {
-            "_id": { "$oid": "67ab842f0dcf66e92c78842a" },
-            "address": "Av. América #142",
-            "city": "San Salvador",
-            "country": "El Salvador"
-          },
-          {
-            "_id": { "$oid": "67ab80b71b4e14213d6a9baa" },
-            "address": "Centro Comercial Plaza Merliot",
-            "city": "Santa Tecla",
-            "country": "El Salvador"
-          }
-        ];
-        
-        setInventories(mockInventoryData);
-        setWatches(mockWatchData);
-        setBranches(mockBranchData);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    
-    fetchData();
+    loadInitialData();
   }, []);
-  
-  // Función para añadir un nuevo inventario
-  const handleAddNew = () => {
-    setSelectedInventory(null);
-    setIsModalOpen(true);
+
+  // Función para manejar búsqueda desde el Header
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+    setCurrentPage(1); // Resetear a la primera página al buscar
   };
-  
-  // Función para refrescar los datos
-  const handleRefresh = () => {
-    console.log('Refreshing inventory data...');
+
+  // Función para manejar ordenamiento desde el Header
+  const handleSort = (sortOption) => {
+    setSortBy(sortOption);
+    setCurrentPage(1); // Resetear a la primera página al ordenar
   };
-  
-  // Función para editar un inventario
-  const handleEditInventory = (inventory) => {
-    setSelectedInventory(inventory);
-    setIsModalOpen(true);
+
+  // Función para manejar filtro por sucursal
+  const handleBranchFilter = (branchId) => {
+    setBranchFilter(branchId);
+    setCurrentPage(1); // Resetear a la primera página al filtrar
   };
-  
-  // Función para eliminar un inventario
-  const handleDeleteInventory = (inventoryId) => {
-    if (window.confirm('¿Estás seguro de que deseas eliminar este registro de inventario?')) {
-      console.log(`Deleting inventory ${inventoryId}`);
-      setInventories(inventories.filter(i => i._id !== inventoryId));
-    }
-  };
-  
-  // Función para guardar cambios de inventario
-  const handleSaveInventory = (updatedInventory) => {
-    if (updatedInventory._id) {
-      // Actualizar inventario existente
-      setInventories(inventories.map(i => 
-        i._id === updatedInventory._id ? updatedInventory : i
-      ));
-    } else {
-      // Añadir nuevo inventario con un ID temporal
-      const newInventory = {
-        ...updatedInventory,
-        _id: Date.now().toString()
-      };
-      setInventories([...inventories, newInventory]);
-    }
-    
-    setIsModalOpen(false);
-  };
-  
-  // Función para obtener información del reloj por ID
-  const getWatchInfo = (watchId) => {
-    return watches.find(w => w._id.$oid === watchId.$oid);
-  };
-  
-  // Función para obtener información de la sucursal por ID
-  const getBranchInfo = (branchId) => {
-    return branches.find(b => b._id.$oid === branchId.$oid);
-  };
-  
-  // Función para obtener inventarios procesados/ordenados
-  const getProcessedInventories = () => {
-    let processedInventories = [...inventories];
-    
-    switch (sortBy) {
-      case 'stock-low':
-        processedInventories.sort((a, b) => a.stock - b.stock);
-        break;
-      case 'stock-high':
-        processedInventories.sort((a, b) => b.stock - a.stock);
-        break;
-      case 'model':
-        processedInventories.sort((a, b) => {
-          const watchA = getWatchInfo(a.watchId);
-          const watchB = getWatchInfo(b.watchId);
-          return watchA?.model.localeCompare(watchB?.model || '') || 0;
-        });
-        break;
-      case 'branch':
-        processedInventories.sort((a, b) => {
-          const branchA = getBranchInfo(a.branchId);
-          const branchB = getBranchInfo(b.branchId);
-          return branchA?.address.localeCompare(branchB?.address || '') || 0;
-        });
-        break;
-      case 'value':
-        processedInventories.sort((a, b) => {
-          const watchA = getWatchInfo(a.watchId);
-          const watchB = getWatchInfo(b.watchId);
-          const valueA = (watchA?.price || 0) * a.stock;
-          const valueB = (watchB?.price || 0) * b.stock;
-          return valueB - valueA;
-        });
-        break;
-      default:
-        // Por defecto, ordenar por modelo
-        processedInventories.sort((a, b) => {
-          const watchA = getWatchInfo(a.watchId);
-          const watchB = getWatchInfo(b.watchId);
-          return watchA?.model.localeCompare(watchB?.model || '') || 0;
-        });
-    }
-    
-    return processedInventories;
-  };
-  
-  const processedInventories = getProcessedInventories();
-  
-  // Obtener inventarios para la página actual
+
+  // Obtener inventarios procesados (filtrados y ordenados)
+  const processedInventories = getFilteredInventories(sortBy, searchTerm, branchFilter);
+
+  // Calcular paginación con los inventarios procesados
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentInventories = processedInventories.slice(indexOfFirstItem, indexOfLastItem);
-  
-  // Calcular estadísticas del inventario
-  const getTotalStock = () => {
-    return inventories.reduce((total, inv) => total + inv.stock, 0);
+  const calculatedTotalPages = Math.ceil(processedInventories.length / itemsPerPage);
+
+  // Resetear página al cambiar filtros o items per page
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, sortBy, itemsPerPage, branchFilter]);
+
+  // Función para cerrar mensajes de error
+  const handleCloseError = () => {
+    setError('');
   };
-  
-  const getTotalValue = () => {
-    return inventories.reduce((total, inv) => {
-      const watch = getWatchInfo(inv.watchId);
-      return total + (watch?.price || 0) * inv.stock;
-    }, 0);
+
+  // Función para preparar datos del formulario para el submit
+  const handleFormSubmit = (formData) => {
+    const inventoryData = {
+      _id: isEditing ? currentInventoryId : null,
+      watchId: formData.watchId,
+      branchId: formData.branchId,
+      stockChange: formData.stockChange,
+      operation: formData.operation,
+      notes: formData.notes
+    };
+    
+    handleSubmit(inventoryData);
   };
-  
+
   return (
     <div className="inventory-page">
       <Header 
         title="Inventario" 
         onAddNew={handleAddNew} 
         onRefresh={handleRefresh}
+        showSearch={true}
+        onSearch={handleSearch}
+        searchPlaceholder="Buscar por modelo de reloj o sucursal..."
         sortOptions={[
           { label: 'Modelo', value: 'model' },
           { label: 'Stock (Menor a Mayor)', value: 'stock-low' },
           { label: 'Stock (Mayor a Menor)', value: 'stock-high' },
           { label: 'Sucursal', value: 'branch' },
-          { label: 'Valor Total', value: 'value' }
+          { label: 'Valor Total', value: 'value' },
+          { label: 'Movimientos Recientes', value: 'recent' }
         ]}
-        onSort={setSortBy}
-        showSearch={true}
+        onSort={handleSort}
+        showAddButton={true}
       />
       
-      <div className="inventory-stats">
-        <div className="stat-card">
-          <div className="stat-label">Total Unidades</div>
-          <div className="stat-value">{getTotalStock()}</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-label">Valor Total</div>
-          <div className="stat-value">${getTotalValue().toLocaleString()}</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-label">Total Registros</div>
-          <div className="stat-value">{inventories.length}</div>
-        </div>
-      </div>
       
+      
+      {/* Mostrar mensajes de error */}
+      {error && (
+        <div className="error-message">
+          <span>{error}</span>
+          <button onClick={handleCloseError} className="close-btn">×</button>
+        </div>
+      )}
+      
+      {/* Mostrar mensajes de éxito */}
+      {success && (
+        <div className="success-message">
+          {success}
+        </div>
+      )}
+      
+      {/* Mostrar indicador de carga */}
+      {isLoading && (
+        <div className="loading-indicator">
+          <div className="spinner"></div>
+          <span>Cargando...</span>
+        </div>
+      )}
+
+      {/* Estadísticas del inventario */}
+      {!isLoading && (
+        <div className="inventory-stats">
+          <div className="stat-card">
+            <div className="stat-label">Total Unidades</div>
+            <div className="stat-value">{getTotalStock()}</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Valor Total</div>
+            <div className="stat-value">${getTotalValue().toLocaleString()}</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Total Registros</div>
+            <div className="stat-value">{inventories.length}</div>
+          </div>
+          {branchFilter !== 'all' && (
+            <div className="stat-card">
+              <div className="stat-label">Registros Filtrados</div>
+              <div className="stat-value">{processedInventories.length}</div>
+            </div>
+          )}
+        </div>
+      )}
+      
+      {/* Grid de inventarios */}
       <div className="inventory-grid">
         {currentInventories.length > 0 ? (
           currentInventories.map(inventory => (
             <InventoryCard 
               key={inventory._id} 
-              data={inventory}
+              data={{
+                ...inventory,
+                stock: inventory.calculatedStock || calculateStockFromMovements(inventory)
+              }}
               watchInfo={getWatchInfo(inventory.watchId)}
               branchInfo={getBranchInfo(inventory.branchId)}
-              onEdit={handleEditInventory}
-              onDelete={handleDeleteInventory}
+              onEdit={() => handleEditInventory(inventory)}
+              onDelete={() => handleDeleteInventory(inventory._id)}
+              isLoading={isLoading}
+              calculateStockFromMovements={calculateStockFromMovements}
             />
           ))
         ) : (
-          <div className="no-inventory">
-            <p>No se encontraron registros de inventario</p>
-          </div>
+          !isLoading && (
+            <div className="no-inventory">
+              {searchTerm || branchFilter !== 'all' ? (
+                <>
+                  <p>No se encontraron registros que coincidan con los filtros aplicados</p>
+                  <button onClick={() => {
+                    setSearchTerm('');
+                    setBranchFilter('all');
+                  }} className="btn btn-secondary">
+                    Limpiar filtros
+                  </button>
+                </>
+              ) : (
+                <>
+                  <p>No hay registros de inventario, revisa tu conexión a internet o agrega uno.</p>
+                </>
+              )}
+            </div>
+          )
         )}
       </div>
       
-      <Pagination 
-        totalItems={processedInventories.length}
-        itemsPerPage={itemsPerPage}
-        currentPage={currentPage}
-        onPageChange={setCurrentPage}
-      />
+      {/* Paginación - Solo mostrar si hay elementos */}
+      {processedInventories.length > 0 && (
+        <Pagination 
+          totalItems={processedInventories.length}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+          onItemsPerPageChange={setItemsPerPage}
+          totalPages={calculatedTotalPages}
+          showItemsPerPage={true}
+          itemsPerPageOptions={[6, 12, 18, 24]}
+        />
+      )}
       
-      {isModalOpen && (
+      {/* Modal de edición/creación */}
+      {showModal && (
         <InventoryEditModal 
-          inventory={selectedInventory}
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          onSave={handleSaveInventory}
+          // Estados del formulario
+          watchId={watchId}
+          setWatchId={setWatchId}
+          branchId={branchId}
+          setBranchId={setBranchId}
+          stockChange={stockChange}
+          setStockChange={setStockChange}
+          operation={operation}
+          setOperation={setOperation}
+          notes={notes}
+          setNotes={setNotes}
+          currentStock={currentStock}
           watches={watches}
           branches={branches}
+          
+          // Funciones y estados
+          handleSubmit={handleFormSubmit}
+          isLoading={isLoading}
+          isEditing={isEditing}
+          onClose={() => {
+            setShowModal(false);
+          }}
+        />
+      )}
+      
+      {/* Modal de confirmación de eliminación */}
+      {showDeleteModal && (
+        <DeleteConfirmationModal
+          isOpen={showDeleteModal}
+          onClose={cancelDeleteInventory}
+          onConfirm={confirmDeleteInventory}
+          title="Eliminar Registro de Inventario"
+          message="¿Estás seguro de que deseas eliminar este registro de inventario?"
+          itemName={`${getWatchInfo(inventoryToDelete?.watchId)?.model || 'Reloj'} - ${getBranchInfo(inventoryToDelete?.branchId)?.branch_name || 'Sucursal'}`}
+          isLoading={isLoading}
         />
       )}
     </div>

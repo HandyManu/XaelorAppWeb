@@ -117,6 +117,12 @@
   background-color: rgba(231, 76, 60, 0.9);
 }
 
+.delete-icon-img {
+  width: 20px; /* Ajusta el ancho de la imagen */
+  height: 20px; /* Ajusta la altura de la imagen */
+  cursor: pointer; /* Mantiene el cursor como puntero */
+}
+
 @media (max-width: 768px) {
   .customer-card {
     padding: 1.2rem;
