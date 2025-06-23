@@ -333,6 +333,7 @@ const Dashboard = () => {
         ]);
 
         // Extraer datos exitosos o usar arrays vacíos como fallback
+        //Si está lleno ocupa los values, si no lo pone vacío
         const salesData = salesResponse.status === 'fulfilled' ? salesResponse.value : [];
         const customersData = customersResponse.status === 'fulfilled' ? customersResponse.value : [];
         const inventoryData = inventoryResponse.status === 'fulfilled' ? inventoryResponse.value : [];
@@ -342,6 +343,7 @@ const Dashboard = () => {
         const membershipsData = membershipsResponse.status === 'fulfilled' ? membershipsResponse.value : [];
 
         // Procesar datos para las gráficas
+        //Aquí si antes estaba vacío, pues pone el fallback osea lo que teníamos default pa que no falle xdd
         const newDashboardData = {
           ventasData: salesData.length > 0 ? processVentasData(salesData) : fallbackData.ventasData,
           clientesData: customersData.length > 0 ? processClientesData(customersData) : fallbackData.clientesData,
