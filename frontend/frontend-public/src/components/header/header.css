@@ -85,10 +85,28 @@ nav a {
     color: #fff;
     font-size: 15px;
     transition: color 0.3s ease;
+    position: relative;
+    padding-bottom: 5px;
 }
 
 nav a:hover {
-    color: #f7f7f7;
+    color: #FFC464;
+}
+
+/* Estilo para link activo */
+nav a.active {
+    color: #FFC464;
+}
+
+nav a.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #FFC464;
+    border-radius: 1px;
 }
 
 .Login {
@@ -137,6 +155,37 @@ nav a:hover {
 .Login:active {
     transform: translateY(0);
     box-shadow: 0 2px 8px rgba(255, 196, 100, 0.3);
+}
+
+/* Estilos para la información del usuario autenticado */
+.user-info {
+    color: #FFC464;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background-color: rgba(255, 196, 100, 0.15);
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 196, 100, 0.3);
+    margin-right: 10px;
+}
+
+.logout-btn {
+    background-color: rgba(255, 87, 87, 0.7) !important;
+    border: #ffaaaa 1px solid !important;
+}
+
+.logout-btn::before {
+    background-color: #ffaaaa !important;
+}
+
+.logout-btn:hover {
+    color: rgba(255, 87, 87, 1) !important;
+    box-shadow: 0 5px 15px rgba(255, 87, 87, 0.3) !important;
 }
 
 .hero-carousel {

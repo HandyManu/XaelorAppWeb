@@ -78,6 +78,14 @@
         order: 2;
         margin-left: auto;
     }
+    
+    /* Estilos para usuario en tablets */
+    .user-info {
+        max-width: 120px;
+        font-size: 13px;
+        padding: 6px 12px;
+        margin-right: 8px;
+    }
 }
 
 /* Dispositivos móviles (menos de 768px) */
@@ -143,6 +151,14 @@
         font-size: 13px;
         height: 36px;
     }
+    
+    /* Estilos para usuario en móviles */
+    .user-info {
+        max-width: 100px;
+        font-size: 12px;
+        padding: 5px 8px;
+        margin-right: 5px;
+    }
 }
 
 /* Dispositivos muy pequeños (menos de 480px) */
@@ -169,5 +185,13 @@
     .divisor {
         flex-wrap: nowrap;
         justify-content: flex-end;
+    }
+    
+    /* Estilos para usuario en pantallas muy pequeñas */
+    .user-info {
+        max-width: 80px;
+        font-size: 11px;
+        padding: 4px 6px;
+        margin-right: 3px;
     }
 }
