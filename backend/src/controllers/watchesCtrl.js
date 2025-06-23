@@ -82,7 +82,7 @@ WatchesController.deleteWatches = async (req, res) => {
   try {
     // Obtener el reloj antes de eliminarlo para borrar las fotos de Cloudinary
     const watch = await WatchesModel.findById(req.params.id);
-    
+
     if (watch && watch.photos && watch.photos.length > 0) {
       // Eliminar todas las fotos de Cloudinary
       for (const photoUrl of watch.photos) {
@@ -97,7 +97,7 @@ WatchesController.deleteWatches = async (req, res) => {
         }
       }
     }
-    
+
     await WatchesModel.findByIdAndDelete(req.params.id);
     res.json({ message: "Watches deleted" });
   } catch (error) {
@@ -110,13 +110,13 @@ WatchesController.deleteWatches = async (req, res) => {
 WatchesController.updateWatches = async (req, res) => {
   try {
     const { model, brandId, price, category, description, availability, existingPhotos } = req.body;
-    
+
     // Buscar el reloj existente
     const currentWatch = await WatchesModel.findById(req.params.id);
     if (!currentWatch) {
       return res.status(404).json({ message: 'Reloj no encontrado' });
     }
-    
+
     // Parsear las fotos existentes que queremos mantener
     let photosToKeep = [];
     if (existingPhotos) {
@@ -128,14 +128,14 @@ WatchesController.updateWatches = async (req, res) => {
         photosToKeep = [];
       }
     }
-    
+
     // Identificar qué fotos eliminar de Cloudinary
     const photosToDelete = currentWatch.photos.filter(
       photo => !photosToKeep.includes(photo)
     );
-    
+
     console.log('Fotos a eliminar:', photosToDelete);
-    
+
     // Eliminar fotos de Cloudinary que ya no se necesitan
     for (const photoUrl of photosToDelete) {
       try {
@@ -148,7 +148,7 @@ WatchesController.updateWatches = async (req, res) => {
         console.error('Error eliminando foto de Cloudinary:', error);
       }
     }
-    
+
     // Subir nuevas fotos a Cloudinary
     const newPhotoUrls = [];
     if (req.files && req.files.length > 0) {
@@ -166,7 +166,7 @@ WatchesController.updateWatches = async (req, res) => {
         }
       }
     }
-    
+
     // Combinar fotos existentes que queremos mantener + nuevas fotos
     const finalPhotos = [...photosToKeep, ...newPhotoUrls];
 
@@ -185,22 +185,36 @@ WatchesController.updateWatches = async (req, res) => {
 
     const updateWatches = await WatchesModel.findByIdAndUpdate(
       req.params.id,
-      { 
-        model, 
-        brandId, 
-        price, 
-        category, 
-        description, 
+      {
+        model,
+        brandId,
+        price,
+        category,
+        description,
         photos: finalPhotos, // ESTO ES CLAVE: Solo las fotos que queremos mantener + nuevas
-        availability 
+        availability
       },
       { new: true }
     ).populate('brandId');
-    
+
     res.json(updateWatches); // Devolver el reloj actualizado, no solo un mensaje
   } catch (error) {
     console.error("Error updating watch: " + error);
     res.status(500).json({ message: "Error updating watch", error: error.message });
+  }
+};
+
+// GET por ID
+WatchesController.getWatchById = async (req, res) => {
+  try {
+    const watch = await WatchesModel.findById(req.params.id).populate("brandId");
+    if (!watch) {
+      return res.status(404).json({ message: "Reloj no encontrado" });
+    }
+    res.json(watch);
+  } catch (error) {
+    console.error("Error obteniendo reloj por ID:", error);
+    res.status(500).json({ message: "Error obteniendo reloj por ID" });
   }
 };
 
