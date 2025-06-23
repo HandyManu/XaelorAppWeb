@@ -19,7 +19,7 @@ import SignUp from './pages/SignUp/signUp.jsx'
 function AppContent() {
   const location = useLocation();
  
-  const showHeader = location.pathname !== '/login' && location.pathname !== '/signUp'  && location.pathname !== '/contacto' ;
+  const showHeader = location.pathname !== '/login' && location.pathname !== '/signUp'  && location.pathname !== '/contacto' && location.pathname !== '/watch-info' && location.pathname !== '/about-us' && location.pathname !== '/ett-med-naturen' && location.pathname !== '/nautilus' && location.pathname !== '/last-publishes';
   const showFooter = location.pathname !== '/login' && location.pathname !== '/signUp' && location.pathname !== '/contacto' ;
   
   return (
