@@ -1,0 +1,390 @@
+/* ProductDetail.css */
+.product-detail-container {
+    width: 100%;
+    background-color: #13100f;
+    color: #fff;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.product-detail-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+    padding: 40px 0;
+}
+
+/* Sección de imágenes */
+.product-images-section {
+    display: flex;
+    gap: 20px;
+}
+
+.product-thumbnails {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 80px;
+}
+
+.thumbnail {
+    width: 70px;
+    height: 70px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.thumbnail.active {
+    border-color: #F9D56E;
+}
+
+.thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-main-image {
+    flex: 1;
+    position: relative;
+    background-color: #2a2424;
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    z-index: 2;
+}
+
+.nav-btn:hover:not(:disabled) {
+    background-color: rgba(249, 213, 110, 0.8);
+}
+
+.nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.prev-btn {
+    left: 15px;
+}
+
+.next-btn {
+    right: 15px;
+}
+
+/* Sección de información */
+.product-info-section {
+    padding: 20px 0;
+}
+
+.product-brand {
+    font-family: 'Poltawski Nowy', serif;
+    font-style: italic;
+    color: #F9D56E;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.product-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #F9D56E;
+    margin-bottom: 15px;
+    line-height: 1.2;
+}
+
+.product-rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.rating-value {
+    font-size: 1rem;
+    color: #fff;
+}
+
+.rating-icon {
+    font-size: 1.2rem;
+}
+
+.product-price {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 30px;
+}
+
+/* Selector de color */
+.product-colors {
+    margin-bottom: 25px;
+}
+
+.product-colors label {
+    display: block;
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.color-options {
+    display: flex;
+    gap: 12px;
+}
+
+.color-option {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.color-option:hover {
+    transform: scale(1.1);
+}
+
+.color-option.selected {
+    border-color: #F9D56E;
+    box-shadow: 0 0 0 2px rgba(249, 213, 110, 0.3);
+}
+
+/* Selector de cantidad */
+.product-quantity {
+    margin-bottom: 30px;
+}
+
+.product-quantity label {
+    display: block;
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 1.2rem;
+}
+
+.quantity-controls button {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 1px solid #F9D56E;
+    background-color: transparent;
+    color: #F9D56E;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.quantity-controls button:hover:not(:disabled) {
+    background-color: #F9D56E;
+    color: #13100f;
+}
+
+.quantity-controls button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Botón de agregar al carrito */
+.add-to-cart-btn {
+    width: 100%;
+    padding: 15px 30px;
+    background-color: #C8860D;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.add-to-cart-btn:hover:not(:disabled) {
+    background-color: #F9D56E;
+    color: #13100f;
+    transform: translateY(-2px);
+}
+
+.add-to-cart-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.delivery-info {
+    font-size: 0.9rem;
+    color: #aaa;
+    text-align: center;
+}
+
+/* Descripción del producto */
+.product-description {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+.product-description h2 {
+    font-size: 1.8rem;
+    color: #F9D56E;
+    margin-bottom: 20px;
+    font-family: 'Poltawski Nowy', serif;
+    font-style: italic;
+}
+
+.product-description p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #ddd;
+}
+
+/* Estados de carga y error */
+.product-detail-loading,
+.product-detail-error,
+.product-detail-not-found {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    text-align: center;
+    color: #fff;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #333;
+    border-top: 3px solid #F9D56E;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.btn-back {
+    padding: 10px 20px;
+    background-color: #F9D56E;
+    color: #13100f;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+/* Media queries */
+@media (max-width: 992px) {
+    .product-detail-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .product-title {
+        font-size: 2rem;
+    }
+
+    .product-images-section {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .product-detail-container {
+        padding: 10px;
+    }
+
+    .product-images-section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .product-thumbnails {
+        flex-direction: row;
+        justify-content: center;
+        max-width: none;
+        order: 2;
+    }
+
+    .product-main-image {
+        order: 1;
+        max-width: 400px;
+    }
+
+    .product-title {
+        font-size: 1.8rem;
+    }
+
+    .product-price {
+        font-size: 1.6rem;
+    }
+}
+
+/* Agregar este CSS a tus archivos CSS existentes */
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 3px solid #333;
+    border-radius: 50%;
+    border-top-color: #ffc464;
+    animation: spin 1s ease-in-out infinite;
+}

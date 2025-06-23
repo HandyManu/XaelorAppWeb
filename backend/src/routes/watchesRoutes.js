@@ -14,6 +14,7 @@ router.route('/')
     .post(upload.array('photos'), watchController.insertWatches); // Sin validateAuthToken
 
 router.route('/:id')
+    .get(watchController.getWatchById)           
     .put(upload.array('photos'), watchController.updateWatches) // Sin validateAuthToken
     .delete(watchController.deleteWatches); // Sin validateAuthToken
 

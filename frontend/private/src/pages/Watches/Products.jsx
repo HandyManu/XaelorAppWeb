@@ -6,6 +6,7 @@ import ProductCard from '../../components/Cards/ProductCard/ProductCard';
 import Pagination from '../../components/Pagination/Pagination';
 import EditModal from '../../components/Modals/WatchesModals/EditModal';
 import DeleteConfirmationModal from '../../components/Modals/DeleteConfirmationModal/DeleteConfirmationModal';
+import toast, { Toaster } from 'react-hot-toast'; // <-- Agrega esto
 import './Products.css';
 
 const ProductsPage = () => {
@@ -133,10 +134,14 @@ const ProductsPage = () => {
     setCurrentPage(1);
   }, [searchTerm, sortBy, itemsPerPage]);
   
-  // Función para cerrar mensajes de error
-  const handleCloseError = () => {
-    setError('');
-  };
+  // Mostrar notificaciones de error y éxito
+  useEffect(() => {
+    if (error) toast.error(error);
+  }, [error]);
+
+  useEffect(() => {
+    if (success) toast.success(success);
+  }, [success]);
 
   // Manejar búsqueda desde el Header
   const handleSearch = (term) => {
@@ -174,22 +179,22 @@ const ProductsPage = () => {
         onSort={handleSort}
         showAddButton={true}
       />
-      
-      {/* Mostrar mensajes de error */}
+
+      {/* Elimina los mensajes visuales de error y éxito */}
+      {/* 
       {error && (
         <div className="error-message">
           <span>{error}</span>
           <button onClick={handleCloseError} className="close-btn">×</button>
         </div>
       )}
-      
-      {/* Mostrar mensajes de éxito */}
       {success && (
         <div className="success-message">
           {success}
         </div>
       )}
-      
+      */}
+
       {/* Mostrar indicador de carga */}
       {isLoading && (
         <div className="loading-indicator">
@@ -231,10 +236,8 @@ const ProductsPage = () => {
                 </>
               ) : (
                 <>
-                  <p>No hay relojes registrados.</p>
-                  <button onClick={handleAddNew} className="btn btn-primary">
-                    Agregar Primer Reloj
-                  </button>
+                  <p>No hay relojes registrados, revisa tu conexión a internet o agrega uno.</p>
+                  
                 </>
               )}
             </div>
@@ -305,6 +308,8 @@ const ProductsPage = () => {
           isLoading={isLoading}
         />
       )}
+
+      <Toaster position="top-right" />
     </div>
   );
 };

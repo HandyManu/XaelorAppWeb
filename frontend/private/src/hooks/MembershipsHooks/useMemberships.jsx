@@ -45,12 +45,10 @@ export function useMembershipsManager() {
         try {
             setError('');
             
-            console.log('Iniciando fetch de membresías...');
             const response = await authenticatedFetch(`${API_BASE}/memberships`, {
                 credentials: 'include'
             });
             
-            console.log('Respuesta del servidor membresías:', response);
             
             if (!response.ok) {
                 let errorMessage = `Error al cargar las membresías: ${response.status} ${response.statusText}`;
@@ -65,7 +63,6 @@ export function useMembershipsManager() {
             }
             
             const data = await response.json();
-            console.log('Membresías recibidas:', data);
             setMemberships(data);
         } catch (error) {
             console.error('Error al cargar membresías:', error);
@@ -129,7 +126,6 @@ export function useMembershipsManager() {
             
             if (membershipData._id) {
                 // Actualizar membresía existente (PUT)
-                console.log('Actualizando membresía con ID:', membershipData._id);
                 
                 response = await authenticatedFetch(`${API_BASE}/memberships/${membershipData._id}`, {
                     method: 'PUT',
@@ -212,7 +208,6 @@ export function useMembershipsManager() {
             setIsLoading(true);
             setError('');
             
-            console.log('Intentando eliminar membresía con ID:', membershipToDelete._id);
             
             const response = await authenticatedFetch(`${API_BASE}/memberships/${membershipToDelete._id}`, {
                 method: 'DELETE',
@@ -293,18 +288,12 @@ export function useMembershipsManager() {
         setCurrentMembershipId(membership._id);
         setShowModal(true);
         
-        console.log('Modal abierto para editar membresía:', {
-            membershipId: membership._id,
-            tier: membership.membershipTier,
-            price: membership.price
-        });
     };
 
     // Manejar agregar nueva membresía
     const handleAddNew = () => {
         resetForm();
         setShowModal(true);
-        console.log('Modal abierto para nueva membresía');
     };
 
     // Manejar refrescar datos
