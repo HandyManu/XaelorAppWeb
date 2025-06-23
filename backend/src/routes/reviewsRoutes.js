@@ -1,14 +1,15 @@
 import express from 'express';
 import ReviewsController from '../controllers/reviewsCtrl.js';
+import { validateAuthToken } from "../middlewares/validateAuthToken.js";
 
 const router = express.Router();
 
 router.route("/")
     .get(ReviewsController.getReview)
-    .post(ReviewsController.insertReview)
+    .post(validateAuthToken(["customer","admin","employee"]),ReviewsController.insertReview)
 
 router.route("/:id")
-    .put(ReviewsController.updateReview)
-    .delete(ReviewsController.deleteReview)
+    .put(validateAuthToken(["customer","admin","employee"]),ReviewsController.updateReview)
+    .delete(validateAuthToken(["customer","admin","employee"]),ReviewsController.deleteReview)
 
 export default router;

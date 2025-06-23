@@ -2,19 +2,169 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useProductDetail } from '../../hooks/ProductDetailhooks/useProductDetail';
 import toast from 'react-hot-toast'; // al inicio del archivo
+import { useReview } from '../../hooks/ReviewHooks/useReview';
+import { useAuth } from '../../context/AuthContext';
 import './ProductDetail.css';
+
+// Componente Modal para reseñas - VERSIÓN CORREGIDA
+function ReviewModal({ isOpen, onClose, product, onSubmitReview, userReview, isSubmitting }) {
+    const [formData, setFormData] = useState({
+        rating: 1,
+        message: ''
+    });
+
+    // Efecto para inicializar valores cuando se abre el modal
+    React.useEffect(() => {
+        if (isOpen) {
+            if (userReview) {
+                setFormData({
+                    rating: userReview.rating, // Ya viene de 1-5, no convertir
+                    message: userReview.message
+                });
+            } else {
+                setFormData({
+                    rating: 1,
+                    message: ''
+                });
+            }
+        }
+    }, [isOpen, userReview]);
+
+    if (!isOpen) return null;
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log("=== ENVIANDO RESEÑA ===");
+        console.log("FormData completo:", formData);
+        console.log("Rating final:", formData.rating);
+        console.log("Rating directo (0-5):", formData.rating);
+        
+        if (formData.message.trim() && formData.rating > 0) {
+            onSubmitReview({
+                message: formData.message.trim(),
+                rating: formData.rating  // Enviar directamente de 1-5
+            });
+        }
+    };
+
+    const handleStarClick = (starValue) => {
+        console.log("CLICK EN ESTRELLA:", starValue);
+        setFormData(prev => {
+            const newData = { ...prev, rating: starValue };
+            console.log("Nuevo formData:", newData);
+            return newData;
+        });
+    };
+
+    const handleMessageChange = (e) => {
+        setFormData(prev => ({ ...prev, message: e.target.value }));
+    };
+
+    const handleClose = () => {
+        setFormData({ rating: 1, message: '' });
+        onClose();
+    };
+
+    return (
+        <div className="modal-overlay" onClick={handleClose}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                <div className="modal-header">
+                    <h2>{userReview ? 'Editar Reseña' : 'Escribir Reseña'}</h2>
+                    <button className="modal-close" onClick={handleClose}>×</button>
+                </div>
+                <div className="modal-body">
+                    <div className="review-product-info">
+                        <strong>{product?.model}</strong>
+                        <span className="review-brand">Xælör</span>
+                    </div>
+
+                    <div className="review-form">
+                        <div className="rating-section">
+                            <label>Calificación: {formData.rating} estrella{formData.rating !== 1 ? 's' : ''}</label>
+                            <div className="star-rating">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <span
+                                        key={star}
+                                        className={`star ${star <= formData.rating ? 'active' : ''}`}
+                                        onClick={() => handleStarClick(star)}
+                                        style={{ 
+                                            cursor: 'pointer',
+                                            fontSize: '2rem',
+                                            color: star <= formData.rating ? '#F9D56E' : '#666',
+                                            userSelect: 'none'
+                                        }}
+                                    >
+                                        ★
+                                    </span>
+                                ))}
+                            </div>
+                            <div style={{ marginTop: '10px', fontSize: '0.9rem', color: '#aaa' }}>
+                                Debug: Rating actual = {formData.rating}
+                            </div>
+                        </div>
+
+                        <div className="message-section">
+                            <label htmlFor="review-message">Tu opinión:</label>
+                            <textarea
+                                id="review-message"
+                                value={formData.message}
+                                onChange={handleMessageChange}
+                                placeholder="Comparte tu experiencia con este reloj..."
+                                rows="4"
+                                required
+                                disabled={isSubmitting}
+                            />
+                        </div>
+
+                        <div className="modal-actions">
+                            <button 
+                                type="button" 
+                                className="btn-cancel"
+                                onClick={handleClose}
+                                disabled={isSubmitting}
+                            >
+                                Cancelar
+                            </button>
+                            <button 
+                                type="button" 
+                                className="btn-submit"
+                                disabled={isSubmitting || !formData.message.trim()}
+                                onClick={handleSubmit}
+                            >
+                                {isSubmitting ? 'Enviando...' : (userReview ? 'Actualizar' : 'Enviar Reseña')}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
 
 function ProductDetail() {
     const { id } = useParams();
     const navigate = useNavigate();
+    const { user, isAuthenticated } = useAuth();
     const { product, isLoading, error } = useProductDetail(id);
-    
+    const { 
+        reviews, 
+        userReview, 
+        isSubmitting, 
+        error: reviewError, 
+        success: reviewSuccess,
+        createReview,
+        updateReview,
+        canReview,
+        getReviewStats,
+        clearMessages
+    } = useReview(id);
 
     // Estados locales para la interacción
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     const [selectedColor, setSelectedColor] = useState('');
     const [quantity, setQuantity] = useState(1);
     const [addingToCart, setAddingToCart] = useState(false);
+    const [showReviewModal, setShowReviewModal] = useState(false);
 
     // Función para procesar URL de imagen de Cloudinary
     const getCloudinaryUrl = (photo) => {
@@ -36,7 +186,6 @@ function ProductDetail() {
         return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_600,h_600,c_fill,f_auto,q_auto/${publicId}`;
     };
 
-   
     // Función para navegar entre imágenes
     const handleImageNavigation = (direction) => {
         if (!product?.photos || product.photos.length === 0) return;
@@ -86,6 +235,27 @@ function ProductDetail() {
         });
         setAddingToCart(false);
     };
+
+    // Manejar envío de reseña
+    const handleReviewSubmit = async (reviewData) => {
+        let result;
+        if (userReview) {
+            result = await updateReview(userReview._id, reviewData);
+        } else {
+            result = await createReview(reviewData);
+        }
+        
+        if (result.success) {
+            setShowReviewModal(false);
+            // Limpiar mensajes después de 3 segundos
+            setTimeout(() => {
+                clearMessages();
+            }, 3000);
+        }
+    };
+
+    // Obtener estadísticas de reseñas
+    const reviewStats = getReviewStats();
 
     if (isLoading) {
         return (
@@ -175,8 +345,12 @@ function ProductDetail() {
                     <h1 className="product-title">{product.model}</h1>
                     
                     <div className="product-rating">
-                        <span className="rating-value">85%</span>
-                        <span className="rating-icon">🖤</span>
+                        <span className="rating-value">
+                            {reviewStats.averageRating ? `${reviewStats.averageRating.toFixed(1)}★` : 'Sin calificar'}
+                        </span>
+                        <span className="rating-count">
+                            ({reviewStats.totalReviews} {reviewStats.totalReviews === 1 ? 'reseña' : 'reseñas'})
+                        </span>
                     </div>
 
                     <div className="product-price">${product.price?.toLocaleString()}</div>
@@ -223,6 +397,30 @@ function ProductDetail() {
                         {addingToCart ? 'Agregando...' : 'Añadir al carrito 🛒'}
                     </button>
 
+                    {/* Botón de reseña */}
+                    {isAuthenticated && (
+                        <button 
+                            className="review-btn"
+                            onClick={() => setShowReviewModal(true)}
+                            disabled={isSubmitting}
+                        >
+                            {userReview ? '✏️ Editar mi reseña' : '⭐ Escribir reseña'}
+                        </button>
+                    )}
+
+                    {/* Mensajes de reseña */}
+                    {reviewError && (
+                        <div className="review-error-message">
+                            {reviewError}
+                        </div>
+                    )}
+                    
+                    {reviewSuccess && (
+                        <div className="review-success-message">
+                            {reviewSuccess}
+                        </div>
+                    )}
+
                     <div className="delivery-info">
                         Entrega a domicilio en 3 días
                     </div>
@@ -236,6 +434,42 @@ function ProductDetail() {
                     <p>{product.description}</p>
                 </div>
             )}
+
+            {/* Sección de reseñas existentes */}
+            {reviews.length > 0 && (
+                <div className="product-reviews-section">
+                    <h2>Reseñas de clientes</h2>
+                    <div className="reviews-list">
+                        {reviews.map((review) => (
+                            <div key={review._id} className="review-item">
+                                <div className="review-header">
+                                    <span className="review-author">
+                                        {review.customerId?.name || 'Usuario anónimo'}
+                                    </span>
+                                    <span className="review-rating">
+                                        {'★'.repeat(Math.round(review.rating))}
+                                        {'☆'.repeat(5 - Math.round(review.rating))}
+                                    </span>
+                                    <span className="review-date">
+                                        {new Date(review.date).toLocaleDateString()}
+                                    </span>
+                                </div>
+                                <p className="review-message">{review.message}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {/* Modal de reseña */}
+            <ReviewModal
+                isOpen={showReviewModal}
+                onClose={() => setShowReviewModal(false)}
+                product={product}
+                onSubmitReview={handleReviewSubmit}
+                userReview={userReview}
+                isSubmitting={isSubmitting}
+            />
         </div>
     );
 }
