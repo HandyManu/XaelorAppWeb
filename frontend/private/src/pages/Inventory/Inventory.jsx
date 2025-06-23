@@ -136,7 +136,7 @@ const InventoryPage = () => {
         title="Inventario" 
         onAddNew={handleAddNew} 
         onRefresh={handleRefresh}
-        showSearch={true}
+        showSearch={false}
         onSearch={handleSearch}
         searchPlaceholder="Buscar por modelo de reloj o sucursal..."
         sortOptions={[

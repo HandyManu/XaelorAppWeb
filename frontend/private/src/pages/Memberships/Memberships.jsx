@@ -119,7 +119,7 @@ const MembershipsPage = () => {
         title="Membresías" 
         onAddNew={handleAddNew} 
         onRefresh={handleRefresh}
-        showSearch={true}
+        showSearch={false}
         onSearch={handleSearch}
         searchPlaceholder="Buscar por tier o beneficios..."
         sortOptions={[
