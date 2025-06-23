@@ -6,6 +6,7 @@ import BrandCard from '../../components/Cards/BrandCard/BrandCard';
 import Pagination from '../../components/Pagination/Pagination';
 import BrandEditModal from '../../components/Modals/BrandModals/BrandEditModal';
 import DeleteConfirmationModal from '../../components/Modals/DeleteConfirmationModal/DeleteConfirmationModal';
+import toast, { Toaster } from 'react-hot-toast';
 import './Brands.css';
 
 const BrandsPage = () => {
@@ -131,6 +132,15 @@ const BrandsPage = () => {
     setItemsPerPage(newItemsPerPage);
   };
   
+  // Mostrar notificaciones de error y éxito
+  useEffect(() => {
+    if (error) toast.error(error);
+  }, [error]);
+
+  useEffect(() => {
+    if (success) toast.success(success);
+  }, [success]);
+  
   return (
     <div className="brands-page">
       <Header 
@@ -149,22 +159,8 @@ const BrandsPage = () => {
         onSort={handleSort}
         showAddButton={true}
       />
-      
-      {/* Mostrar mensajes de error */}
-      {error && (
-        <div className="error-message">
-          <span>{error}</span>
-          <button onClick={handleCloseError} className="close-btn">×</button>
-        </div>
-      )}
-      
-      {/* Mostrar mensajes de éxito */}
-      {success && (
-        <div className="success-message">
-          {success}
-        </div>
-      )}
-      
+    
+
       {/* Mostrar indicador de carga */}
       {isLoading && (
         <div className="loading-indicator">
@@ -332,6 +328,8 @@ const BrandsPage = () => {
           isLoading={isLoading}
         />
       )}
+
+      <Toaster position="top-right" />
     </div>
   );
 };
