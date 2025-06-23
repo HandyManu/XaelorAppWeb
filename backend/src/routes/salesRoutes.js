@@ -5,16 +5,17 @@ Este archivo sirve para definir que metodos del CRUD va a tener mi ruta
 
 import express from 'express';
 import salesController from '../controllers/salesCtrl.js';
+import { validateAuthToken } from '../middlewares/validateAuthToken.js';
 
 const router = express.Router();
 
 router.route("/")
-    .get(salesController.getSales)
+    .get(validateAuthToken(["admin","employee"]), salesController.getSales)
     .post(salesController.insertSale)
 
 router.route("/:id")
-    .put(salesController.updateSale)
-    .delete(salesController.deleteSale)
+    .put(validateAuthToken(["admin","employee"]),salesController.updateSale)
+    .delete(validateAuthToken(["admin","employee"]),salesController.deleteSale)
 
 export default router;
 

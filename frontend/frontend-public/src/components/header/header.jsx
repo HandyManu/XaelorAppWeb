@@ -93,15 +93,7 @@ function Header() {
                 Nautilus
               </Link>
             </li>
-            <li>
-              <Link
-                to="/last-publishes"
-                onClick={() => setMenuOpen(false)}
-                className={isActiveRoute("/last-publishes") ? "active" : ""}
-              >
-                Últimos Lanzamientos
-              </Link>
-            </li>
+            
             <li>
               <Link
                 to="/about-us"
@@ -109,6 +101,16 @@ function Header() {
                 className={isActiveRoute("/about-us") ? "active" : ""}
               >
                 Sobre Nosotros
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                to="/sales"
+                onClick={() => setMenuOpen(false)}
+                className={isActiveRoute("/sales") ? "active" : ""}
+              >
+                Historial de Compras
               </Link>
             </li>
           </ul>
@@ -122,7 +124,9 @@ function Header() {
               // Mostrar información del usuario y botón de logout
               <>
                 <button
-                  className={`Login logout-btn ${isAuthenticated ? 'authenticated' : ''}`}
+                  className={`Login logout-btn ${
+                    isAuthenticated ? "authenticated" : ""
+                  }`}
                   onClick={handleLogoutClick}
                 >
                   <img
@@ -151,7 +155,6 @@ function Header() {
           </div>
         </nav>
 
-        
         <HeroCarousel />
 
         <div className="footer-gradient"></div>

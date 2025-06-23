@@ -29,7 +29,7 @@ salesController.insertSale = async (req, res) => {
 
         // Crear la nueva venta con el ID del usuario
         const newSale = new salesModel({
-            customerId: userId, // Usar el ID del usuario autenticado
+            customerId: customerId, // Usar el ID del usuario autenticado
             employeeId,
             address,
             reference,

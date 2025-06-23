@@ -212,26 +212,47 @@ const Dashboard = () => {
 
   // Función para procesar inventario por sucursal
   const processInventarioData = (inventoryData, branchesData) => {
+    // Inicializa inventario en 0 para todas las sucursales
     const inventarioPorSucursal = {};
+    branchesData.forEach(branch => {
+      inventarioPorSucursal[branch._id] = 0;
+    });
 
+    // Suma el inventario real
     inventoryData.forEach(item => {
       // Si branchId es objeto, usa _id, si es string, úsalo directo
       const branchId = typeof item.branchId === 'object' ? item.branchId._id : item.branchId;
-      if (!inventarioPorSucursal[branchId]) inventarioPorSucursal[branchId] = 0;
-      inventarioPorSucursal[branchId] += item.stock || 0;
+      if (inventarioPorSucursal[branchId] !== undefined) {
+        inventarioPorSucursal[branchId] += item.stock || 0;
+      }
     });
 
-    const labels = Object.keys(inventarioPorSucursal).map(branchId => {
-      const branch = branchesData.find(b => b._id === branchId || (b._id && b._id.$oid === branchId));
-      return branch ? branch.branch_name : branchId;
-    });
+    // Genera labels y datos en el mismo orden
+    const labels = branchesData.map(branch => branch.branch_name);
+    const data = branchesData.map(branch => inventarioPorSucursal[branch._id]);
 
     return {
       labels,
       datasets: [{
         label: 'Inventario',
-        data: Object.values(inventarioPorSucursal),
-        backgroundColor: ['#e6c068', '#ffd98a', '#232323', '#bfa14a'],
+        data,
+        backgroundColor: [
+          '#e6c068', // dorado
+          '#ffd98a', // amarillo claro
+          '#232323', // negro
+          '#bfa14a', // oro viejo
+          '#d4a548', // dorado claro
+          '#a3a3a3', // gris
+          '#ffe08a', // amarillo pastel
+          '#c2b280', // beige
+          '#8c7b32', // oliva
+          '#f5e6b2', // crema
+          '#6e5c1c', // marrón oscuro
+          '#e6cfa8', // beige claro
+          '#bfa14a99', // oro viejo translúcido
+          '#23232399', // negro translúcido
+          '#ffd98a99', // amarillo translúcido
+        ],
         borderWidth: 2,
         borderColor: '#13100f',
       }]
@@ -519,29 +540,6 @@ const Dashboard = () => {
         maxWidth: '800px',
         margin: '0 auto'
       }}>
-        {/* Ventas por Categoría de Reloj */}
-        <div style={{
-          background: '#232323',
-          borderRadius: '16px',
-          padding: '1.2rem',
-          boxShadow: '0 4px 24px rgba(230, 192, 104, 0.08)',
-          minHeight: '320px'
-        }}>
-          <h2 style={{
-            color: '#ffd98a',
-            marginBottom: '1rem',
-            fontSize: '1.2rem',
-            fontWeight: '600',
-            textAlign: 'center',
-            margin: '0 0 1rem 0'
-          }}>
-            Ventas por Categoría de Reloj
-          </h2>
-          <div style={{ height: '250px' }}>
-            <Bar data={dashboardData.ventasPorCategoriaData} options={chartOptions} />
-          </div>
-        </div>
-
         {/* Inventario por Sucursal */}
         <div style={{
           background: '#232323',

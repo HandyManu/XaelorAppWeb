@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useProductDetail } from '../../hooks/ProductDetailhooks/useProductDetail';
+import toast from 'react-hot-toast'; // al inicio del archivo
 import { useReview } from '../../hooks/ReviewHooks/useReview';
 import { useAuth } from '../../context/AuthContext';
 import './ProductDetail.css';
@@ -200,6 +201,41 @@ function ProductDetail() {
         }
     };
 
+    // Función para agregar al carrito (local)
+    function addToCartLocal(productId, quantity) {
+        let cart = [];
+        try {
+            cart = JSON.parse(localStorage.getItem('cart')) || [];
+        } catch {
+            cart = [];
+        }
+        // Busca si ya existe el producto
+        const idx = cart.findIndex(item => item.productId === productId);
+        if (idx >= 0) {
+            cart[idx].quantity += quantity;
+        } else {
+            cart.push({ productId, quantity });
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    const handleAddToCart = () => {
+        addToCartLocal(product._id, quantity);
+        toast.success('Producto añadido al carrito', {
+            style: {
+                background: '#232323',
+                color: '#ffe08a',
+                border: '1.5px solid #e6c068',
+                fontWeight: 'bold'
+            },
+            iconTheme: {
+                primary: '#ffe08a',
+                secondary: '#232323'
+            }
+        });
+        setAddingToCart(false);
+    };
+
     // Manejar envío de reseña
     const handleReviewSubmit = async (reviewData) => {
         let result;
@@ -356,6 +392,7 @@ function ProductDetail() {
                     <button 
                         className="add-to-cart-btn"
                         disabled={addingToCart}
+                        onClick={handleAddToCart}
                     >
                         {addingToCart ? 'Agregando...' : 'Añadir al carrito 🛒'}
                     </button>
