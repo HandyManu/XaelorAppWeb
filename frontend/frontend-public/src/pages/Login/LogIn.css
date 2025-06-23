@@ -1,175 +1,278 @@
+/* Login con estética de Xælör */
 body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  background-color: #f3f4f6;
 }
 
 .login-container {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.login-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('https://img.freepik.com/foto-gratis/vida-muerta-dispositivo-tecnologico_23-2150722614.jpg?t=st=1743538780~exp=1743542380~hmac=e23f84acefc506d9b5fa6b069ab532a4b74809ff5b82308a451dac6d562ede9f&w=900');
-  background-size: cover;
-  background-position: center;
-  transform: scaleX(-1);
-  z-index: -1;
-  filter: brightness(0.7);
-}
-
-.login-box {
-  background: rgba(200, 200, 200, 0.7);
-  border-radius: 10px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(5px);
-  text-align: center;
-  z-index: 1;
-  position: relative;
-  width: 400px;
-  padding: 40px;
-}
-
-.login-box h2 {
-  font-size: 1.8rem;
-  color: #333;
-  margin: 0 0 30px 0;
-}
-
-.login-field {
-  margin-bottom: 20px;
-  text-align: left;
-}
-
-.login-field label {
-  display: block;
-  margin-bottom: 5px;
-  font-size: 1rem;
-  color: #333;
-}
-
-.login-field input {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 5px;
-  background: white;
-  font-size: 1rem;
+  background: #13100f;
+  padding: 20px;
   box-sizing: border-box;
 }
 
-.input-group {
+.login-box {
+  background: linear-gradient(135deg, #181512 80%, #232323 100%);
+  border-radius: 18px;
+  box-shadow: 0 4px 32px 0 rgba(230,192,104,0.10);
+  padding: 32px 24px 24px 24px;
+  border: 1.5px solid #2c261a;
+  max-width: 450px;
+  width: 90%;
+  text-align: center;
   position: relative;
-  margin-bottom: 20px;
-  text-align: left;
 }
 
+.login-logo {
+  font-size: 2.2rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #ffe08a;
+  text-align: center;
+  margin: 0 auto 8px auto;
+  text-shadow: 0 0 12px #e6c068, 0 0 24px #e6c068, 0 0 2px #232323;
+  width: 100%;
+  display: block;
+  filter: blur(0.5px);
+  -webkit-filter: blur(0.5px);
+}
+
+.login-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  text-align: center;
+  margin: 0 0 24px 0;
+  color: #ffe08a;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.login-field,
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  text-align: left;
+  position: relative;
+}
+
+.login-field label,
 .input-group label {
   display: block;
   margin-bottom: 5px;
   font-size: 1rem;
-  color: #333;
+  color: #ffe08a;
+  font-weight: 500;
 }
 
+.login-field input,
 .input-group input {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 5px;
-  background: white;
+  padding: 12px 16px;
+  border-radius: 8px;
   font-size: 1rem;
+  background: #2a2a2a;
+  color: white;
+  border: 1px solid #444;
+  outline: none;
+  width: 100%;
   box-sizing: border-box;
+  transition: border-color 0.3s ease;
 }
 
-.input-group .forgot-password {
+.login-field input:focus,
+.input-group input:focus {
+  border-color: #e6c068;
+  box-shadow: 0 0 0 2px rgba(230, 192, 104, 0.2);
+}
+
+.login-field input::placeholder,
+.input-group input::placeholder {
+  color: #666;
+}
+
+.input-group input:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.forgot-password {
   position: absolute;
   right: 0;
   top: 0;
   font-size: 0.8rem;
-  color: #333;
+  color: #e6c068;
   cursor: pointer;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
 }
 
-.input-group .forgot-password:hover {
+.forgot-password:hover {
+  color: #ffe08a;
   text-decoration: underline;
 }
 
 .login-button {
-  width: 100%;
-  padding: 12px;
-  background: #000;
-  color: #fff;
+  background: #e6c068;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  padding: 12px 24px;
+  border-radius: 8px;
   border: none;
-  border-radius: 5px;
-  font-size: 1rem;
   cursor: pointer;
-  margin-top: 10px;
-  margin-bottom: 20px;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-top: 8px;
 }
 
 .login-button:hover {
-  background: #333;
+  background: #ffe08a;
+  transform: translateY(-1px);
+}
+
+.login-button:disabled {
+  background: #666;
+  color: #999;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .register-link {
   font-size: 1rem;
-  color: #333;
-  text-align: right;
+  color: #e6c068;
+  text-align: center;
   display: block;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 .register-link:hover {
+  color: #ffe08a;
   text-decoration: underline;
+}
+
+.error-message {
+  background: rgba(255, 75, 75, 0.1);
+  border: 1px solid #ff4b4b;
+  color: #ff4b4b;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 /* Media queries para responsividad */
 @media screen and (max-width: 768px) {
   .login-box {
+    padding: 24px 20px;
     width: 85%;
     max-width: 400px;
   }
+
+  .login-logo {
+    font-size: 1.8rem;
+  }
+
+  .login-title {
+    font-size: 1.5rem;
+  }
+
+  .login-field input,
+  .input-group input {
+    padding: 10px 14px;
+    font-size: 0.95rem;
+  }
+
+  .login-field label,
+  .input-group label {
+    font-size: 0.9rem;
+  }
+
+  .forgot-password {
+    font-size: 0.75rem;
+  }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 576px) {
   .login-box {
+    padding: 20px 16px;
     width: 90%;
-    padding: 30px 20px;
+    border-radius: 12px;
   }
-  
-  .login-box h2 {
+
+  .login-logo {
     font-size: 1.6rem;
   }
-  
-  .input-group label, 
-  .input-group .forgot-password {
+
+  .login-title {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+  }
+
+  .login-form {
+    gap: 1rem;
+  }
+
+  .login-field input,
+  .input-group input {
+    padding: 9px 12px;
+    font-size: 0.9rem;
+  }
+
+  .login-button {
+    font-size: 1rem;
+    padding: 10px 20px;
+  }
+
+  .register-link {
     font-size: 0.9rem;
   }
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 375px) {
   .login-box {
-    padding: 25px 15px;
+    padding: 16px 12px;
+    width: 95%;
   }
-  
+
+  .login-logo {
+    font-size: 1.4rem;
+  }
+
+  .login-title {
+    font-size: 1.2rem;
+  }
+
+  .login-field input,
+  .input-group input {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+
+  .login-field label,
+  .input-group label {
+    font-size: 0.85rem;
+  }
+
   .login-button {
-    padding: 10px;
+    font-size: 0.95rem;
+    padding: 9px 18px;
   }
-  
-  .input-group label, 
-  .input-group .forgot-password {
-    font-size: 0.8rem;
+
+  .register-link {
+    font-size: 0.85rem;
   }
 }

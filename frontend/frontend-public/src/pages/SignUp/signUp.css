@@ -19,16 +19,18 @@
   width: 90%;
 }
 
-.logo {
+.signup-logo {
   font-size: 2.2rem;
   font-weight: bold;
   letter-spacing: 2px;
   color: #ffe08a;
   text-align: center;
   margin: 0 auto 8px auto;
-  text-shadow: 0 0 12px #e6c068, 0 0 2px #232323;
+  text-shadow: 0 0 12px #e6c068, 0 0 24px #e6c068, 0 0 2px #232323;
   width: 100%;
   display: block;
+  filter: blur(0.5px);
+  -webkit-filter: blur(0.5px);
 }
 
 .signup-title {
@@ -56,7 +58,7 @@
   border-radius: 8px;
   font-size: 1rem;
   background: #2a2a2a;
-  color: #000000;
+  color: white;
   border: 1px solid #444;
   outline: none;
   width: 100%;
@@ -313,7 +315,7 @@
     max-width: 450px;
   }
 
-  .logo {
+  .signup-logo {
     font-size: 1.8rem;
   }
 
@@ -350,7 +352,7 @@
     border-radius: 12px;
   }
 
-  .logo {
+  .signup-logo {
     font-size: 1.6rem;
   }
 
@@ -408,7 +410,7 @@
     width: 95%;
   }
 
-  .logo {
+  .signup-logo {
     font-size: 1.4rem;
   }
 

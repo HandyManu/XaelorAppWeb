@@ -28,31 +28,24 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="login-box">
-        <h2>Iniciar Sesión</h2>
+        <div className="login-logo">Xælör</div>
+        <h2 className="login-title">Iniciar Sesión</h2>
         
         {/* Mostrar mensaje de error si existe */}
         {error && (
-          <div style={{
-            backgroundColor: 'rgba(255, 87, 87, 0.2)',
-            border: '1px solid #ff5757',
-            padding: '10px',
-            marginBottom: '20px',
-            borderRadius: '5px',
-            color: '#ff5757',
-            fontSize: '0.9rem'
-          }}>
+          <div className="error-message">
             {error}
           </div>
         )}
         
-        <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label>Usuario (Email)</label>
+        <form className="login-form" onSubmit={handleSubmit}>
+          <div className="login-field">
+            <label>Email</label>
             <input 
               type="email" 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="ejemplo@correo.com"
+              placeholder="ejemplo@xaelor.com"
               required
               disabled={loading}
             />
@@ -61,7 +54,7 @@ const Login = () => {
           <div className="input-group">
             <label>Contraseña</label>
             <span className="forgot-password" onClick={handleForgotPasswordClick}>
-              Olvidaste tu contraseña?
+              ¿Olvidaste tu contraseña?
             </span>
             <input 
               type="password" 
@@ -78,12 +71,12 @@ const Login = () => {
             className="login-button"
             disabled={loading}
           >
-            {loading ? 'Iniciando sesión...' : 'Ingresar'}
+            {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
           </button>
         </form>
         
         <div className="register-link" onClick={handleSignUpClick}>
-          Registrarse
+          ¿No tienes cuenta? Regístrate
         </div>
       </div>
     </div>
