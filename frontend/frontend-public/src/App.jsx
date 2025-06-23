@@ -10,7 +10,7 @@ import UltimosLanzamientos from './pages/ultimosLanzamientos/latestLaunches.jsx'
 import SobreNosotros from './pages/sobreNosotros/sobreNosotros.jsx'
 import Terminos from './pages/terminosYcondiciones/terminos.jsx'
 import Contacto from './pages/contactanos/contactanos.jsx'
-import Infoproducto from './pages/infoProduct/infoP.jsx'
+import Infoproducto from './pages/Relojes/Relojes.jsx'
 import LogIn from './pages/Login/LogIn.jsx'
 import SignUp from './pages/SignUp/signUp.jsx'
 
@@ -39,9 +39,6 @@ function AppContent() {
           <Route path='/login' element={<LogIn />} />
           <Route path='/signUp' element={<SignUp />} />
           <Route path='/watchInfo' element={<Infoproducto />} />
-          <Route path='/gmailVerify' element={<GmailVerify />} />
-          <Route path='/insertCode' element={<InsertCode />} />
-          <Route path='/changePassword' element={<ChangePassword />} />
 
           
 

@@ -130,7 +130,7 @@ const ReviewCard = ({
       
       {showDeleteIcon && onDelete && (
         <div className="delete-icon" onClick={handleDelete} title="Eliminar reseña">
-          🗑️
+          <img src="/basura.svg" alt="Delete Icon" className="delete-icon-img" />
         </div>
       )}
     </div>

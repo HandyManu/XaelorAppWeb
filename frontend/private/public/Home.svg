@@ -1,3 +1,8 @@
+<<<<<<< HEAD
 <svg width="35" height="28" viewBox="0 0 35 28" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M14 28V18.1176H21V28H29.75V14.8235H35L17.5 0L0 14.8235H5.25V28H14Z" fill="white"/>
+=======
+<svg width="36" height="28" viewBox="0 0 36 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M14.4 28V18.1176H21.6V28H30.6V14.8235H36L18 0L0 14.8235H5.4V28H14.4Z" fill="white"/>
+>>>>>>> master
 </svg>

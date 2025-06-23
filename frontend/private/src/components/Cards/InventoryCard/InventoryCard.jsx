@@ -122,7 +122,7 @@ const InventoryCard = ({ data, watchInfo, branchInfo, onEdit, onDelete, isLoadin
       
       {showDeleteIcon && !isLoading && (
         <div className="delete-icon" onClick={handleDelete}>
-          🗑️
+          <img src="/basura.svg" alt="Delete Icon" className="delete-icon-img" />
         </div>
       )}
     </div>

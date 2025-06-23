@@ -100,6 +100,12 @@
   opacity: 1;
 }
 
+.delete-icon-img {
+  width: 20px; /* Ajusta el ancho de la imagen */
+  height: 20px; /* Ajusta la altura de la imagen */
+  cursor: pointer; /* Mantiene el cursor como puntero */
+}
+
 @media (max-width: 768px) {
   .branch-card {
     padding: 1rem;
