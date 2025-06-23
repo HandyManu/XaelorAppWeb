@@ -17,7 +17,7 @@ import { AuthProvider } from './context/AuthContext.jsx'
 import Navegation from './components/Navegation.jsx'
 import PasswordRecovery from './pages/PasswordRecovery/passwordRecovery.jsx'
 import { Toaster } from 'react-hot-toast';
-
+import Cart from './pages/Cart/Cart.jsx';
 
 // Creamos un componente wrapper para usar useLocation
 function AppContent() {
@@ -45,6 +45,7 @@ function AppContent() {
           <Route path='/signUp' element={<SignUp />} />
           <Route path='/watchInfo/:id' element={<Infoproducto />} />
           <Route path='/recuperar' element={<PasswordRecovery />} />
+          <Route path='/carrito' element={<Cart />} />
         </Routes>
       </div>
 

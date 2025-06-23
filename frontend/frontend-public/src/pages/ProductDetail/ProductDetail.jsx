@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useProductDetail } from '../../hooks/ProductDetailhooks/useProductDetail';
+import toast from 'react-hot-toast'; // al inicio del archivo
 import './ProductDetail.css';
 
 function ProductDetail() {
@@ -49,6 +50,41 @@ function ProductDetail() {
                 prev === product.photos.length - 1 ? 0 : prev + 1
             );
         }
+    };
+
+    // Función para agregar al carrito (local)
+    function addToCartLocal(productId, quantity) {
+        let cart = [];
+        try {
+            cart = JSON.parse(localStorage.getItem('cart')) || [];
+        } catch {
+            cart = [];
+        }
+        // Busca si ya existe el producto
+        const idx = cart.findIndex(item => item.productId === productId);
+        if (idx >= 0) {
+            cart[idx].quantity += quantity;
+        } else {
+            cart.push({ productId, quantity });
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    const handleAddToCart = () => {
+        addToCartLocal(product._id, quantity);
+        toast.success('Producto añadido al carrito', {
+            style: {
+                background: '#232323',
+                color: '#ffe08a',
+                border: '1.5px solid #e6c068',
+                fontWeight: 'bold'
+            },
+            iconTheme: {
+                primary: '#ffe08a',
+                secondary: '#232323'
+            }
+        });
+        setAddingToCart(false);
     };
 
     if (isLoading) {
@@ -181,7 +217,8 @@ function ProductDetail() {
                     {/* Botón de agregar al carrito */}
                     <button 
                         className="add-to-cart-btn"
-                                                disabled={addingToCart}
+                        disabled={addingToCart}
+                        onClick={handleAddToCart}
                     >
                         {addingToCart ? 'Agregando...' : 'Añadir al carrito 🛒'}
                     </button>

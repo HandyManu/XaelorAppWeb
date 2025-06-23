@@ -19,7 +19,7 @@ const salesSchema = new Schema({
     customerId: {
         type: Schema.Types.ObjectId,
         ref: "customers",
-        required: [true, "Client ID is required"]
+        required: [true, "Customer ID is required"]
     },
     employeeId: {
         type: Schema.Types.ObjectId,
