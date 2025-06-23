@@ -39,7 +39,6 @@ export const AuthProvider = ({ children }) => {
             setAuthCokie(data.token);
             setUser(data.user);
 
-            console.log("Login exitoso:", { token: data.token, user: data.user }); // Debug
 
             return { success: true, message: data.message };
         } catch (error) {
@@ -132,14 +131,12 @@ export const AuthProvider = ({ children }) => {
         const token = localStorage.getItem("authToken");
         const savedUser = localStorage.getItem("user");
         
-        console.log("useEffect - Checking stored auth:", { token, savedUser }); // Debug
         
         if (token && savedUser && savedUser !== "undefined") {
             try {
                 const parsedUser = JSON.parse(savedUser);
                 setUser(parsedUser);
                 setAuthCokie(token);
-                console.log("Auth restored from localStorage:", { token, user: parsedUser }); // Debug
             } catch (error) {
                 console.error("Error parsing saved user:", error);
                 localStorage.removeItem("user");

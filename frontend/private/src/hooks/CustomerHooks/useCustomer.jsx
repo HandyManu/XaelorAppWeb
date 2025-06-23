@@ -172,9 +172,7 @@ export function useCustomersManager() {
             let response;
             
             if (customerData._id) {
-                // Actualizar cliente existente (PUT)
-                console.log('Actualizando cliente con ID:', customerData._id);
-                
+                // Actualizar cliente existente (PUT)                
                 response = await authenticatedFetch(`${API_BASE}/customers/${customerData._id}`, {
                     method: 'PUT',
                     body: JSON.stringify(dataToSend),
@@ -258,9 +256,7 @@ export function useCustomersManager() {
         try {
             setIsLoading(true);
             setError('');
-            
-            console.log('Intentando eliminar cliente con ID:', customerToDelete._id);
-            
+                        
             const response = await authenticatedFetch(`${API_BASE}/customers/${customerToDelete._id}`, {
                 method: 'DELETE',
             });
@@ -348,17 +344,12 @@ export function useCustomersManager() {
         setCurrentCustomerId(customer._id);
         setShowModal(true);
         
-        console.log('Modal abierto para editar cliente:', {
-            customerMembershipId: customer.membership?.membershipId,
-            currentMemberships: memberships
-        });
     };
 
     // Manejar agregar nuevo cliente
     const handleAddNew = () => {
         resetForm();
         setShowModal(true);
-        console.log('Modal abierto para nuevo cliente');
     };
 
     // Manejar refrescar datos

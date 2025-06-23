@@ -228,10 +228,7 @@ const InventoryPage = () => {
                 </>
               ) : (
                 <>
-                  <p>No hay registros de inventario.</p>
-                  <button onClick={handleAddNew} className="btn btn-primary">
-                    Agregar Primer Registro
-                  </button>
+                  <p>No hay registros de inventario, revisa tu conexión a internet o agrega uno.</p>
                 </>
               )}
             </div>

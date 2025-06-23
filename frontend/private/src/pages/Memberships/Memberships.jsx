@@ -197,10 +197,8 @@ const MembershipsPage = () => {
                     </>
                   ) : (
                     <>
-                      <p>No hay membresías registradas.</p>
-                      <button onClick={handleAddNew} className="btn btn-primary">
-                        Agregar Primera Membresía
-                      </button>
+                      <p>No hay membresías registradas, revisa tu conexión a internet o agrega una.</p>
+                      
                     </>
                   )}
                 </div>

@@ -198,10 +198,8 @@ const CustomersPage = () => {
                 </>
               ) : (
                 <>
-                  <p>No hay clientes registrados.</p>
-                  <button onClick={handleAddNew} className="btn btn-primary">
-                    Agregar Primer Cliente
-                  </button>
+                  <p>No hay clientes registrados, revisa tu conexión a internet o agrega uno.</p>
+                  
                 </>
               )}
             </div>

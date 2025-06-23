@@ -215,10 +215,7 @@ const BranchesPage = () => {
                 </>
               ) : (
                 <>
-                  <p>No hay sucursales registradas.</p>
-                  <button onClick={handleAddNew} className="btn btn-primary">
-                    Agregar Primera Sucursal
-                  </button>
+                  <p>No hay sucursales registradas, revisa tu conexión a internet o agrega una.</p>
                 </>
               )}
             </div>

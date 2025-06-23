@@ -206,10 +206,8 @@ const BrandsPage = () => {
                 </>
               ) : (
                 <>
-                  <p>No hay marcas registradas.</p>
-                  <button onClick={handleAddNew} className="btn btn-primary">
-                    Agregar Primera Marca
-                  </button>
+                  <p>No hay marcas registradas, revisa tu conexión a internet o agrega una.</p>
+    
                 </>
               )}
             </div>

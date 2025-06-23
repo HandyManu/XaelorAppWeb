@@ -144,7 +144,6 @@ export function useInventoryManager() {
                     date: new Date().toISOString()
                 };
                 
-                console.log('Enviando movimiento de inventario:', dataToSend);
             } else {
                 // Para creación: crear inventario inicial
                 dataToSend = {
@@ -154,7 +153,6 @@ export function useInventoryManager() {
                     notes: inventoryData.notes || 'Stock inicial'
                 };
                 
-                console.log('Creando inventario inicial:', dataToSend);
             }
 
             // Validaciones
@@ -189,9 +187,7 @@ export function useInventoryManager() {
             let response;
             
             if (isEditing && currentInventoryId) {
-                // Agregar movimiento a inventario existente (PUT)
-                console.log('Agregando movimiento a inventario con ID:', currentInventoryId);
-                
+                // Agregar movimiento a inventario existente (PUT)                
                 response = await authenticatedFetch(`${API_BASE}/inventories/${currentInventoryId}/movement`, {
                     method: 'PUT',
                     body: JSON.stringify(dataToSend),
@@ -278,7 +274,6 @@ export function useInventoryManager() {
             setIsLoading(true);
             setError('');
             
-            console.log('Intentando eliminar inventario con ID:', inventoryToDelete._id);
             
             const response = await authenticatedFetch(`${API_BASE}/inventories/${inventoryToDelete._id}`, {
                 method: 'DELETE',
@@ -358,14 +353,6 @@ export function useInventoryManager() {
         
         // Ya no necesitamos cargar aquí, ya están cargados
         
-        console.log('Modal abierto para editar inventario:', {
-            inventoryId: inventory._id,
-            calculatedStock,
-            directStock: inventory.stock,
-            movements: inventory.movements?.length || 0,
-            watchId: inventory.watchId,
-            branchId: inventory.branchId
-        });
     };
 
     // Manejar agregar nuevo inventario
@@ -373,7 +360,6 @@ export function useInventoryManager() {
         resetForm();
         setShowModal(true);
         // Ya no necesitamos cargar aquí, ya están cargados
-        console.log('Modal abierto para nuevo inventario');
     };
 
     // Manejar refrescar datos

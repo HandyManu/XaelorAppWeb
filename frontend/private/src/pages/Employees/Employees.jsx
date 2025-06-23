@@ -204,10 +204,8 @@ const EmployeesPage = () => {
                     </>
                   ) : (
                     <>
-                      <p>No hay empleados registrados.</p>
-                      <button onClick={handleAddNew} className="btn btn-primary">
-                        Agregar Primer Empleado
-                      </button>
+                      <p>No hay empleados registrados, revisa tu conexión a internet o agrega uno.</p>
+                     
                     </>
                   )}
                 </div>

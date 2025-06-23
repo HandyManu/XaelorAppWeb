@@ -231,10 +231,8 @@ const ProductsPage = () => {
                 </>
               ) : (
                 <>
-                  <p>No hay relojes registrados.</p>
-                  <button onClick={handleAddNew} className="btn btn-primary">
-                    Agregar Primer Reloj
-                  </button>
+                  <p>No hay relojes registrados, revisa tu conexión a internet o agrega uno.</p>
+                  
                 </>
               )}
             </div>

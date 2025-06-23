@@ -19,7 +19,6 @@ export default function AppRoutes() {
   const location = useLocation();
   const showSideNav = location.pathname !== "/";
 
-  console.log("Navigation render:", { isAuthenticated, pathname: location.pathname, isLoading }); // Debug
 
   // Mientras carga la autenticación inicial, no renderizamos nada o un spinner
   if (isLoading) {
