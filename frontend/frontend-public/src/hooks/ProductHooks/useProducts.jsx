@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '../../context/AuthContext';
 import { config } from '../../config';
 
 const API_BASE = config.api.API_BASE;
 
 export function useProducts(options = {}) {
-    const { authenticatedFetch } = useAuth();
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
@@ -18,7 +16,7 @@ export function useProducts(options = {}) {
         autoLoad = true
     } = options;
 
-    // Función para obtener productos desde el backend
+    // Función para obtener productos desde el backend (sin autenticación)
     const fetchProducts = async (customOptions = {}) => {
         try {
             setIsLoading(true);
@@ -40,9 +38,7 @@ export function useProducts(options = {}) {
             const url = `${API_BASE}/watches${params.toString() ? `?${params}` : ''}`;
             console.log('Fetching products from:', url);
             
-            const response = await authenticatedFetch(url, {
-                credentials: 'include'
-            });
+            const response = await fetch(url); // <--- fetch normal, sin credenciales
             
             if (!response.ok) {
                 throw new Error(`Error al cargar productos: ${response.status}`);
