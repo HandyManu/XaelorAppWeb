@@ -34,7 +34,7 @@ export function useReview(watchId) {
         }
     };
 
-    // Cargar reseñas del producto
+    // Cargar reseñas del producto - FETCH PÚBLICO SIN AUTENTICACIÓN
     const fetchReviews = async () => {
         if (!watchId) return;
 
@@ -44,8 +44,13 @@ export function useReview(watchId) {
             
             console.log("Intentando cargar reseñas desde:", `${API_BASE}/reviews`);
             
-            const response = await authenticatedFetch(`${API_BASE}/reviews`, {
-                credentials: 'include'
+            // Usar fetch nativo para peticiones públicas
+            const response = await fetch(`${API_BASE}/reviews`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include' // Mantener por si hay cookies de sesión
             });
             
             if (!response.ok) {
@@ -62,13 +67,15 @@ export function useReview(watchId) {
             
             setReviews(productReviews);
             
-            // Buscar si el usuario ya tiene una reseña
+            // Buscar si el usuario ya tiene una reseña (solo si está logueado)
             const userId = getUserIdFromToken();
             if (userId) {
                 const existingUserReview = productReviews.find(review => 
                     review.customerId && review.customerId._id === userId
                 );
                 setUserReview(existingUserReview || null);
+            } else {
+                setUserReview(null); // Limpiar si no hay usuario logueado
             }
             
         } catch (error) {
@@ -79,7 +86,7 @@ export function useReview(watchId) {
         }
     };
 
-    // Crear nueva reseña
+    // Crear nueva reseña - REQUIERE AUTENTICACIÓN
     const createReview = async (reviewData) => {
         console.log("=== DEBUG CREAR RESEÑA ===");
         console.log("watchId:", watchId);
@@ -91,7 +98,7 @@ export function useReview(watchId) {
         console.log("userId extraído del token:", userId);
 
         if (!userId) {
-            setError('Error: No se pudo obtener el ID del usuario del token. Inicia sesión nuevamente.');
+            setError('Error: Debes iniciar sesión para escribir una reseña.');
             return { success: false };
         }
 
@@ -168,12 +175,12 @@ export function useReview(watchId) {
         }
     };
 
-    // Actualizar reseña existente
+    // Actualizar reseña existente - REQUIERE AUTENTICACIÓN
     const updateReview = async (reviewId, reviewData) => {
         const userId = getUserIdFromToken();
         
         if (!userId) {
-            setError('Error: No se pudo obtener el ID del usuario del token');
+            setError('Error: Debes iniciar sesión para editar una reseña.');
             return { success: false };
         }
 
@@ -228,7 +235,7 @@ export function useReview(watchId) {
         }
     };
 
-    // Eliminar reseña
+    // Eliminar reseña - REQUIERE AUTENTICACIÓN
     const deleteReview = async (reviewId) => {
         const userId = getUserIdFromToken();
         
@@ -280,13 +287,13 @@ export function useReview(watchId) {
         const averageRating = totalRating / reviews.length;
         
         const ratingDistribution = reviews.reduce((dist, review) => {
-            const rating = Math.round(review.rating); // Ya viene de 1-5
+            const rating = Math.round(review.rating);
             dist[rating] = (dist[rating] || 0) + 1;
             return dist;
         }, { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 });
 
         return {
-            averageRating: averageRating, // Ya está en escala 1-5
+            averageRating: averageRating,
             totalReviews: reviews.length,
             ratingDistribution
         };
@@ -301,7 +308,7 @@ export function useReview(watchId) {
     // Cargar reseñas al montar el componente o cambiar watchId
     useEffect(() => {
         fetchReviews();
-    }, [watchId, user]);
+    }, [watchId]); // Removí 'user' para que cargue independientemente del estado de autenticación
 
     return {
         reviews,
@@ -316,6 +323,6 @@ export function useReview(watchId) {
         fetchReviews,
         getReviewStats,
         clearMessages,
-        canReview: !!getUserIdFromToken() && !userReview
+        canReview: !!getUserIdFromToken() && !userReview // Solo puede escribir si está logueado y no tiene reseña
     };
 }

@@ -52,7 +52,7 @@ app.use("/api/customers",validateAuthToken(["admin","employee"]), customersRoute
 app.use("/api/employees",validateAuthToken(["admin"]), employeesRoutes);
 app.use("/api/inventories",validateAuthToken(["admin","employee"]), inventoryRoutes);
 app.use("/api/memberships", membershipsRoutes);//las restricciones de authToken se manejan individualmente en las rutas
-app.use("/api/reviews",validateAuthToken(["customer","admin","employee"]), reviewsRoutes);
+app.use("/api/reviews", reviewsRoutes);
 app.use("/api/sales", salesRoutes);
 app.use("/api/registerClient", registerCLients);
 
