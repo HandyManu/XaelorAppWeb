@@ -132,6 +132,17 @@ function ProductosEcologicos() {
                       <span className="valoracion-ecologico-icono">❤</span>
                     </div>
                   </div>
+                  <button
+                    className="producto-ecologico-add-cart-btn"
+                    type="button"
+                    onClick={e => {
+                      e.preventDefault();
+                      // Aquí puedes agregar la lógica para añadir al carrito
+                      alert(`"${producto.model}" añadido al carrito`);
+                    }}
+                  >
+                    Añadir al carrito 🛒
+                  </button>
                 </div>
               </Link>
             );

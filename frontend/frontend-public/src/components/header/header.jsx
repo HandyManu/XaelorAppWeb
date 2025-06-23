@@ -93,20 +93,20 @@ function Header() {
                     </li>
                     <li>
                         <Link 
-                            to="/last-publishes" 
-                            onClick={() => setMenuOpen(false)}
-                            className={isActiveRoute('/last-publishes') ? 'active' : ''}
-                        >
-                            Últimos Lanzamientos
-                        </Link>
-                    </li>
-                    <li>
-                        <Link 
                             to="/about-us" 
                             onClick={() => setMenuOpen(false)}
                             className={isActiveRoute('/about-us') ? 'active' : ''}
                         >
                             Sobre Nosotros
+                        </Link>
+                    </li>
+                    <li>
+                        <Link 
+                            to="/cart" 
+                            onClick={() => setMenuOpen(false)}
+                            className={isActiveRoute('/cart') ? 'active' : ''}
+                        >
+                            Carrito
                         </Link>
                     </li>
                 </ul>

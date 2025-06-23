@@ -6,13 +6,12 @@ import Home from '../pages/homePage/homePage.jsx';
 import Relojes from '../pages/Relojes/Relojes.jsx';
 import Naturen from '../pages/ettMedNaturen/ettMedNaturen.jsx';
 import Nautilus from '../pages/Nautilus/Nautilus.jsx';
-import UltimosLanzamientos from '../pages/ultimosLanzamientos/latestLaunches.jsx';
 import SobreNosotros from '../pages/sobreNosotros/sobreNosotros.jsx';
 import Terminos from '../pages/terminosYcondiciones/terminos.jsx';
 import Contacto from '../pages/contactanos/contactanos.jsx';
-import ProductDetail from '../pages/ProductDetail/ProductDetail.jsx';
 import LogIn from '../pages/Login/LogIn.jsx';
 import SignUp from '../pages/SignUp/signUp.jsx';
+import Cart from '../pages/Cart/Cart.jsx'; // Asegúrate de tener este componente
 
 // Componente para proteger la ruta de login
 function ProtectedLoginRoute({ children }) {
@@ -48,8 +47,8 @@ export default function Navegation() {
                     <Route path='/watches' element={<Relojes />} />
                     <Route path='/ett-med-naturen' element={<Naturen />} />
                     <Route path='/nautilus' element={<Nautilus />} />
-                    <Route path='/last-publishes' element={<UltimosLanzamientos />} />
                     <Route path='/about-us' element={<SobreNosotros />} />
+                    <Route path='/cart' element={<Cart />} /> {/* Nueva ruta */}
                     <Route path='/contacto' element={<Contacto />} />
                     <Route path='/terminos-condiciones' element={<Terminos />} />
                     <Route path='/login' element={
@@ -58,7 +57,6 @@ export default function Navegation() {
                         </ProtectedLoginRoute>
                     } />
                     <Route path='/signUp' element={<SignUp />} />
-                    <Route path='/watchInfo/:id' element={<ProductDetail />} />
                 </Routes>
             </div>
 

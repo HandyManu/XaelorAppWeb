@@ -1,11 +1,11 @@
 import './App.css'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { AuthProvider } from './context/AuthContext' // Importar AuthProvider
 import Navegation from './components/Navegation'
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
   return (
-    <AuthProvider> {/* Envolver todo con AuthProvider */}
+    <AuthProvider>
       <Router>
         <Navegation />
       </Router>

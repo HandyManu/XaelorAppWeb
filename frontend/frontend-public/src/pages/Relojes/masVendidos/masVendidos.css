@@ -184,6 +184,33 @@
   transform: translateY(2px);
 }
 
+.producto-vendido-add-cart-btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 8px 0;
+  background: linear-gradient(90deg, #ffc464 60%, #ff8c00 100%);
+  color: #222;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(255, 196, 100, 0.08);
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.producto-vendido-add-cart-btn:hover {
+  background: linear-gradient(90deg, #ff8c00 0%, #ffc464 100%);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 4px 16px rgba(255, 196, 100, 0.18);
+}
+
 /* Media queries para responsive */
 @media (max-width: 992px) {
   .mas-vendidos-grid {

@@ -131,6 +131,18 @@ function XaelorProducts() {
                       <span className="xaelor-rating-icon">❤</span>
                     </div>
                   </div>
+                  <button
+                    className="xaelor-add-cart-btn"
+                    type="button"
+                    onClick={e => {
+                      e.preventDefault();
+                      // Aquí puedes agregar la lógica para añadir al carrito
+                      alert(`"${product.model}" añadido al carrito`);
+                    }}
+                    style={{ marginTop: '10px', width: '100%' }}
+                  >
+                    Añadir al carrito 🛒
+                  </button>
                 </div>
               </Link>
             );

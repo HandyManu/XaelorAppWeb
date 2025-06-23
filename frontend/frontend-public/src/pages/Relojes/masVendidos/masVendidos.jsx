@@ -143,6 +143,18 @@ function MasVendidos() {
                   }}>
                     {producto.category}
                   </div>
+                  <button
+                    className="producto-vendido-add-cart-btn"
+                    type="button"
+                    onClick={e => {
+                      e.preventDefault();
+                      // Aquí puedes agregar la lógica para añadir al carrito
+                      alert(`"${producto.model}" añadido al carrito`);
+                    }}
+                    style={{ marginTop: '10px', width: '100%' }}
+                  >
+                    Añadir al carrito 🛒
+                  </button>
                 </div>
               </Link>
             );
