@@ -28,6 +28,7 @@ import cookieParser from 'cookie-parser';
 import loginRoutes from './src/routes/logIn.js';
 import logoutRoutes from "./src/routes/logout.js";
 import { validateAuthToken } from './src/middlewares/validateAuthToken.js';
+import passwordRecoveryRoutes from './src/routes/passRecoverRoutes.js';
 
 //Create a new express app instance hola
 const app = express();
@@ -57,7 +58,8 @@ app.use("/api/registerClient", registerCLients);
 
 app.use("/api/watches", watchesRoutes);//las restricciones de authToken se manejan individualmente en las rutas
 app.use("/api/login", loginRoutes);
-app.use("/api/logout",logoutRoutes)
+app.use("/api/logout",logoutRoutes);
+app.use("/api/passwordRecovery", passwordRecoveryRoutes);
 
 //Define the port for the server
 export default app;

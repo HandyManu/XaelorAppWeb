@@ -22,7 +22,7 @@ const Login = () => {
   };
 
   const handleForgotPasswordClick = () => {
-    navigate('/gmailVerify');
+    navigate('/recuperar');
   };
 
   return (

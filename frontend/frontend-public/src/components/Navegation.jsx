@@ -13,6 +13,8 @@ import Contacto from '../pages/contactanos/contactanos.jsx';
 import ProductDetail from '../pages/ProductDetail/ProductDetail.jsx';
 import LogIn from '../pages/Login/LogIn.jsx';
 import SignUp from '../pages/SignUp/signUp.jsx';
+import PasswordRecovery from '../pages/PasswordRecovery/passwordRecovery.jsx';
+import { Toaster } from 'react-hot-toast';
 
 // Componente para proteger las rutas de login y signup
 function ProtectedAuthRoute({ children }) {
@@ -35,11 +37,12 @@ function ProtectedAuthRoute({ children }) {
 export default function Navegation() {
     const location = useLocation();
 
-    const showHeader = location.pathname !== '/login' && location.pathname !== '/signUp' && location.pathname !== '/contacto';
-    const showFooter = location.pathname !== '/login' && location.pathname !== '/signUp' && location.pathname !== '/contacto';
+    const showHeader = location.pathname !== '/login' && location.pathname !== '/signUp' && location.pathname !== '/contacto' && location.pathname !== '/recuperar';
+    const showFooter = location.pathname !== '/login' && location.pathname !== '/signUp' && location.pathname !== '/contacto' && location.pathname !== '/recuperar';
 
     return (
         <>
+            <Toaster position="top-right" /> {/* <-- Agrega esto aquí */}
             {showHeader && <Header />}
 
             <div className='app-container'>
@@ -52,6 +55,8 @@ export default function Navegation() {
                     <Route path='/about-us' element={<SobreNosotros />} />
                     <Route path='/contacto' element={<Contacto />} />
                     <Route path='/terminos-condiciones' element={<Terminos />} />
+                    <Route path='/recuperar' element={<PasswordRecovery />} />
+
                     <Route path='/login' element={
                         <ProtectedAuthRoute>
                             <LogIn />
