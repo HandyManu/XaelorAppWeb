@@ -1,16 +1,29 @@
+/* Contenedor del carrito dentro del nav */
 .carrito-de-compra {
-    position: absolute; /* Posiciona el carrito fuera del flujo normal */
-    top: 20px; /* Ajusta la distancia desde la parte superior */
-    right: 90px; /* Reduce la distancia desde la parte derecha para moverlo más a la izquierda */
-    z-index: 10; /* Asegura que el carrito esté encima del carrusel */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; /* Asegura que el carrito se alinee con otros elementos del nav */
+    align-items: center; /* Centra el ícono verticalmente */
+    justify-content: center; /* Centra el ícono horizontalmente */
+    margin-left: auto; /* Empuja el carrito hacia el extremo derecho */
+    padding: 0 10px; /* Espaciado alrededor del carrito */
 }
 
+/* Estilo del ícono del carrito */
 .carrito-logo {
-    width: 28px; /* Ajusta el tamaño del logo */
-    height: 28px;
+    width: 2rem; /* Tamaño relativo al resto de los elementos del nav */
+    height: 2rem;
     object-fit: contain; /* Asegura que la imagen se ajuste correctamente */
     cursor: pointer; /* Cambia el cursor al pasar sobre el logo */
+    transition: all 0.3s ease; /* Transición suave para cambios de tamaño */
+}
+
+/* Responsividad para pantallas pequeñas */
+@media (max-width: 768px) {
+    .carrito-de-compra {
+        padding: 0 5px; /* Reduce el espaciado en pantallas pequeñas */
+    }
+
+    .carrito-logo {
+        width: 1.5rem; /* Reduce el tamaño del logo */
+        height: 1.5rem;
+    }
 }
