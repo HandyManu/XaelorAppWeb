@@ -56,6 +56,7 @@ export const AuthProvider = ({ children }) => {
         } finally {
             // Limpiar datos locales siempre
             localStorage.removeItem("authToken");
+            localStorage.removeItem('cart');
             localStorage.removeItem("user");
             setAuthCokie(null);
             setUser(null);
