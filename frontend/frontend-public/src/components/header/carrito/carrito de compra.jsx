@@ -5,11 +5,12 @@ function CarritoDeCompra() {
     return (
         <div className="carrito-de-compra">
             {/* Mostrar el logo del carrito */}
-            <img 
-                src="/public/Images/carrito.svg " 
+            
+            <a href="/carrito" style={{ color: '#ffe08a', marginLeft: 16 }}><img 
+                src="/Images/carrito.svg " 
                 alt="Carrito de compra" 
                 className="carrito-logo" 
-            />
+            /></a>
         </div>
     );
 }

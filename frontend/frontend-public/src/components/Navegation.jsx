@@ -14,6 +14,7 @@ import ProductDetail from '../pages/ProductDetail/ProductDetail.jsx';
 import LogIn from '../pages/Login/LogIn.jsx';
 import SignUp from '../pages/SignUp/signUp.jsx';
 import PasswordRecovery from '../pages/PasswordRecovery/passwordRecovery.jsx';
+import Cart from '../pages/Cart/Cart.jsx';
 import { Toaster } from 'react-hot-toast';
 
 // Componente para proteger las rutas de login y signup
@@ -56,6 +57,7 @@ export default function Navegation() {
                     <Route path='/contacto' element={<Contacto />} />
                     <Route path='/terminos-condiciones' element={<Terminos />} />
                     <Route path='/recuperar' element={<PasswordRecovery />} />
+                    <Route path='/carrito' element={<Cart />} />
 
                     <Route path='/login' element={
                         <ProtectedAuthRoute>
