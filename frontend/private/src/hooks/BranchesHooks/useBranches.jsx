@@ -38,6 +38,7 @@ export function useBranchesManager() {
 
     // GET - Obtener todas las sucursales
     const fetchBranches = async () => {
+        
         if (!isAuthenticated) {
             setError('Debes iniciar sesión para ver las sucursales.');
             return;
