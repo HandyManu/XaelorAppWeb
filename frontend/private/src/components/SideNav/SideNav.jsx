@@ -51,16 +51,12 @@ function SideNav() {
                             to="/dashboard" 
                             className={`nav-item ${isActive('/dashboard') ? 'active' : ''}`}
                         >
-<<<<<<< HEAD
                             <img 
                                 src="/Home.svg"
                                 alt="Home"
                                 className="nav-icon"
                                 style={{ width: 22, height: 22, objectFit: 'contain' }}
                             />
-=======
-                            <img src="/Home.svg"  className="nav-icon" />
->>>>>>> master
                             <span className="nav-text">Dashboard</span>
                         </Link>
                     </li>
@@ -73,16 +69,12 @@ function SideNav() {
                                     to="/sucursales" 
                                     className={`nav-item ${isActive('/sucursales') ? 'active' : ''}`}
                                 >
-<<<<<<< HEAD
                                     <img
                                         src="/store.svg"
                                         alt="Sucursales"
                                         className="nav-icon"
                                         style={{ width: 22, height: 22, objectFit: 'contain' }}
                                     />
-=======
-                                    <img src="/tienda.svg"  className="nav-icon" />
->>>>>>> master
                                     <span className="nav-text">Sucursales</span>
                                 </Link>
                             </li>
