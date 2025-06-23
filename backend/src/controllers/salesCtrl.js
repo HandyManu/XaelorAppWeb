@@ -21,10 +21,30 @@ salesController.getSales = async (req, res) => {
 //INSERT
 
 salesController.insertSale = async (req, res) => {
-    const { customerId, employeeId, address, reference, status, selectedPaymentMethod, total, selectedProducts } = req.body;
-    const newSale = new salesModel({ customerId, employeeId, address, reference, status, selectedPaymentMethod, total, selectedProducts });
-    await newSale.save();
-    res.json({ message: "Sale saved" });
+    try {
+        // Obtener el ID del usuario autenticado desde el token
+        const userId = req.userId; // Esto debe ser configurado en el middleware de autenticación
+
+        const { customerId, employeeId, address, reference, status, selectedPaymentMethod, total, selectedProducts } = req.body;
+
+        // Crear la nueva venta con el ID del usuario
+        const newSale = new salesModel({
+            customerId: userId, // Usar el ID del usuario autenticado
+            employeeId,
+            address,
+            reference,
+            status,
+            selectedPaymentMethod,
+            total,
+            selectedProducts
+        });
+
+        await newSale.save();
+        res.json({ message: "Sale saved", sale: newSale });
+    } catch (error) {
+        console.error("Error saving sale:", error);
+        res.status(500).json({ message: "Error saving sale" });
+    }
 };
 
 //UPDATE

@@ -1,0 +1,16 @@
+.carrito-de-compra {
+    position: absolute; /* Posiciona el carrito fuera del flujo normal */
+    top: 20px; /* Ajusta la distancia desde la parte superior */
+    right: 90px; /* Reduce la distancia desde la parte derecha para moverlo más a la izquierda */
+    z-index: 10; /* Asegura que el carrito esté encima del carrusel */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carrito-logo {
+    width: 28px; /* Ajusta el tamaño del logo */
+    height: 28px;
+    object-fit: contain; /* Asegura que la imagen se ajuste correctamente */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el logo */
+}

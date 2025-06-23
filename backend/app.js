@@ -40,7 +40,7 @@ app.use(cookieParser());
 //MiddleWares 
 app.use(
     cors({
-        origin: ["http://localhost:5173", "http://localhost:5174"], //Permitir solicitudes desde el frontend
+        origin: ["http://localhost:5174", "http://localhost:5173"], 
         //Permitir envío de cookies y credenciales
         credentials: true,
     })
