@@ -162,12 +162,8 @@ const HTMLRecoveryEmail = (code, email, recoveryLink) => {
         <h1>Recuperación de Contraseña</h1>
         <p>Hola,<br>
         Recibimos una solicitud para restablecer la contraseña de tu cuenta.<br>
-        Usa el siguiente código para continuar:</p>
-        <div class="code-container">
-          <span class="code">${code}</span>
-        </div>
-        <p>Este código expirará en 15 minutos.<br>
-        Si no solicitaste este cambio, puedes ignorar este mensaje.</p>
+        Si no solicitaste este cambio, puedes ignorar este mensaje.
+        Usa el siguiente enlace para continuar:</p>
         <div style="text-align:center;">
           <a href="${recoveryLink}" class="button">Restablecer Contraseña</a>
         </div>
