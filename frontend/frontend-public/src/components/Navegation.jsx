@@ -16,7 +16,7 @@ import SalesPage from '../pages/Sales/Sales.jsx';
 import PasswordRecovery from '../pages/PasswordRecovery/passwordRecovery.jsx';
 import Cart from '../pages/Cart/Cart.jsx';
 import { Toaster } from 'react-hot-toast';
-
+import PurchaseHistory from '../pages/History/History.jsx';
 // Componente para proteger las rutas de login y signup
 function ProtectedAuthRoute({ children }) {
     const { isAuthenticated, isLoading } = useAuth();
@@ -70,6 +70,7 @@ export default function Navegation() {
                     } />
                     <Route path='/watchInfo/:id' element={<ProductDetail />} />
 
+                    <Route path='/history' element={<PurchaseHistory/>}></Route>
                     {/* Historial de Compras */}
                     <Route path='/sales' element={<SalesPage />} />
                 </Routes>

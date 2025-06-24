@@ -18,6 +18,26 @@ salesController.getSales = async (req, res) => {
         res.json(sales);
     
 };
+
+//GET SALES BY CUSTOMER ID
+salesController.getSalesByCustomerId = async (req, res) => {
+    try {
+        const customerId = req.params.id; // Obtener el ID del cliente desde los parámetros de la ruta
+        const sales = await salesModel.find({ customerId: customerId })
+            .populate("employeeId")
+            .populate("customerId")
+            .populate("selectedProducts.watchId");
+        
+        if (!sales || sales.length === 0) {
+            return res.status(404).json({ message: "No sales found for this customer." });
+        }
+        
+        res.json(sales);
+    } catch (error) {
+        console.error("Error fetching sales by customer ID:", error);
+        res.status(500).json({ message: "Error fetching sales" });
+    }
+};
 //INSERT
 
 salesController.insertSale = async (req, res) => {

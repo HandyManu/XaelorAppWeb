@@ -106,9 +106,9 @@ function Header() {
 
             <li>
               <Link
-                to="/sales"
+                to="/history"
                 onClick={() => setMenuOpen(false)}
-                className={isActiveRoute("/sales") ? "active" : ""}
+                className={isActiveRoute("/history") ? "active" : ""}
               >
                 Historial de Compras
               </Link>

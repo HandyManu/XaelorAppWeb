@@ -18,6 +18,7 @@ import Navegation from './components/Navegation.jsx'
 import PasswordRecovery from './pages/PasswordRecovery/passwordRecovery.jsx'
 import { Toaster } from 'react-hot-toast';
 import Cart from './pages/Cart/Cart.jsx';
+import PurchaseHistory from './pages/History/History.jsx'
 
 // Creamos un componente wrapper para usar useLocation
 function AppContent() {
@@ -46,6 +47,7 @@ function AppContent() {
           <Route path='/watchInfo/:id' element={<Infoproducto />} />
           <Route path='/recuperar' element={<PasswordRecovery />} />
           <Route path='/carrito' element={<Cart />} />
+          <Route path='/history' element={<PurchaseHistory/>}></Route>
         </Routes>
       </div>
 
@@ -58,9 +60,8 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <Navegation>
-          <AppContent />
-        </Navegation>
+        <Navegation/>
+
       </Router>
     </AuthProvider>
   );
