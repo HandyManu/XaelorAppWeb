@@ -18,6 +18,23 @@ salesController.getSales = async (req, res) => {
         res.json(sales);
     
 };
+
+// Obtener solo las ventas del usuario autenticado
+salesController.getUserSales = async (req, res) => {
+    try {
+        const userId = req.userId;
+        if (!userId) {
+            return res.status(401).json({ message: "No autorizado" });
+        }
+        const sales = await salesModel.find({ customerId: userId })
+            .populate("employeeId")
+            .populate("customerId")
+            .populate("selectedProducts.watchId");
+        res.json(sales);
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener compras" });
+    }
+};
 //INSERT
 
 salesController.insertSale = async (req, res) => {

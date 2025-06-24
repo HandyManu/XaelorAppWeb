@@ -12,10 +12,13 @@ const router = express.Router();
 router.route("/")
     .get(validateAuthToken(["admin","employee"]), salesController.getSales)
     .post(salesController.insertSale)
+    
 
 router.route("/:id")
     .put(validateAuthToken(["admin","employee"]),salesController.updateSale)
     .delete(validateAuthToken(["admin","employee"]),salesController.deleteSale)
+
+    router.get("/user", validateAuthToken, salesController.getUserSales);
 
 export default router;
 
