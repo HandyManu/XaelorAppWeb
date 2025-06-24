@@ -23,18 +23,26 @@ salesController.getSales = async (req, res) => {
 salesController.getUserSales = async (req, res) => {
     try {
         const userId = req.userId;
+        console.log("ID del usuario autenticado:", userId); // Debug
+        
         if (!userId) {
-            return res.status(401).json({ message: "No autorizado" });
+            return res.status(401).json({ message: "No autorizado - Usuario no encontrado" });
         }
+
         const sales = await salesModel.find({ customerId: userId })
             .populate("employeeId")
             .populate("customerId")
-            .populate("selectedProducts.watchId");
+            .populate("selectedProducts.watchId")
+            .sort({ createdAt: -1 }); // Ordenar por fecha más reciente
+
+        console.log("Ventas encontradas:", sales.length); // Debug
         res.json(sales);
     } catch (error) {
-        res.status(500).json({ message: "Error al obtener compras" });
+        console.error("Error al obtener compras del usuario:", error);
+        res.status(500).json({ message: "Error al obtener compras", error: error.message });
     }
 };
+
 //INSERT
 
 salesController.insertSale = async (req, res) => {

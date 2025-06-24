@@ -1,5 +1,6 @@
 import React from "react";
 import { useUserSales } from "../../hooks/SalesHooks/useSales";
+import Sales from "./Sales.CSS";
 
 export default function SalesPage() {
     const { sales, isLoading, error } = useUserSales();

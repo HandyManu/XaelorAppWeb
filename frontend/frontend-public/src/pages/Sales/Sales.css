@@ -1,0 +1,43 @@
+.sales-history-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.sales-history-title {
+    color: #ffe08a;
+    margin-bottom: 24px;
+    text-align: center;
+    font-size: 2rem;
+    letter-spacing: 1px;
+}
+
+.sales-card {
+    background: #232323;
+    color: #ffe08a;
+    border-radius: 10px;
+    margin: 18px 0;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    transition: transform 0.2s;
+}
+
+.sales-card:hover {
+    transform: scale(1.01);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+}
+
+.sales-card b {
+    color: #fff;
+}
+
+.sales-card ul {
+    margin: 8px 0 0 0;
+    padding-left: 18px;
+}
+
+.sales-card li {
+    color: #fff;
+    margin-bottom: 4px;
+    font-size: 1rem;
+}

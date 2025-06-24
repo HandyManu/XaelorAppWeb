@@ -5,30 +5,45 @@ import { config } from "../../config";
 const API_BASE = config.api.API_BASE;
 
 export function useUserSales() {
-    const { authenticatedFetch } = useAuth();
+    const { authenticatedFetch, user } = useAuth();
     const [sales, setSales] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
 
     useEffect(() => {
         const fetchSales = async () => {
+            // Verificar si el usuario está autenticado
+            if (!user) {
+                setError("Usuario no autenticado");
+                return;
+            }
+
             setIsLoading(true);
             setError("");
+            
             try {
+                console.log("Obteniendo ventas del usuario..."); // Debug
                 const res = await authenticatedFetch(`${API_BASE}/sales/user`);
-                if (!res.ok) throw new Error("Error al cargar compras");
+                
+                if (!res.ok) {
+                    const errorData = await res.json().catch(() => ({}));
+                    throw new Error(errorData.message || `Error ${res.status}`);
+                }
+                
                 const data = await res.json();
-                setSales(data);
+                console.log("Ventas obtenidas:", data); // Debug
+                setSales(data || []);
             } catch (err) {
-                setError(err.message);
+                console.error("Error al obtener ventas:", err);
+                setError(err.message || "Error desconocido al cargar compras");
                 setSales([]);
+            } finally {
+                setIsLoading(false);
             }
-            setIsLoading(false);
         };
+
         fetchSales();
-    }, [authenticatedFetch]);
+    }, [authenticatedFetch, user]);
 
     return { sales, isLoading, error };
 }
-
-
