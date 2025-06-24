@@ -23,7 +23,7 @@ export function useUserSales() {
             
             try {
                 console.log("Obteniendo ventas del usuario..."); // Debug
-                const res = await authenticatedFetch(`${API_BASE}/sales/user`);
+                const res = await authenticatedFetch(`${API_BASE}/sales/${user.id}`);
                 
                 if (!res.ok) {
                     const errorData = await res.json().catch(() => ({}));

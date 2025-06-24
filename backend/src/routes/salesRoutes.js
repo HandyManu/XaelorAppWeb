@@ -17,8 +17,7 @@ router.route("/")
 router.route("/:id")
     .put(validateAuthToken(["admin","employee"]),salesController.updateSale)
     .delete(validateAuthToken(["admin","employee"]),salesController.deleteSale)
-
-    router.get("/user", validateAuthToken, salesController.getUserSales);
+    .get( salesController.getUserSales);
 
 export default router;
 
