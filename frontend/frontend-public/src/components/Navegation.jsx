@@ -35,6 +35,42 @@ function ProtectedAuthRoute({ children }) {
     return children;
 }
 
+// Componente para proteger rutas que requieren autenticación
+function ProtectedRoute({ children }) {
+    const { isAuthenticated, isLoading } = useAuth();
+
+    // Mientras carga, mostrar loading
+    if (isLoading) {
+        return (
+            <div className="loading-container" style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '50vh',
+                flexDirection: 'column'
+            }}>
+                <div className="spinner" style={{
+                    width: '40px',
+                    height: '40px',
+                    border: '4px solid #f3f3f3',
+                    borderTop: '4px solid #3498db',
+                    borderRadius: '50%',
+                    animation: 'spin 1s linear infinite'
+                }}></div>
+                <p style={{ marginTop: '10px' }}>Verificando sesión...</p>
+            </div>
+        );
+    }
+
+    // Si no está autenticado, redirigir al login
+    if (!isAuthenticated) {
+        return <Navigate to="/login" replace />;
+    }
+
+    // Si está autenticado, mostrar el componente
+    return children;
+}
+
 export default function Navegation() {
     const location = useLocation();
 
@@ -43,7 +79,7 @@ export default function Navegation() {
 
     return (
         <>
-            <Toaster position="top-right" /> {/* <-- Agrega esto aquí */}
+            <Toaster position="top-right" />
             {showHeader && <Header />}
 
             <div className='app-container'>
@@ -56,8 +92,15 @@ export default function Navegation() {
                     <Route path='/contacto' element={<Contacto />} />
                     <Route path='/terminos-condiciones' element={<Terminos />} />
                     <Route path='/recuperar' element={<PasswordRecovery />} />
-                    <Route path='/carrito' element={<Cart />} />
+                    
+                    {/* Carrito - también debería estar protegido */}
+                    <Route path='/carrito' element={
+                        <ProtectedRoute>
+                            <Cart />
+                        </ProtectedRoute>
+                    } />
 
+                    {/* Rutas de autenticación - solo para usuarios no autenticados */}
                     <Route path='/login' element={
                         <ProtectedAuthRoute>
                             <LogIn />
@@ -68,6 +111,7 @@ export default function Navegation() {
                             <SignUp />
                         </ProtectedAuthRoute>
                     } />
+                    
                     <Route path='/watchInfo/:id' element={<ProductDetail />} />
 
                     <Route path='/history' element={<PurchaseHistory/>}></Route>
@@ -77,6 +121,14 @@ export default function Navegation() {
             </div>
 
             {showFooter && <Footer />}
+            
+            {/* CSS para la animación del spinner */}
+            <style>{`
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+            `}</style>
         </>
     );
 }

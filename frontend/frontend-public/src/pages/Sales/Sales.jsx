@@ -1,203 +1,41 @@
-// Sales.jsx - Actualizado para usar el hook real
-import React, { useEffect, useState } from 'react';
-import { useSales } from '../../hooks/SalesHooks/useSales';
-import SalesCard from '../../components/SalesCard/SalesCard';
-import toast, { Toaster } from 'react-hot-toast'; 
-import './Sales.css';
+import React from "react";
+import { useUserSales } from "../../hooks/SalesHooks/useSales";
 
 
-const SalesPage = () => {
-  const {
-    // Estados principales
-    sales,
-    currentSales,
-    customers,
-    employees,
-    products,
-    showModal,
-    setShowModal,
-    showDeleteModal,
-    saleToDelete,
-    isLoading,
-    error,
-    success,
-    setError,
-    isEditing,
-    currentSaleId,
-    
-    // Estados de paginación
-    currentPage,
-    setCurrentPage,
-    itemsPerPage,
-    setItemsPerPage,
-    
-    // Estados del formulario
-    customerId,
-    setCustomerId,
-    employeeId,
-    setEmployeeId,
-    address,
-    setAddress,
-    reference,
-    setReference,
-    status,
-    setStatus,
-    selectedPaymentMethod,
-    setSelectedPaymentMethod,
-    selectedProducts,
-    setSelectedProducts,
-    total,
-    setTotal,
-    
-    // Funciones
-    fetchSales,
-    handleSubmit,
-    handleDeleteSale,
-    confirmDeleteSale,
-    cancelDeleteSale,
-    handleEditSale,
-    getCustomerInfo,
-    getEmployeeInfo,
-    getProductsInfo,
-  } = useSales();
+export default function SalesPage() {
+    const { sales, isLoading, error } = useUserSales();
 
-  // Estados locales para filtros y búsqueda
-  const [sortBy, setSortBy] = useState('date-new');
-  const [searchTerm, setSearchTerm] = useState('');
-  
+    if (isLoading) return <div>Cargando historial...</div>;
+    if (error) return <div style={{ color: "red" }}>{error}</div>;
+    if (sales.length === 0) return <div>No tienes compras registradas.</div>;
 
-
-
-
-  // Mostrar notificaciones de error y éxito
-  useEffect(() => {
-    if (error) toast.error(error);
-  }, [error]);
-
-  useEffect(() => {
-    if (success) toast.success(success);
-  }, [success]);
-
-  // Función para preparar datos del formulario para el submit
-  const handleFormSubmit = (formData) => {
-    const saleData = {
-      _id: isEditing ? currentSaleId : null,
-      customerId: formData.customerId,
-      employeeId: formData.employeeId,
-      address: formData.address,
-      reference: formData.reference,
-      status: formData.status,
-      selectedPaymentMethod: formData.selectedPaymentMethod,
-      selectedProducts: formData.selectedProducts,
-      total: formData.total
-    };
-    
-    handleSubmit(saleData);
-  };
-
-  return (
-    <div className="sales-page">
-
-
-
-      {/* Mostrar indicador de carga */}
-      {isLoading && (
-        <div className="loading-indicator">
-          <div className="spinner"></div>
-          <span>Cargando...</span>
-        </div>
-      )}
-
-      
-      <div className="sales-content-scrollable">
-        <div className="sales-grid-container">
-          <div className="sales-grid">
-            {currentSales.length > 0 ? (
-              currentSales.map(sale => (
-                  <SalesCard 
-                    key={sale._id} 
-                    data={sale}
-                    customerInfo={getCustomerInfo(sale.customerId)}
-                    employeeInfo={getEmployeeInfo(sale.employeeId)}
-                    productsInfo={getProductsInfo()}
-                    onEdit={() => handleEditSale(sale)}
-                    onDelete={() => handleDeleteSale(sale._id)}
-                    isLoading={isLoading}
-                  />
-              ))
-            ) : (
-              !isLoading && (
-                <div className="no-sales">
-                  {searchTerm ? (
-                    <>
-                      <p>No se encontraron ventas que coincidan con los filtros aplicados</p>
-                      <button onClick={() => setSearchTerm('')} className="btn btn-secondary">
-                        Limpiar filtros
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <p>No hay ventas registradas, revisa tu conexión a internet o agrega una.</p>
-                    </>
-                  )}
+    return (
+        <div style={{ maxWidth: 800, margin: "0 auto", padding: 24 }}>
+            <h2 style={{ color: "#ffe08a" }}>Historial de Compras</h2>
+            {sales.map(sale => (
+                <div key={sale._id} style={{
+                    background: "#232323",
+                    color: "#ffe08a",
+                    borderRadius: 10,
+                    margin: "18px 0",
+                    padding: 18
+                }}>
+                    <div><b>Fecha:</b> {new Date(sale.createdAt).toLocaleString()}</div>
+                    <div><b>Estado:</b> {sale.status}</div>
+                    <div><b>Total:</b> ${sale.total?.toLocaleString()}</div>
+                    <div>
+                        <b>Productos:</b>
+                        <ul>
+                            {sale.selectedProducts.map((prod, idx) => (
+                                <li key={idx}>
+                                    {prod.watchId?.model || "Producto"} x{prod.quantity} - ${prod.subtotal?.toLocaleString()}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
-              )
-            )}
-          </div>
+            ))}
         </div>
-      </div>
-      
-      
-      {/* Modal de edición/creación */}
-      {showModal && (
-        <SalesEditModal 
-          // Estados del formulario
-          customerId={customerId}
-          setCustomerId={setCustomerId}
-          employeeId={employeeId}
-          setEmployeeId={setEmployeeId}
-          address={address}
-          setAddress={setAddress}
-          reference={reference}
-          setReference={setReference}
-          status={status}
-          setStatus={setStatus}
-          selectedPaymentMethod={selectedPaymentMethod}
-          setSelectedPaymentMethod={setSelectedPaymentMethod}
-          selectedProducts={selectedProducts}
-          setSelectedProducts={setSelectedProducts}
-          total={total}
-          setTotal={setTotal}
-          customers={customers}
-          employees={employees}
-          products={products}
-          
-          // Funciones y estados
-          handleSubmit={handleFormSubmit}
-          isLoading={isLoading}
-          isEditing={isEditing}
-          onClose={() => {
-            setShowModal(false);
-          }}
-        />
-      )}
-      
-      {/* Modal de confirmación de eliminación */}
-      {showDeleteModal && (
-        <DeleteConfirmationModal
-          isOpen={showDeleteModal}
-          onClose={cancelDeleteSale}
-          onConfirm={confirmDeleteSale}
-          title="Eliminar Venta"
-          message="¿Estás seguro de que deseas eliminar esta venta?"
-          itemName={`Venta #${saleToDelete?._id?.slice(-6) || '000000'} - ${getCustomerInfo(saleToDelete?.customerId)?.name || 'Cliente'}`}
-          isLoading={isLoading}
-        />
-      )}
+    );
+}
 
-      <Toaster position="top-right" />
-    </div>
-  );
-};
-
-export default SalesPage;
